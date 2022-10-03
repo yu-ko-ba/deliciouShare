@@ -1,7 +1,10 @@
+import apiUrls from "../../src/utils/apiUrls";
 import getUserPosts from "../../src/utils/getUserPosts"
 
 describe('get user posts test', () => {
   it('should return user posts', () => {
+    // console.log(Cypress.env("get_user_posts_url"));
+    console.log(apiUrls.getUserPostsUrl);
     expect(getUserPosts("1")).to.equal([
       {
         userId: "1",
