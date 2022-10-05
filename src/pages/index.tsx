@@ -23,7 +23,7 @@ export default function Home() {
           <Grid container spacing={4}>
             {userPosts.map((p) => (
               <Grid item xs={6} sm={4} key={p.postedTime}>
-                <NextLink href="">
+                <NextLink href={`${p.userId}/${p.postedTime}`} passHref>
                   <Link>
                     <PostPreview imageUrl={p.imageUrl} />
                   </Link>
