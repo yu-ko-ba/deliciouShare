@@ -65,6 +65,8 @@ jobs:
       - name: Install dependencies
         run: ${{ steps.detect-package-manager.outputs.manager }} ${{ steps.detect-package-manager.outputs.command }}
       - name: Create .env.local
-        run: echo "NEXT_PUBLIC_GET_USER_POSTS_URL=hoge" > .env.local
+        run: |
+          echo 'NEXT_PUBLIC_GET_USER_POSTS_URL=hoge' > .env.local
+          echo 'NEXT_PUBLIC_GET_POST_URL=fuga' >> .env.local
       - name: Build with Next.js
         run: ${{ steps.detect-package-manager.outputs.runner }} next build
