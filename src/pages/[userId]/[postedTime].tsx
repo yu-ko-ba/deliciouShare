@@ -47,7 +47,7 @@ export const getServerSideProps = async (context: GetServerSidePropsContext) => 
 const Post = ({ imageUrl, placeName, placeAddress, homepageUrl, iframeUrl }: PostPropsType) => {
   return (
     <ThemeProvider theme={theme}>
-      <Container maxWidth="xs">
+      <Container maxWidth="sm">
         <Grid container spacing={4}>
           <Grid item xs={12}>
             <Card>
@@ -92,7 +92,7 @@ const Post = ({ imageUrl, placeName, placeAddress, homepageUrl, iframeUrl }: Pos
                       <CardMedia
                         component="iframe"
                         src={iframeUrl}
-                        height="300"
+                        height="400"
                       />
                     </Card>
                   </Grid>
