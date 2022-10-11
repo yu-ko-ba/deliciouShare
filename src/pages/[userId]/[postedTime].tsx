@@ -1,4 +1,4 @@
-import { Card, CardContent, CardMedia, Container, Grid, ThemeProvider, Typography } from "@mui/material"
+import { Card, CardContent, CardHeader, CardMedia, Container, Grid, ThemeProvider, Typography } from "@mui/material"
 import { GetServerSidePropsContext } from "next"
 import theme from "../../theme"
 import fetchPlaceDetailsData, { FetchPlaceDetailsDataType } from "../../utils/fetchPlaceDetailsData"
@@ -20,7 +20,6 @@ type PostPropsType = {
 export const getServerSideProps = async (context: GetServerSidePropsContext) => {
   const { userId, postedTime } = context.query as ContextQueryType
   const data = await fetchPostData(userId, postedTime)
-
   const placeInfo = await (async () => {
     let info: FetchPlaceDetailsDataType = {
       name: "",
@@ -33,7 +32,6 @@ export const getServerSideProps = async (context: GetServerSidePropsContext) => 
     }
     return info
   })()
-
   return {
     props: {
       imageUrl: data.imageUrl,
@@ -67,10 +65,14 @@ const Post = ({ imageUrl, placeName, placeAddress, homepageUrl, iframeUrl }: Pos
               return (
                 <Grid item xs={12}>
                   <Card>
+                    <CardHeader title="店舗情報" />
                     <CardContent>
-                      <Typography>{placeName}</Typography>
-                      <Typography>{placeAddress}</Typography>
-                      <Typography>{homepageUrl}</Typography>
+                      <Typography>店名</Typography>
+                      <Typography gutterBottom>{placeName}</Typography>
+                      <Typography>住所</Typography>
+                      <Typography gutterBottom>{placeAddress}</Typography>
+                      <Typography>ホームページ</Typography>
+                      <Typography gutterBottom>{homepageUrl}</Typography>
                     </CardContent>
                   </Card>
                 </Grid>
