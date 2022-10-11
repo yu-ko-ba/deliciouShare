@@ -92,6 +92,7 @@ const Post = ({ imageUrl, placeName, placeAddress, homepageUrl, iframeUrl }: Pos
                       <CardMedia
                         component="iframe"
                         src={iframeUrl}
+                        height="300"
                       />
                     </Card>
                   </Grid>
