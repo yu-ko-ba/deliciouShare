@@ -8,7 +8,8 @@ const fetchPlaceDetails = async (placeId: string) => {
     {
       params: {
         key: environmentVariables.googleCloudApiKey,
-        place_id: placeId
+        place_id: placeId,
+        language: "ja"
       }
     }
   )
