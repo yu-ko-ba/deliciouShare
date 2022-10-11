@@ -1,3 +1,4 @@
+import apiUrls from "./apiUrls"
 import environmentVariables from "./environmentVariables"
 import fetchPlaceDetails from "./fetchPlaceDetails"
 
@@ -14,7 +15,7 @@ const fetchPlaceDetailsData = async (placeId: string) => {
     name: place.data.result.name,
     address: place.data.result.formatted_address,
     website: place.data.result.website,
-    iframeUrl: `https://www.google.com/maps/embed/v1/place?key=${environmentVariables.googleCloudApiKey}&q=place_id:${place.data.result.place_id}`
+    iframeUrl: `${apiUrls.getMapsEmbedUrl}?key=${environmentVariables.googleCloudApiKey}&q=place_id:${placeId}`
   } as FetchPlaceDetailsDataType
 }
 
