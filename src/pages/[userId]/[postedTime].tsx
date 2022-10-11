@@ -20,7 +20,7 @@ type PostPropsType = {
 export const getServerSideProps = async (context: GetServerSidePropsContext) => {
   const { userId, postedTime } = context.query as ContextQueryType
   const data = await fetchPostData(userId, postedTime)
-  // const placeInfo = await fetchPlaceDetailsData(data.placeId)
+
   const placeInfo = await (async () => {
     let info: FetchPlaceDetailsDataType = {
       name: "",
@@ -28,14 +28,12 @@ export const getServerSideProps = async (context: GetServerSidePropsContext) => 
       website: "",
       iframeUrl: ""
     }
-
     if (data.placeId !== "") {
       info = await fetchPlaceDetailsData(data.placeId)
     }
-
     return info
   })()
-  console.log(placeInfo);
+
   return {
     props: {
       imageUrl: data.imageUrl,
