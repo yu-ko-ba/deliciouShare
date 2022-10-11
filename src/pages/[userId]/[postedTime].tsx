@@ -1,5 +1,6 @@
-import { Card, CardContent, CardMedia, Container, Grid, ThemeProvider, Typography } from "@mui/material"
+import { Card, CardMedia, Container, Grid, ThemeProvider } from "@mui/material"
 import { GetServerSidePropsContext } from "next"
+import EatingPlaceInfo from "../../components/EatingPlaceInfo"
 import theme from "../../theme"
 import fetchPlaceDetailsData, { FetchPlaceDetailsDataType } from "../../utils/fetchPlaceDetailsData"
 import fetchPostData from "../../utils/fetchPostData"
@@ -13,14 +14,13 @@ type PostPropsType = {
   imageUrl: string
   placeName: string
   placeAddress: string
-  homepageUrl: string
+  websiteUrl: string
   iframeUrl: string
 }
 
 export const getServerSideProps = async (context: GetServerSidePropsContext) => {
   const { userId, postedTime } = context.query as ContextQueryType
   const data = await fetchPostData(userId, postedTime)
-
   const placeInfo = await (async () => {
     let info: FetchPlaceDetailsDataType = {
       name: "",
@@ -33,22 +33,21 @@ export const getServerSideProps = async (context: GetServerSidePropsContext) => 
     }
     return info
   })()
-
   return {
     props: {
       imageUrl: data.imageUrl,
       placeName: placeInfo.name,
       placeAddress: placeInfo.address,
-      homepageUrl: placeInfo.website ? placeInfo.website : "",
+      websiteUrl: placeInfo.website ? placeInfo.website : "",
       iframeUrl: placeInfo.iframeUrl
     }
   }
 }
 
-const Post = ({ imageUrl, placeName, placeAddress, homepageUrl, iframeUrl }: PostPropsType) => {
+const Post = ({ imageUrl, placeName, placeAddress, websiteUrl, iframeUrl }: PostPropsType) => {
   return (
     <ThemeProvider theme={theme}>
-      <Container maxWidth="xs">
+      <Container maxWidth="sm">
         <Grid container spacing={4}>
           <Grid item xs={12}>
             <Card>
@@ -61,36 +60,35 @@ const Post = ({ imageUrl, placeName, placeAddress, homepageUrl, iframeUrl }: Pos
           {(() => {
             if (
               placeName !== ""
-                || placeAddress !== "" 
-                || homepageUrl !== ""
+              || placeAddress !== "" 
+              || websiteUrl !== ""
             ) {
               return (
                 <Grid item xs={12}>
-                  <Card>
-                    <CardContent>
-                      <Typography>{placeName}</Typography>
-                      <Typography>{placeAddress}</Typography>
-                      <Typography>{homepageUrl}</Typography>
-                    </CardContent>
-                  </Card>
+                  <EatingPlaceInfo
+                    placeName={placeName}
+                    placeAddress={placeAddress}
+                    websiteUrl={websiteUrl}
+                  />
                 </Grid>
               )
             }
           })()}
           {(() => {
-              if (iframeUrl !== "") {
-                return (
-                  <Grid item xs={12}>
-                    <Card>
-                      <CardMedia
-                        component="iframe"
-                        src={iframeUrl}
-                      />
-                    </Card>
-                  </Grid>
-                )
-              }
-            })()}
+            if (iframeUrl !== "") {
+              return (
+                <Grid item xs={12}>
+                  <Card>
+                    <CardMedia
+                      component="iframe"
+                      src={iframeUrl}
+                      height="400"
+                    />
+                  </Card>
+                </Grid>
+              )
+            }
+          })()}
         </Grid>
       </Container>
     </ThemeProvider>
