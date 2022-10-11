@@ -1,5 +1,6 @@
-import { Card, CardContent, CardHeader, CardMedia, Container, Grid, ThemeProvider, Typography } from "@mui/material"
+import { Card, CardContent, CardHeader, CardMedia, Container, Grid, Link, ThemeProvider, Typography } from "@mui/material"
 import { GetServerSidePropsContext } from "next"
+import NextLink from "next/link"
 import theme from "../../theme"
 import fetchPlaceDetailsData, { FetchPlaceDetailsDataType } from "../../utils/fetchPlaceDetailsData"
 import fetchPostData from "../../utils/fetchPostData"
@@ -72,7 +73,11 @@ const Post = ({ imageUrl, placeName, placeAddress, homepageUrl, iframeUrl }: Pos
                       <Typography>住所</Typography>
                       <Typography gutterBottom>{placeAddress}</Typography>
                       <Typography>ホームページ</Typography>
-                      <Typography gutterBottom>{homepageUrl}</Typography>
+                      <NextLink href={homepageUrl} passHref>
+                        <Link target="_blank" rel="noopener noreferrer">
+                          {homepageUrl}
+                        </Link>
+                      </NextLink>
                     </CardContent>
                   </Card>
                 </Grid>
