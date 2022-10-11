@@ -1,6 +1,6 @@
-import { Card, CardContent, CardHeader, CardMedia, Container, Grid, Link, ThemeProvider, Typography } from "@mui/material"
+import { Card, CardMedia, Container, Grid, ThemeProvider } from "@mui/material"
 import { GetServerSidePropsContext } from "next"
-import NextLink from "next/link"
+import EatingPlaceInfo from "../../components/EatingPlaceInfo"
 import theme from "../../theme"
 import fetchPlaceDetailsData, { FetchPlaceDetailsDataType } from "../../utils/fetchPlaceDetailsData"
 import fetchPostData from "../../utils/fetchPostData"
@@ -14,7 +14,7 @@ type PostPropsType = {
   imageUrl: string
   placeName: string
   placeAddress: string
-  homepageUrl: string
+  websiteUrl: string
   iframeUrl: string
 }
 
@@ -38,13 +38,13 @@ export const getServerSideProps = async (context: GetServerSidePropsContext) => 
       imageUrl: data.imageUrl,
       placeName: placeInfo.name,
       placeAddress: placeInfo.address,
-      homepageUrl: placeInfo.website ? placeInfo.website : "",
+      websiteUrl: placeInfo.website ? placeInfo.website : "",
       iframeUrl: placeInfo.iframeUrl
     }
   }
 }
 
-const Post = ({ imageUrl, placeName, placeAddress, homepageUrl, iframeUrl }: PostPropsType) => {
+const Post = ({ imageUrl, placeName, placeAddress, websiteUrl, iframeUrl }: PostPropsType) => {
   return (
     <ThemeProvider theme={theme}>
       <Container maxWidth="sm">
@@ -60,45 +60,35 @@ const Post = ({ imageUrl, placeName, placeAddress, homepageUrl, iframeUrl }: Pos
           {(() => {
             if (
               placeName !== ""
-                || placeAddress !== "" 
-                || homepageUrl !== ""
+              || placeAddress !== "" 
+              || websiteUrl !== ""
             ) {
               return (
                 <Grid item xs={12}>
-                  <Card>
-                    <CardHeader title="店舗情報" />
-                    <CardContent>
-                      <Typography>店名</Typography>
-                      <Typography gutterBottom>{placeName}</Typography>
-                      <Typography>住所</Typography>
-                      <Typography gutterBottom>{placeAddress}</Typography>
-                      <Typography>ホームページ</Typography>
-                      <NextLink href={homepageUrl} passHref>
-                        <Link target="_blank" rel="noopener noreferrer">
-                          {homepageUrl}
-                        </Link>
-                      </NextLink>
-                    </CardContent>
-                  </Card>
+                  <EatingPlaceInfo
+                    placeName={placeName}
+                    placeAddress={placeAddress}
+                    websiteUrl={websiteUrl}
+                  />
                 </Grid>
               )
             }
           })()}
           {(() => {
-              if (iframeUrl !== "") {
-                return (
-                  <Grid item xs={12}>
-                    <Card>
-                      <CardMedia
-                        component="iframe"
-                        src={iframeUrl}
-                        height="400"
-                      />
-                    </Card>
-                  </Grid>
-                )
-              }
-            })()}
+            if (iframeUrl !== "") {
+              return (
+                <Grid item xs={12}>
+                  <Card>
+                    <CardMedia
+                      component="iframe"
+                      src={iframeUrl}
+                      height="400"
+                    />
+                  </Card>
+                </Grid>
+              )
+            }
+          })()}
         </Grid>
       </Container>
     </ThemeProvider>
