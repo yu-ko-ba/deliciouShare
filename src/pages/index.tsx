@@ -1,7 +1,9 @@
-import { Container, Grid, Link, ThemeProvider } from "@mui/material";
+import { Add, AddBox } from "@mui/icons-material";
+import { Box, Button, Card, CardMedia, Container, Dialog, DialogActions, DialogContent, DialogTitle, Fab, Grid, Link, TextField, ThemeProvider, Typography } from "@mui/material";
 import Image from "next/image";
 import NextLink from "next/link";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
+import PostButton from "../components/PostButton";
 import PostPreview from "../components/PostPreview";
 import theme from "../theme";
 import apiUrls from "../utils/apiUrls";
@@ -16,6 +18,7 @@ export default function Home() {
         setUserPosts(posts)
       })
   }, [])
+
   return (
     <ThemeProvider theme={theme}>
       <main>
@@ -32,6 +35,7 @@ export default function Home() {
             ))}
           </Grid>
         </Container>
+        <PostButton />
       </main>
     </ThemeProvider>
   )
