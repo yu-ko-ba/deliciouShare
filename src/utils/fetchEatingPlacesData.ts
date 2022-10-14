@@ -11,12 +11,16 @@ const fetchEatingPlacesData = async (base64Image: string) => {
       return res.data
     })
 
-  return data.map((d): FetchEatingPlacesDataType => {
-    return {
-      name: d.name,
-      placeId: d.place_id
-    }
-  })
+  try {
+    return data.map((d): FetchEatingPlacesDataType => {
+      return {
+        name: d.name,
+        placeId: d.place_id
+      }
+    })
+  } catch (e) {
+  }
+  return []
 }
 
 export default fetchEatingPlacesData

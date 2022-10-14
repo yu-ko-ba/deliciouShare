@@ -65,6 +65,7 @@ const PostDialog = ({ openFlag, setOpenFlag }: PostDialogPropsType) => {
             <Button
               variant="contained"
               onClick={() => {
+                clearEatingPlaceInfo()
                 imageInputRef.current.click()
               }}
               fullWidth
@@ -82,7 +83,11 @@ const PostDialog = ({ openFlag, setOpenFlag }: PostDialogPropsType) => {
                 <Button
                   variant="contained"
                   onClick={async () => {
+                    clearEatingPlaceInfo()
                     places.current = await fetchEatingPlacesData(image.slice(23))
+                    if (places.current.length <= 0) {
+                      return
+                    }
                     if (places.current.length === 1) {
                       setEatingPlaceInfo(await fetchPlaceDetailData(places.current[0].placeId))
                       return
