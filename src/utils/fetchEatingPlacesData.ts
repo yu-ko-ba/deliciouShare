@@ -1,6 +1,6 @@
 import fetchEatingPlaces from "./fetchEatingPlaces"
 
-type FetchEatingPlacesDataType = {
+export type FetchEatingPlacesDataType = {
   name: string
   placeId: string
 }

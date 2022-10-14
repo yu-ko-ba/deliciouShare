@@ -5,7 +5,8 @@ const apiUrls = {
   getPostUrl: environmentVariables.getPostUrl,
   getPlaceDetailsUrl: "https://maps.googleapis.com/maps/api/place/details/json",
   getMapsEmbedUrl: "https://www.google.com/maps/embed/v1/place",
-  getEatingPlacesUrl: environmentVariables.getEatingPlacesUrl
+  getEatingPlacesUrl: environmentVariables.getEatingPlacesUrl,
+  fetchPlaceDetailUrl: environmentVariables.fetchPlaceDetailUrl,
 }
 
 export default apiUrls
