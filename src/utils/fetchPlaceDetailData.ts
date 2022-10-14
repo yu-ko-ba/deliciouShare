@@ -1,6 +1,6 @@
 import fetchPlaceDetail from "./fetchPlaceDetail"
 
-type Place = {
+export type Place = {
   name: string
   address: string
   website: string

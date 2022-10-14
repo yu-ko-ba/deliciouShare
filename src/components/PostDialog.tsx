@@ -1,5 +1,9 @@
 import { Button, Card, CardActions, CardContent, CardHeader, CardMedia, Dialog, DialogActions, DialogContent, DialogTitle, Grid, TextField } from "@mui/material"
 import React, { Dispatch, SetStateAction, useRef, useState } from "react"
+import fetchEatingPlacesData, { FetchEatingPlacesDataType } from "../utils/fetchEatingPlacesData"
+import fetchPlaceDetailData, { Place } from "../utils/fetchPlaceDetailData"
+import fetchPlaceDetailsData from "../utils/fetchPlaceDetailsData"
+import SelectPlaceDialog from "./SelectPlaceDialog"
 
 type PostDialogPropsType = {
   openFlag: boolean
@@ -9,14 +13,24 @@ type PostDialogPropsType = {
 const PostDialog = ({ openFlag, setOpenFlag }: PostDialogPropsType) => {
   const imageInputRef = useRef(null)
 
-  const [previewImage, setPreviewImage] = useState("")
+  const [image, setImage] = useState("")
   const [canFetchPlaceInfo, setCanFetchPlaceInfo] = useState(false)
+
+  const [selectPlacesDialogOpenFlag, setSelectPlacesDialogOpenFlag] = useState(false)
+  const places = useRef<FetchEatingPlacesDataType[]>([])
 
   const [eatingPlaceName, setEatingPlaceName] = useState("")
   const [eatingPlaceAddress, setEatingPlaceAddress] = useState("")
   const [websiteUrl, setWebsiteUrl] = useState("")
   const [placeInfoTextFieldIsEnable, setPlaceInfoTextFieldIsEnable] = useState(true)
   const [placeId, setPlaceId] = useState("")
+
+  const setEatingPlaceInfo = (place: Place) => {
+    setEatingPlaceName(place.name)
+    setEatingPlaceAddress(place.address)
+    setWebsiteUrl(place.website)
+    setPlaceId(place.id)
+  }
 
   const clearEatingPlaceInfo = () => {
     setEatingPlaceName("")
@@ -28,7 +42,7 @@ const PostDialog = ({ openFlag, setOpenFlag }: PostDialogPropsType) => {
   const [canPost, setCanPost] = useState(false)
 
   const closeDialog = () => {
-    setPreviewImage("")
+    setImage("")
     setCanFetchPlaceInfo(false)
     setCanPost(false)
 
@@ -36,7 +50,6 @@ const PostDialog = ({ openFlag, setOpenFlag }: PostDialogPropsType) => {
 
     setOpenFlag(false)
   }
-
 
   return (
     <Dialog
@@ -63,29 +76,18 @@ const PostDialog = ({ openFlag, setOpenFlag }: PostDialogPropsType) => {
             <Card>
               <CardMedia
                 component="img"
-                image={previewImage}
+                image={image}
               />
-              {(() => {
-                if (previewImage !== "") {
-                  return (
-                    <CardContent>
-                      <TextField
-                        value={previewImage}
-                        multiline
-                        maxRows={4}
-                        InputProps={{
-                          readOnly: true
-                        }}
-                        fullWidth
-                      />
-                    </CardContent>
-                  )
-                }
-              })()}
               <CardActions>
                 <Button
                   variant="contained"
-                  onClick={() => {
+                  onClick={async () => {
+                    places.current = await fetchEatingPlacesData(image.slice(23))
+                    if (places.current.length === 1) {
+                      setEatingPlaceInfo(await fetchPlaceDetailData(places.current[0].placeId))
+                      return
+                    }
+                    setSelectPlacesDialogOpenFlag(true)
                   }}
                   disabled={!canFetchPlaceInfo}
                   fullWidth
@@ -106,7 +108,7 @@ const PostDialog = ({ openFlag, setOpenFlag }: PostDialogPropsType) => {
                   onChange={(e) => {
                     setEatingPlaceName(e.target.value)
                   }}
-                  disabled={!placeInfoTextFieldIsEnable}
+                  disabled={placeId !== ""}
                   fullWidth
                 />
                 <TextField
@@ -116,7 +118,7 @@ const PostDialog = ({ openFlag, setOpenFlag }: PostDialogPropsType) => {
                   onChange={(e) => {
                     setEatingPlaceAddress(e.target.value)
                   }}
-                  disabled={!placeInfoTextFieldIsEnable}
+                  disabled={placeId !== ""}
                   fullWidth
                 />
                 <TextField
@@ -126,7 +128,7 @@ const PostDialog = ({ openFlag, setOpenFlag }: PostDialogPropsType) => {
                   onChange={(e) => {
                     setWebsiteUrl(e.target.value)
                   }}
-                  disabled={!placeInfoTextFieldIsEnable}
+                  disabled={placeId !== ""}
                   fullWidth
                 />
                 <TextField
@@ -143,7 +145,7 @@ const PostDialog = ({ openFlag, setOpenFlag }: PostDialogPropsType) => {
                   InputProps={{
                     readOnly: true
                   }}
-                  disabled={placeInfoTextFieldIsEnable}
+                  disabled={placeId === ""}
                   fullWidth
                 />
               </CardContent>
@@ -199,7 +201,7 @@ const PostDialog = ({ openFlag, setOpenFlag }: PostDialogPropsType) => {
           const imageFile = event.target.files[0]
           const fileReader = new FileReader()
           fileReader.onload = (e) => {
-            setPreviewImage((e.target!.result as string))
+            setImage((e.target!.result as string))
             setCanFetchPlaceInfo(true)
             setCanPost(true)
           }
@@ -207,6 +209,17 @@ const PostDialog = ({ openFlag, setOpenFlag }: PostDialogPropsType) => {
           event.target.value = ""
         }}
         hidden
+      />
+      <SelectPlaceDialog
+        openFlag={selectPlacesDialogOpenFlag}
+        places={places.current}
+        onSelect={(selectedPlace) => {
+          fetchPlaceDetailData(selectedPlace.placeId)
+            .then((place) => {
+              setEatingPlaceInfo(place)
+              setSelectPlacesDialogOpenFlag(false)
+            })
+        }}
       />
     </Dialog>
   )
