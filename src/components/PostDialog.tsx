@@ -1,3 +1,4 @@
+import { LoadingButton } from "@mui/lab"
 import { Button, Card, CardActions, CardContent, CardHeader, CardMedia, Dialog, DialogActions, DialogContent, DialogTitle, Grid, TextField } from "@mui/material"
 import React, { Dispatch, SetStateAction, useRef, useState } from "react"
 import fetchEatingPlacesData, { FetchEatingPlacesDataType } from "../utils/fetchEatingPlacesData"
@@ -14,7 +15,8 @@ const PostDialog = ({ openFlag, setOpenFlag }: PostDialogPropsType) => {
   const imageInputRef = useRef(null)
 
   const [image, setImage] = useState("")
-  const [canFetchPlaceInfo, setCanFetchPlaceInfo] = useState(false)
+
+  const [searchingPlaces, setSearchingPlaces] = useState(false)
 
   const [selectPlacesDialogOpenFlag, setSelectPlacesDialogOpenFlag] = useState(false)
   const places = useRef<FetchEatingPlacesDataType[]>([])
@@ -22,29 +24,38 @@ const PostDialog = ({ openFlag, setOpenFlag }: PostDialogPropsType) => {
   const [eatingPlaceName, setEatingPlaceName] = useState("")
   const [eatingPlaceAddress, setEatingPlaceAddress] = useState("")
   const [websiteUrl, setWebsiteUrl] = useState("")
-  const [placeInfoTextFieldIsEnable, setPlaceInfoTextFieldIsEnable] = useState(true)
-  const [placeId, setPlaceId] = useState("")
 
   const setEatingPlaceInfo = (place: Place) => {
     setEatingPlaceName(place.name)
     setEatingPlaceAddress(place.address)
     setWebsiteUrl(place.website)
-    setPlaceId(place.id)
   }
 
   const clearEatingPlaceInfo = () => {
     setEatingPlaceName("")
     setEatingPlaceAddress("")
     setWebsiteUrl("")
-    setPlaceId("")
   }
 
-  const [canPost, setCanPost] = useState(false)
+  const searchEatingPlaces = async () => {
+    if (image === "") {
+      return
+    }
+    places.current = await fetchEatingPlacesData(image.slice(23))
+      if (places.current.length <= 0) {
+        return
+      }
+    if (places.current.length === 1) {
+      setEatingPlaceInfo(await fetchPlaceDetailData(places.current[0].placeId))
+        return
+    }
+    setSelectPlacesDialogOpenFlag(true)
+  }
+
+  const [addingUserPost, setAddingUserPost] = useState(false)
 
   const closeDialog = () => {
     setImage("")
-    setCanFetchPlaceInfo(false)
-    setCanPost(false)
 
     clearEatingPlaceInfo()
 
@@ -80,25 +91,20 @@ const PostDialog = ({ openFlag, setOpenFlag }: PostDialogPropsType) => {
                 image={image}
               />
               <CardActions>
-                <Button
+                <LoadingButton
                   variant="contained"
+                  loading={searchingPlaces}
                   onClick={async () => {
                     clearEatingPlaceInfo()
-                    places.current = await fetchEatingPlacesData(image.slice(23))
-                    if (places.current.length <= 0) {
-                      return
-                    }
-                    if (places.current.length === 1) {
-                      setEatingPlaceInfo(await fetchPlaceDetailData(places.current[0].placeId))
-                      return
-                    }
-                    setSelectPlacesDialogOpenFlag(true)
+                    setSearchingPlaces(true)
+                    await searchEatingPlaces()
+                    setSearchingPlaces(false)
                   }}
-                  disabled={!canFetchPlaceInfo}
+                  disabled={image === ""}
                   fullWidth
                 >
                   写真の位置情報を元にお店の情報を取得
-                </Button>
+                </LoadingButton>
               </CardActions>
             </Card>
           </Grid>
@@ -113,7 +119,6 @@ const PostDialog = ({ openFlag, setOpenFlag }: PostDialogPropsType) => {
                   onChange={(e) => {
                     setEatingPlaceName(e.target.value)
                   }}
-                  disabled={placeId !== ""}
                   fullWidth
                 />
                 <TextField
@@ -123,7 +128,6 @@ const PostDialog = ({ openFlag, setOpenFlag }: PostDialogPropsType) => {
                   onChange={(e) => {
                     setEatingPlaceAddress(e.target.value)
                   }}
-                  disabled={placeId !== ""}
                   fullWidth
                 />
                 <TextField
@@ -133,38 +137,10 @@ const PostDialog = ({ openFlag, setOpenFlag }: PostDialogPropsType) => {
                   onChange={(e) => {
                     setWebsiteUrl(e.target.value)
                   }}
-                  disabled={placeId !== ""}
-                  fullWidth
-                />
-                <TextField
-                  label="place ID"
-                  margin="dense"
-                  value={placeId}
-                  onChange={(e) => {
-                    if (e.target.value !== "") {
-                      setPlaceInfoTextFieldIsEnable(false)
-                      return
-                    }
-                    setPlaceInfoTextFieldIsEnable(true)
-                  }}
-                  InputProps={{
-                    readOnly: true
-                  }}
-                  disabled={placeId === ""}
                   fullWidth
                 />
               </CardContent>
               <CardActions>
-                <Button
-                  variant="outlined"
-                  onClick={() => {
-                    setPlaceId("")
-                  }}
-                  style={{ textTransform: "none" }}
-                  fullWidth
-                >
-                  place IDを消去
-                </Button>
                 <Button
                   variant="outlined"
                   onClick={() => {
@@ -188,15 +164,18 @@ const PostDialog = ({ openFlag, setOpenFlag }: PostDialogPropsType) => {
         >
           キャンセル
         </Button>
-        <Button
+        <LoadingButton
           variant="contained"
+          loading={addingUserPost}
           onClick={() => {
+            setAddingUserPost(true)
             closeDialog()
+            setAddingUserPost(false)
           }}
-          disabled={!canPost}
+          disabled={image === ""}
         >
           投稿
-        </Button>
+        </LoadingButton>
       </DialogActions>
       <input
         type="file"
@@ -207,8 +186,6 @@ const PostDialog = ({ openFlag, setOpenFlag }: PostDialogPropsType) => {
           const fileReader = new FileReader()
           fileReader.onload = (e) => {
             setImage((e.target!.result as string))
-            setCanFetchPlaceInfo(true)
-            setCanPost(true)
           }
           fileReader.readAsDataURL(imageFile)
           event.target.value = ""
