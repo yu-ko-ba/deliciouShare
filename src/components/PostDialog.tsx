@@ -1,6 +1,7 @@
 import { LoadingButton } from "@mui/lab"
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid } from "@mui/material"
 import React, { Dispatch, SetStateAction, useState } from "react"
+import addUserPost from "../utils/addUserPost"
 import PostDialogEatingPlaceInfoCard from "./PostDialogEatingPlaceInfoCard"
 import PostDialogPreviewImageCard from "./PostDialogPreviewImageCard"
 import PostDialogSelectImageButton from "./PostDialogSelectImageButton"
@@ -8,9 +9,15 @@ import PostDialogSelectImageButton from "./PostDialogSelectImageButton"
 type PostDialogPropsType = {
   openFlag: boolean
   setOpenFlag: Dispatch<SetStateAction<boolean>>
+  onPostFinish: () => void
 }
 
-const PostDialog = ({ openFlag, setOpenFlag }: PostDialogPropsType) => {
+const PostDialog = ({
+  openFlag,
+  setOpenFlag,
+  onPostFinish
+}: PostDialogPropsType) => {
+
   const [image, setImage] = useState("")
 
   const [eatingPlaceName, setEatingPlaceName] = useState("")
@@ -81,8 +88,18 @@ const PostDialog = ({ openFlag, setOpenFlag }: PostDialogPropsType) => {
         <LoadingButton
           variant="contained"
           loading={addingUserPost}
-          onClick={() => {
+          onClick={async () => {
             setAddingUserPost(true)
+            await addUserPost(
+              "1",
+              image.slice(23),
+              {
+                name: eatingPlaceName,
+                address: eatingPlaceAddress,
+                website: eatingPlaceWebsiteUrl
+              }
+            )
+            onPostFinish()
             closeDialog()
             setAddingUserPost(false)
           }}

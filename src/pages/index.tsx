@@ -1,22 +1,25 @@
-import { Add, AddBox } from "@mui/icons-material";
-import { Box, Button, Card, CardMedia, Container, Dialog, DialogActions, DialogContent, DialogTitle, Fab, Grid, Link, TextField, ThemeProvider, Typography } from "@mui/material";
-import Image from "next/image";
+import { Container, Grid, Link, ThemeProvider } from "@mui/material";
 import NextLink from "next/link";
 import React, { useEffect, useState } from "react";
 import PostButton from "../components/PostButton";
 import PostPreview from "../components/PostPreview";
 import theme from "../theme";
-import apiUrls from "../utils/apiUrls";
-import fetchUserPosts from "../utils/fetchUserPosts";
 import fetchUserPostsData from "../utils/fetchUserPostsData";
 
 export default function Home() {
   const [userPosts, setUserPosts] = useState([])
-  useEffect(() => {
+
+  const fetchUserPosts = () => {
+    // 読み込み中なかんじを表示する処理を書く
+
     fetchUserPostsData("1")
       .then((posts) => {
         setUserPosts(posts)
       })
+  }
+
+  useEffect(() => {
+    fetchUserPosts()
   }, [])
 
   return (
@@ -35,7 +38,7 @@ export default function Home() {
             ))}
           </Grid>
         </Container>
-        <PostButton />
+        <PostButton onPostFinish={fetchUserPosts} />
       </main>
     </ThemeProvider>
   )

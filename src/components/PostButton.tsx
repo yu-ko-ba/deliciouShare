@@ -3,7 +3,11 @@ import { Box, Fab } from "@mui/material"
 import { useState } from "react"
 import PostDialog from "./PostDialog"
 
-const PostButton = () => {
+type PostButtonProps = {
+  onPostFinish: () => void
+}
+
+const PostButton = ({ onPostFinish }: PostButtonProps) => {
   const [postDialogOpenFlag, setPostDialogOpenFlag] = useState(false)
 
   return (
@@ -18,7 +22,11 @@ const PostButton = () => {
             <Add />
           </Fab>
         </Box>
-        <PostDialog openFlag={postDialogOpenFlag} setOpenFlag={setPostDialogOpenFlag} />
+        <PostDialog
+          openFlag={postDialogOpenFlag}
+          setOpenFlag={setPostDialogOpenFlag}
+          onPostFinish={onPostFinish}
+        />
     </>
   )
 }

@@ -1,9 +1,10 @@
-import axios from "axios"
+import axios, { AxiosResponse } from "axios"
+import { Dispatch, SetStateAction } from "react"
 import apiUrls from "./apiUrls"
 import EatingPlace from "./EatingPlace"
 
 const addUserPost = async (userId: string, base64Image: string, eatingPlace: EatingPlace) => {
-  const response = await axios.post(
+  return await axios.post(
     apiUrls.putUserPostUrl,
     {
       userId: userId,
@@ -11,8 +12,7 @@ const addUserPost = async (userId: string, base64Image: string, eatingPlace: Eat
       eatingPlace: eatingPlace,
     },
   )
-
-  return response.status
+    .then((response: AxiosResponse) => response.status)
 }
 
 export default addUserPost
