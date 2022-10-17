@@ -1,8 +1,9 @@
 import { LoadingButton } from "@mui/lab"
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid } from "@mui/material"
-import React, { Dispatch, SetStateAction, useRef, useState } from "react"
+import React, { Dispatch, SetStateAction, useState } from "react"
 import PostDialogEatingPlaceInfoCard from "./PostDialogEatingPlaceInfoCard"
 import PostDialogPreviewImageCard from "./PostDialogPreviewImageCard"
+import PostDialogSelectImageButton from "./PostDialogSelectImageButton"
 
 type PostDialogPropsType = {
   openFlag: boolean
@@ -10,18 +11,16 @@ type PostDialogPropsType = {
 }
 
 const PostDialog = ({ openFlag, setOpenFlag }: PostDialogPropsType) => {
-  const imageInputRef = useRef(null)
-
   const [image, setImage] = useState("")
 
   const [eatingPlaceName, setEatingPlaceName] = useState("")
   const [eatingPlaceAddress, setEatingPlaceAddress] = useState("")
-  const [websiteUrl, setWebsiteUrl] = useState("")
+  const [eatingPlaceWebsiteUrl, setEatingPlaceWebsiteUrl] = useState("")
 
   const clearEatingPlaceInfo = () => {
     setEatingPlaceName("")
     setEatingPlaceAddress("")
-    setWebsiteUrl("")
+    setEatingPlaceWebsiteUrl("")
   }
 
   const [addingUserPost, setAddingUserPost] = useState(false)
@@ -43,23 +42,17 @@ const PostDialog = ({ openFlag, setOpenFlag }: PostDialogPropsType) => {
       <DialogContent>
         <Grid container spacing={4}>
           <Grid item xs={12}>
-            <Button
-              variant="contained"
-              onClick={() => {
-                clearEatingPlaceInfo()
-                imageInputRef.current.click()
-              }}
-              fullWidth
-            >
-              写真を選ぶ
-            </Button>
+            <PostDialogSelectImageButton
+              clearEatingPlaceInfo={clearEatingPlaceInfo}
+              setImage={setImage}
+            />
           </Grid>
           <Grid item xs={12}>
             <PostDialogPreviewImageCard
               image={image}
               setEatingPlaceName={setEatingPlaceName}
               setEatingPlaceAddress={setEatingPlaceAddress}
-              setEatingPlaceWebsiteUrl={setWebsiteUrl}
+              setEatingPlaceWebsiteUrl={setEatingPlaceWebsiteUrl}
               clearEatingPlaceInfo={clearEatingPlaceInfo}
             />
           </Grid>
@@ -69,8 +62,8 @@ const PostDialog = ({ openFlag, setOpenFlag }: PostDialogPropsType) => {
               setEatingPlaceName={setEatingPlaceName}
               eatingPlaceAddress={eatingPlaceAddress}
               setEatingPlaceAddress={setEatingPlaceAddress}
-              eatingPlaceWebsiteUrl={websiteUrl}
-              setEatingPlaceWebsiteUrl={setWebsiteUrl}
+              eatingPlaceWebsiteUrl={eatingPlaceWebsiteUrl}
+              setEatingPlaceWebsiteUrl={setEatingPlaceWebsiteUrl}
               clearEatingPlaceInfo={clearEatingPlaceInfo}
             />
           </Grid>
@@ -98,21 +91,6 @@ const PostDialog = ({ openFlag, setOpenFlag }: PostDialogPropsType) => {
           投稿
         </LoadingButton>
       </DialogActions>
-      <input
-        type="file"
-        accept="image/jpeg"
-        ref={imageInputRef}
-        onChange={(event) => {
-          const imageFile = event.target.files[0]
-          const fileReader = new FileReader()
-          fileReader.onload = (e) => {
-            setImage((e.target!.result as string))
-          }
-          fileReader.readAsDataURL(imageFile)
-          event.target.value = ""
-        }}
-        hidden
-      />
     </Dialog>
   )
 }
