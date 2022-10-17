@@ -1,10 +1,8 @@
 import { LoadingButton } from "@mui/lab"
-import { Button, Card, CardActions, CardContent, CardHeader, CardMedia, Dialog, DialogActions, DialogContent, DialogTitle, Grid, TextField } from "@mui/material"
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid } from "@mui/material"
 import React, { Dispatch, SetStateAction, useRef, useState } from "react"
-import fetchEatingPlacesData, { FetchEatingPlacesDataType } from "../utils/fetchEatingPlacesData"
-import fetchPlaceDetailData, { Place } from "../utils/fetchPlaceDetailData"
-import fetchPlaceDetailsData from "../utils/fetchPlaceDetailsData"
-import SelectPlaceDialog from "./SelectPlaceDialog"
+import PostDialogEatingPlaceInfoCard from "./PostDialogEatingPlaceInfoCard"
+import PostDialogPreviewImageCard from "./PostDialogPreviewImageCard"
 
 type PostDialogPropsType = {
   openFlag: boolean
@@ -16,20 +14,9 @@ const PostDialog = ({ openFlag, setOpenFlag }: PostDialogPropsType) => {
 
   const [image, setImage] = useState("")
 
-  const [searchingPlaces, setSearchingPlaces] = useState(false)
-
-  const [selectPlacesDialogOpenFlag, setSelectPlacesDialogOpenFlag] = useState(false)
-  const places = useRef<FetchEatingPlacesDataType[]>([])
-
   const [eatingPlaceName, setEatingPlaceName] = useState("")
   const [eatingPlaceAddress, setEatingPlaceAddress] = useState("")
   const [websiteUrl, setWebsiteUrl] = useState("")
-
-  const setEatingPlaceInfo = (place: Place) => {
-    setEatingPlaceName(place.name)
-    setEatingPlaceAddress(place.address)
-    setWebsiteUrl(place.website)
-  }
 
   const clearEatingPlaceInfo = () => {
     setEatingPlaceName("")
@@ -37,28 +24,11 @@ const PostDialog = ({ openFlag, setOpenFlag }: PostDialogPropsType) => {
     setWebsiteUrl("")
   }
 
-  const searchEatingPlaces = async () => {
-    if (image === "") {
-      return
-    }
-    places.current = await fetchEatingPlacesData(image.slice(23))
-      if (places.current.length <= 0) {
-        return
-      }
-    if (places.current.length === 1) {
-      setEatingPlaceInfo(await fetchPlaceDetailData(places.current[0].placeId))
-        return
-    }
-    setSelectPlacesDialogOpenFlag(true)
-  }
-
   const [addingUserPost, setAddingUserPost] = useState(false)
 
   const closeDialog = () => {
     setImage("")
-
     clearEatingPlaceInfo()
-
     setOpenFlag(false)
   }
 
@@ -85,73 +55,24 @@ const PostDialog = ({ openFlag, setOpenFlag }: PostDialogPropsType) => {
             </Button>
           </Grid>
           <Grid item xs={12}>
-            <Card>
-              <CardMedia
-                component="img"
-                image={image}
-              />
-              <CardActions>
-                <LoadingButton
-                  variant="contained"
-                  loading={searchingPlaces}
-                  onClick={async () => {
-                    clearEatingPlaceInfo()
-                    setSearchingPlaces(true)
-                    await searchEatingPlaces()
-                    setSearchingPlaces(false)
-                  }}
-                  disabled={image === ""}
-                  fullWidth
-                >
-                  写真の位置情報を元にお店の情報を取得
-                </LoadingButton>
-              </CardActions>
-            </Card>
+            <PostDialogPreviewImageCard
+              image={image}
+              setEatingPlaceName={setEatingPlaceName}
+              setEatingPlaceAddress={setEatingPlaceAddress}
+              setEatingPlaceWebsiteUrl={setWebsiteUrl}
+              clearEatingPlaceInfo={clearEatingPlaceInfo}
+            />
           </Grid>
           <Grid item xs={12}>
-            <Card>
-              <CardHeader title="お店の情報" />
-              <CardContent>
-                <TextField
-                  label="名前"
-                  margin="dense"
-                  value={eatingPlaceName}
-                  onChange={(e) => {
-                    setEatingPlaceName(e.target.value)
-                  }}
-                  fullWidth
-                />
-                <TextField
-                  label="住所"
-                  margin="dense"
-                  value={eatingPlaceAddress}
-                  onChange={(e) => {
-                    setEatingPlaceAddress(e.target.value)
-                  }}
-                  fullWidth
-                />
-                <TextField
-                  label="ホームページ"
-                  margin="dense"
-                  value={websiteUrl}
-                  onChange={(e) => {
-                    setWebsiteUrl(e.target.value)
-                  }}
-                  fullWidth
-                />
-              </CardContent>
-              <CardActions>
-                <Button
-                  variant="outlined"
-                  onClick={() => {
-                    clearEatingPlaceInfo()
-                  }}
-                  fullWidth
-                >
-                  入力内容を消去
-                </Button>
-              </CardActions>
-            </Card>
+            <PostDialogEatingPlaceInfoCard
+              eatingPlaceName={eatingPlaceName}
+              setEatingPlaceName={setEatingPlaceName}
+              eatingPlaceAddress={eatingPlaceAddress}
+              setEatingPlaceAddress={setEatingPlaceAddress}
+              eatingPlaceWebsiteUrl={websiteUrl}
+              setEatingPlaceWebsiteUrl={setWebsiteUrl}
+              clearEatingPlaceInfo={clearEatingPlaceInfo}
+            />
           </Grid>
         </Grid>
       </DialogContent>
@@ -191,17 +112,6 @@ const PostDialog = ({ openFlag, setOpenFlag }: PostDialogPropsType) => {
           event.target.value = ""
         }}
         hidden
-      />
-      <SelectPlaceDialog
-        openFlag={selectPlacesDialogOpenFlag}
-        places={places.current}
-        onSelect={(selectedPlace) => {
-          fetchPlaceDetailData(selectedPlace.placeId)
-            .then((place) => {
-              setEatingPlaceInfo(place)
-              setSelectPlacesDialogOpenFlag(false)
-            })
-        }}
       />
     </Dialog>
   )
