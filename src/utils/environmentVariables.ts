@@ -4,6 +4,7 @@ const environmentVariables = {
   googleCloudApiKey: process.env.NEXT_PUBLIC_GOOGLE_CLOUD_API_KEY || Cypress.env("google_cloud_api_key"),
   getEatingPlacesUrl: process.env.NEXT_PUBLIC_GET_EATING_PLACES_URL || Cypress.env("get_eating_places_url"),
   fetchPlaceDetailUrl: process.env.NEXT_PUBLIC_FETCH_PLACE_DETAIL_URL || Cypress.env("fetch_place_detail_url"),
+  putUserPostUrl: process.env.NEXT_PUBLIC_PUT_USER_POST_URL || Cypress.env("put_user_post_url"),
 }
 
 export default environmentVariables
