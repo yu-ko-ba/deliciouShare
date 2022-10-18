@@ -8,6 +8,7 @@ const apiUrls = {
   getEatingPlacesUrl: environmentVariables.getEatingPlacesUrl,
   fetchPlaceDetailUrl: environmentVariables.fetchPlaceDetailUrl,
   putUserPostUrl: environmentVariables.putUserPostUrl,
+  getUserPostOutlinesUrl: environmentVariables.getUserPostOutlinesUrl,
 }
 
 export default apiUrls
