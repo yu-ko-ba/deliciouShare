@@ -1,20 +1,9 @@
+import EatingPlace from "./EatingPlace"
 import fetchPlaceDetail from "./fetchPlaceDetail"
 
-export type Place = {
-  name: string
-  address: string
-  website: string
-  id: string
-}
-
 const fetchPlaceDetailData = async (placeId: string) => {
-  const d = (await fetchPlaceDetail(placeId)).data
-  return {
-    name: d.name,
-    address: d.address,
-    website: d.website,
-    id: placeId
-  } as Place
+  return await fetchPlaceDetail(placeId)
+    .then((response) => response.data as EatingPlace)
 }
 
 export default fetchPlaceDetailData

@@ -8,6 +8,8 @@ type PostDialogEatingPlaceInfoCardProps = {
   setEatingPlaceAddress: Dispatch<SetStateAction<string>>
   eatingPlaceWebsiteUrl: string
   setEatingPlaceWebsiteUrl: Dispatch<SetStateAction<string>>
+  eatingPlaceId: string
+  setEatingPlaceId: Dispatch<SetStateAction<string>>
   clearEatingPlaceInfo: () => void
 }
 
@@ -18,6 +20,8 @@ const PostDialogEatingPlaceInfoCard = ({
   setEatingPlaceAddress,
   eatingPlaceWebsiteUrl,
   setEatingPlaceWebsiteUrl,
+  eatingPlaceId,
+  setEatingPlaceId,
   clearEatingPlaceInfo
 }: PostDialogEatingPlaceInfoCardProps) => {
   return (
@@ -51,8 +55,27 @@ const PostDialogEatingPlaceInfoCard = ({
           }}
           fullWidth
         />
+        <TextField
+          label="Place ID"
+          margin="dense"
+          value={eatingPlaceId}
+          onChange={(e) => {
+            setEatingPlaceId(e.target.value)
+          }}
+          disabled
+          fullWidth
+        />
       </CardContent>
       <CardActions>
+        <Button
+          variant="outlined"
+          onClick={() => {
+            setEatingPlaceId("")
+          }}
+          fullWidth
+        >
+          Place IDを消去
+        </Button>
         <Button
           variant="outlined"
           onClick={() => {

@@ -9,6 +9,7 @@ const apiUrls = {
   fetchPlaceDetailUrl: environmentVariables.fetchPlaceDetailUrl,
   putUserPostUrl: environmentVariables.putUserPostUrl,
   getUserPostOutlinesUrl: environmentVariables.getUserPostOutlinesUrl,
+  getUserPostDetailUrl: environmentVariables.getUserPostDetailUrl,
 }
 
 export default apiUrls

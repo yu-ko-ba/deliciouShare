@@ -23,11 +23,13 @@ const PostDialog = ({
   const [eatingPlaceName, setEatingPlaceName] = useState("")
   const [eatingPlaceAddress, setEatingPlaceAddress] = useState("")
   const [eatingPlaceWebsiteUrl, setEatingPlaceWebsiteUrl] = useState("")
+  const [eatingPlaceId, setEatingPlaceId] = useState("")
 
   const clearEatingPlaceInfo = () => {
     setEatingPlaceName("")
     setEatingPlaceAddress("")
     setEatingPlaceWebsiteUrl("")
+    setEatingPlaceId("")
   }
 
   const [addingUserPost, setAddingUserPost] = useState(false)
@@ -60,6 +62,7 @@ const PostDialog = ({
               setEatingPlaceName={setEatingPlaceName}
               setEatingPlaceAddress={setEatingPlaceAddress}
               setEatingPlaceWebsiteUrl={setEatingPlaceWebsiteUrl}
+              setEatingPlaceId={setEatingPlaceId}
               clearEatingPlaceInfo={clearEatingPlaceInfo}
             />
           </Grid>
@@ -71,6 +74,8 @@ const PostDialog = ({
               setEatingPlaceAddress={setEatingPlaceAddress}
               eatingPlaceWebsiteUrl={eatingPlaceWebsiteUrl}
               setEatingPlaceWebsiteUrl={setEatingPlaceWebsiteUrl}
+              eatingPlaceId={eatingPlaceId}
+              setEatingPlaceId={setEatingPlaceId}
               clearEatingPlaceInfo={clearEatingPlaceInfo}
             />
           </Grid>
@@ -96,8 +101,9 @@ const PostDialog = ({
               {
                 name: eatingPlaceName,
                 address: eatingPlaceAddress,
-                website: eatingPlaceWebsiteUrl
-              }
+                website: eatingPlaceWebsiteUrl,
+                id: eatingPlaceId,
+              },
             )
             onPostFinish()
             closeDialog()
