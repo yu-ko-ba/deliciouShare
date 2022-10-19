@@ -1,6 +1,6 @@
 import fetchUserPostOutlines from "./fetchUserPostOutlines"
 
-type UserPostOutline = {
+export type UserPostOutline = {
   postedTime: string,
   smallImageUrl: string,
   postId: string,
