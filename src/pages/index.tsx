@@ -1,37 +1,51 @@
 import { Container, Grid, Link, ThemeProvider } from "@mui/material";
-import Image from "next/image";
 import NextLink from "next/link";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
+import LoadingBar from "../components/LoadingBar";
+import PostButton from "../components/PostButton";
 import PostPreview from "../components/PostPreview";
 import theme from "../theme";
-import apiUrls from "../utils/apiUrls";
-import fetchUserPosts from "../utils/fetchUserPosts";
-import fetchUserPostsData from "../utils/fetchUserPostsData";
+import fetchUserPostOutlinesData, { UserPostOutline } from "../utils/fetchUserPostOutlinesData";
 
 export default function Home() {
-  const [userPosts, setUserPosts] = useState([])
-  useEffect(() => {
-    fetchUserPostsData("1")
-      .then((posts) => {
-        setUserPosts(posts)
+  const [nowLoading, setNowLoading] = useState(false)
+
+  const [userPostOutlines, setUserPostOutlines] = useState<UserPostOutline[]>([])
+
+  const fetchUserPosts = () => {
+    // TODO データの取得先を変更する
+    
+    setNowLoading(true)
+    fetchUserPostOutlinesData("1")
+      .then((outlines: UserPostOutline[]) => {
+        setUserPostOutlines(outlines)
+        setNowLoading(false)
       })
+  }
+
+  useEffect(() => {
+    fetchUserPosts()
   }, [])
+
   return (
     <ThemeProvider theme={theme}>
+      <LoadingBar nowLoading={nowLoading} />
       <main>
         <Container maxWidth="md">
           <Grid container spacing={4}>
-            {userPosts.map((p) => (
-              <Grid item xs={6} sm={4} key={p.postedTime}>
-                <NextLink href={`${p.userId}/${p.postedTime}`} passHref>
+            <Grid item xs={12} />
+            {userPostOutlines?.map((outline: UserPostOutline) => (
+              <Grid item xs={6} sm={4} key={outline.postedTime}>
+                <NextLink href={`${outline.postId}`} passHref>
                   <Link>
-                    <PostPreview imageUrl={p.imageUrl} />
+                    <PostPreview imageUrl={outline.smallImageUrl} />
                   </Link>
                 </NextLink>
               </Grid>
             ))}
           </Grid>
         </Container>
+        <PostButton onPostFinish={fetchUserPosts} />
       </main>
     </ThemeProvider>
   )
