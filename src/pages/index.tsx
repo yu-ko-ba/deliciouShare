@@ -5,18 +5,20 @@ import LoadingBar from "../components/LoadingBar";
 import PostButton from "../components/PostButton";
 import PostPreview from "../components/PostPreview";
 import theme from "../theme";
-import fetchUserPostsData from "../utils/fetchUserPostsData";
+import fetchUserPostOutlinesData, { UserPostOutline } from "../utils/fetchUserPostOutlinesData";
 
 export default function Home() {
   const [nowLoading, setNowLoading] = useState(false)
 
-  const [userPosts, setUserPosts] = useState([])
+  const [userPostOutlines, setUserPostOutlines] = useState<UserPostOutline[]>([])
 
   const fetchUserPosts = () => {
+    // TODO データの取得先を変更する
+    
     setNowLoading(true)
-    fetchUserPostsData("1")
-      .then((posts) => {
-        setUserPosts(posts)
+    fetchUserPostOutlinesData("1")
+      .then((outlines: UserPostOutline[]) => {
+        setUserPostOutlines(outlines)
         setNowLoading(false)
       })
   }
@@ -32,11 +34,11 @@ export default function Home() {
         <Container maxWidth="md">
           <Grid container spacing={4}>
             <Grid item xs={12} />
-            {userPosts.map((p) => (
-              <Grid item xs={6} sm={4} key={p.postedTime}>
-                <NextLink href={`${p.userId}/${p.postedTime}`} passHref>
+            {userPostOutlines?.map((outline: UserPostOutline) => (
+              <Grid item xs={6} sm={4} key={outline.postedTime}>
+                <NextLink href={`${outline.postId}`} passHref>
                   <Link>
-                    <PostPreview imageUrl={p.imageUrl} />
+                    <PostPreview imageUrl={outline.smallImageUrl} />
                   </Link>
                 </NextLink>
               </Grid>
