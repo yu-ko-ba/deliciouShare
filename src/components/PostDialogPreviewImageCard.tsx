@@ -11,6 +11,7 @@ type PostDialogPreviewImageCardProps = {
   setEatingPlaceName: Dispatch<SetStateAction<string>>
   setEatingPlaceAddress: Dispatch<SetStateAction<string>>
   setEatingPlaceWebsiteUrl: Dispatch<SetStateAction<string>>
+  setEatingPlaceId: Dispatch<SetStateAction<string>>
   clearEatingPlaceInfo: () => void
 }
 
@@ -19,6 +20,7 @@ const PostDialogPreviewImageCard = ({
   setEatingPlaceName,
   setEatingPlaceAddress,
   setEatingPlaceWebsiteUrl,
+  setEatingPlaceId,
   clearEatingPlaceInfo
 }: PostDialogPreviewImageCardProps) => {
 
@@ -29,6 +31,7 @@ const PostDialogPreviewImageCard = ({
     setEatingPlaceName(place.name)
     setEatingPlaceAddress(place.address)
     setEatingPlaceWebsiteUrl(place.website)
+    setEatingPlaceId(place.id)
   }
 
   const [selectPlaceDialogOpenFlag, setSelectPlaceDialogOpenFlag] = useState(false)

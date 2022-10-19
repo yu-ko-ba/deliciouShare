@@ -6,6 +6,7 @@ const environmentVariables = {
   fetchPlaceDetailUrl: process.env.NEXT_PUBLIC_FETCH_PLACE_DETAIL_URL || Cypress.env("fetch_place_detail_url"),
   putUserPostUrl: process.env.NEXT_PUBLIC_PUT_USER_POST_URL || Cypress.env("put_user_post_url"),
   getUserPostOutlinesUrl: process.env.NEXT_PUBLIC_GET_USER_POST_OUTLINES_URL || Cypress.env("get_user_post_outlines_url"),
+  getUserPostDetailUrl: process.env.NEXT_PUBLIC_GET_USER_POST_DETAIL_URL || Cypress.env("get_user_post_detail_url"),
 }
 
 export default environmentVariables
