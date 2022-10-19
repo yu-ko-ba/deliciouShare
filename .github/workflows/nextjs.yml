@@ -73,6 +73,7 @@ jobs:
           echo 'NEXT_PUBLIC_FETCH_PLACE_DETAIL_URL=bar' >> .env.local
           echo 'NEXT_PUBLIC_PUT_USER_POST_URL=baz' >> .env.local
           echo 'NEXT_PUBLIC_GET_USER_POST_OUTLINES_URL=hogehoge' >> .env.local
+          echo 'NEXT_PUBLIC_GET_USER_POST_DETAIL_URL=fugafuga' >> .env.local
           cat .env.local
       - name: Build with Next.js
         run: ${{ steps.detect-package-manager.outputs.runner }} next build
