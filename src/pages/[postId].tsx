@@ -44,7 +44,7 @@ const Post = ({ postId }: PostProps) => {
 
   return (
     <ThemeProvider theme={theme}>
-      <MeshiteroAppBar beforePath={router.query.beforePath} />
+      <MeshiteroAppBar beforePath={router.query.beforePath as string} />
       <Container maxWidth="sm">
         <Grid container spacing={4}>
           <Grid item xs={12}>
