@@ -1,13 +1,10 @@
-import { AppBar, CssBaseline, Slide, Toolbar, Typography, useScrollTrigger } from "@mui/material"
+import { AppBar, Slide, Toolbar, Typography, useScrollTrigger } from "@mui/material"
 
 const MeshiteroAppBar = () => {
+  const trigger = useScrollTrigger()
   return (
     <>
-      <Slide
-        appear={false}
-        direction="down"
-        in={!useScrollTrigger({ target: window })}
-      >
+      <Slide appear={false} direction="down" in={!trigger}>
         <AppBar>
           <Toolbar>
             <Typography variant="h6">
