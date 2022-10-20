@@ -32,7 +32,6 @@ export default function Home() {
       <LoadingBar nowLoading={nowLoading} />
       <Container maxWidth="md">
         <Grid container spacing={4}>
-          <Grid item xs={12} />
           {userPostOutlines?.map((outline: UserPostOutline) => (
             <Grid item xs={6} sm={4} key={outline.postedTime}>
               <NextLink
