@@ -2,6 +2,7 @@ import { Card, CardMedia, Container, Grid, ThemeProvider } from "@mui/material"
 import { GetServerSidePropsContext } from "next"
 import { useEffect, useState } from "react"
 import EatingPlaceInfo from "../components/EatingPlaceInfo"
+import MeshiteroAppBar from "../components/MeshiteroAppBar"
 import theme from "../theme"
 import apiUrls from "../utils/apiUrls"
 import environmentVariables from "../utils/environmentVariables"
@@ -40,6 +41,7 @@ const Post = ({ postId }: PostProps) => {
 
   return (
     <ThemeProvider theme={theme}>
+      <MeshiteroAppBar />
       <Container maxWidth="sm">
         <Grid container spacing={4}>
           <Grid item xs={12}>
