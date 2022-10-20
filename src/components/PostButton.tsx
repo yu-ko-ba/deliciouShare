@@ -12,7 +12,7 @@ const PostButton = ({ onPostFinish }: PostButtonProps) => {
 
   return (
     <>
-        <Box position="absolute" bottom={16} right={16}>
+        <Box position="fixed" bottom={16} right={16}>
           <Fab
             color="primary"
             onClick={() => {
