@@ -31,9 +31,9 @@ const MeshiteroAppBar = ({ beforePath }: Props) => {
               }
               return (
                 <NextLink href="/" passHref>
-                  <Link color="inherit">
+                  <Link color="inherit" underline="hover">
                     <Typography variant="h6">
-                      Meshitero
+                      deliciouShare
                     </Typography>
                   </Link>
                 </NextLink>
