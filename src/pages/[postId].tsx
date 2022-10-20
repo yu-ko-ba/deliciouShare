@@ -1,7 +1,9 @@
 import { Card, CardMedia, Container, Grid, ThemeProvider } from "@mui/material"
 import { GetServerSidePropsContext } from "next"
+import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
 import EatingPlaceInfo from "../components/EatingPlaceInfo"
+import MeshiteroAppBar from "../components/MeshiteroAppBar"
 import theme from "../theme"
 import apiUrls from "../utils/apiUrls"
 import environmentVariables from "../utils/environmentVariables"
@@ -21,6 +23,8 @@ export const getServerSideProps = (context: GetServerSidePropsContext) => {
 }
 
 const Post = ({ postId }: PostProps) => {
+  const router = useRouter()
+
   const [image, setImage] = useState("")
   const [eatingPlaceName, setEatingPlaceName] = useState("")
   const [eatingPlaceAddress, setEatingPlaceAddress] = useState("")
@@ -40,6 +44,7 @@ const Post = ({ postId }: PostProps) => {
 
   return (
     <ThemeProvider theme={theme}>
+      <MeshiteroAppBar beforePath={router.query.beforePath as string} />
       <Container maxWidth="sm">
         <Grid container spacing={4}>
           <Grid item xs={12}>
