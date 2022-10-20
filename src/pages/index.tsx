@@ -2,6 +2,7 @@ import { Container, Grid, Link, ThemeProvider } from "@mui/material";
 import NextLink from "next/link";
 import React, { useEffect, useState } from "react";
 import LoadingBar from "../components/LoadingBar";
+import MeshiteroAppBar from "../components/MeshiteroAppBar";
 import PostButton from "../components/PostButton";
 import PostPreview from "../components/PostPreview";
 import theme from "../theme";
@@ -13,8 +14,6 @@ export default function Home() {
   const [userPostOutlines, setUserPostOutlines] = useState<UserPostOutline[]>([])
 
   const fetchUserPosts = () => {
-    // TODO データの取得先を変更する
-    
     setNowLoading(true)
     fetchUserPostOutlinesData("1")
       .then((outlines: UserPostOutline[]) => {
@@ -31,6 +30,7 @@ export default function Home() {
     <ThemeProvider theme={theme}>
       <LoadingBar nowLoading={nowLoading} />
       <main>
+        <MeshiteroAppBar />
         <Container maxWidth="md">
           <Grid container spacing={4}>
             <Grid item xs={12} />
