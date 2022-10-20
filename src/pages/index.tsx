@@ -28,28 +28,23 @@ export default function Home() {
 
   return (
     <ThemeProvider theme={theme}>
+      <MeshiteroAppBar />
       <LoadingBar nowLoading={nowLoading} />
-      <main>
-        <MeshiteroAppBar />
-        <Container maxWidth="md">
-          <Grid container spacing={4}>
-            {userPostOutlines?.map((outline: UserPostOutline) => (
-              <Grid item xs={6} sm={4} key={outline.postedTime}>
-                <NextLink
-                  as={`${outline.postId}`}
-                  href={{ pathname: `${outline.postId}`, query: { beforePath: "/" } }}
-                  passHref
-                >
-                  <Link>
-                    <PostPreview imageUrl={outline.smallImageUrl} />
-                  </Link>
-                </NextLink>
-              </Grid>
-            ))}
-          </Grid>
-        </Container>
-        <PostButton onPostFinish={fetchUserPosts} />
-      </main>
+      <Container maxWidth="md">
+        <Grid container spacing={4}>
+          <Grid item xs={12} />
+          {userPostOutlines?.map((outline: UserPostOutline) => (
+            <Grid item xs={6} sm={4} key={outline.postedTime}>
+              <NextLink href={`${outline.postId}`} passHref>
+                <Link>
+                  <PostPreview imageUrl={outline.smallImageUrl} />
+                </Link>
+              </NextLink>
+            </Grid>
+          ))}
+        </Grid>
+      </Container>
+      <PostButton onPostFinish={fetchUserPosts} />
     </ThemeProvider>
   )
 }
