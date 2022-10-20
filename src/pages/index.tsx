@@ -35,7 +35,11 @@ export default function Home() {
           <Grid container spacing={4}>
             {userPostOutlines?.map((outline: UserPostOutline) => (
               <Grid item xs={6} sm={4} key={outline.postedTime}>
-                <NextLink href={`${outline.postId}`} passHref>
+                <NextLink
+                  as={`${outline.postId}`}
+                  href={{ pathname: `${outline.postId}`, query: { beforePath: "/" } }}
+                  passHref
+                >
                   <Link>
                     <PostPreview imageUrl={outline.smallImageUrl} />
                   </Link>
