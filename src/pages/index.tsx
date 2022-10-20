@@ -30,23 +30,21 @@ export default function Home() {
   return (
     <ThemeProvider theme={theme}>
       <LoadingBar nowLoading={nowLoading} />
-      <main>
-        <Container maxWidth="md">
-          <Grid container spacing={4}>
-            <Grid item xs={12} />
-            {userPostOutlines?.map((outline: UserPostOutline) => (
-              <Grid item xs={6} sm={4} key={outline.postedTime}>
-                <NextLink href={`${outline.postId}`} passHref>
-                  <Link>
-                    <PostPreview imageUrl={outline.smallImageUrl} />
-                  </Link>
-                </NextLink>
-              </Grid>
-            ))}
-          </Grid>
-        </Container>
-        <PostButton onPostFinish={fetchUserPosts} />
-      </main>
+      <Container maxWidth="md">
+        <Grid container spacing={4}>
+          <Grid item xs={12} />
+          {userPostOutlines?.map((outline: UserPostOutline) => (
+            <Grid item xs={6} sm={4} key={outline.postedTime}>
+              <NextLink href={`${outline.postId}`} passHref>
+                <Link>
+                  <PostPreview imageUrl={outline.smallImageUrl} />
+                </Link>
+              </NextLink>
+            </Grid>
+          ))}
+        </Grid>
+      </Container>
+      <PostButton onPostFinish={fetchUserPosts} />
     </ThemeProvider>
   )
 }
