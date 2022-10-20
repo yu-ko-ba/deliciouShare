@@ -28,6 +28,7 @@ export default function Home() {
 
   return (
     <ThemeProvider theme={theme}>
+      <MeshiteroAppBar />
       <LoadingBar nowLoading={nowLoading} />
       <Container maxWidth="md">
         <Grid container spacing={4}>
