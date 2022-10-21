@@ -4,7 +4,7 @@ import InputPasswordTextField from "../components/InputPasswordTextField"
 import MeshiteroAppBar from "../components/MeshiteroAppBar"
 import theme from "../theme"
 
-const SignIn = () => {
+const SignUp = () => {
   const router = useRouter()
   return (
     <ThemeProvider theme={theme}>
@@ -59,4 +59,4 @@ const SignIn = () => {
   )
 }
 
-export default SignIn
+export default SignUp
