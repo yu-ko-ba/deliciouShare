@@ -46,7 +46,7 @@ const SignUp = () => {
                 <Button
                 variant="outlined"
                 onClick={() => {
-                  router.push("login")
+                  router.push("sign-in")
                 }}
                 fullWidth
                 >ログインページへ</Button>
