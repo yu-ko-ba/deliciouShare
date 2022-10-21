@@ -52,7 +52,7 @@ const Login = () => {
                 <Button
                   variant="outlined"
                   onClick={() => {
-                    router.push("sign-in")
+                    router.push("sign-up")
                   }}
                   fullWidth
                 >アカウント作成</Button>
