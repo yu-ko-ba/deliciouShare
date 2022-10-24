@@ -75,5 +75,6 @@ jobs:
           echo 'NEXT_PUBLIC_GET_USER_POST_OUTLINES_URL=hogehoge' >> .env.local
           echo 'NEXT_PUBLIC_GET_USER_POST_DETAIL_URL=fugafuga' >> .env.local
           cat .env.local
+          echo 'export default {}' > src/aws-exports.js
       - name: Build with Next.js
         run: ${{ steps.detect-package-manager.outputs.runner }} next build
