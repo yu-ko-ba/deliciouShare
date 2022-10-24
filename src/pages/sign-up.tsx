@@ -1,20 +1,23 @@
-import { Button, Card, CardActions, CardContent, CardHeader, Container, FormHelperText, Grid, TextField, ThemeProvider, Typography } from "@mui/material"
+import { LoadingButton } from "@mui/lab"
+import { Button, Card, CardActions, CardContent, CardHeader, Container, FormHelperText, Grid, ThemeProvider, Typography } from "@mui/material"
+import { Auth } from "aws-amplify"
 import { useRouter } from "next/router"
 import { useState } from "react"
+import EmailInput from "../components/EmailInput"
 import InputPasswordTextField from "../components/InputPasswordTextField"
 import MeshiteroAppBar from "../components/MeshiteroAppBar"
+import PasswordInput from "../components/PasswordInput"
 import theme from "../theme"
 
 const SignUp = () => {
   const router = useRouter()
 
   const [email, setEmail] = useState("")
-  const [emailHasError, setEmailHasError] = useState(false)
   const [password, setPassword] = useState("")
-  const [passwordHasError, setPasswordHasError] = useState(false)
   const [reEnteredPassword, setReEnteredPassword] = useState("")
   const [reEnteredPasswordHasError, setReEnteredPasswordHasError] = useState(false)
 
+  const [signUpButtonIsLoadingNow, setSignUpButtonIsLoadingNow] = useState(false);
   const [signUpButtonIsEnable, setSingUpButtonIsEnable] = useState(false)
 
   return (
@@ -26,46 +29,29 @@ const SignUp = () => {
             <Card>
               <CardHeader title="アカウントを作成" />
               <CardContent>
-                <TextField
-                  label="メールアドレス"
+                <EmailInput
                   value={email}
                   onChange={(e) => {
                     const v = e.target.value
                     setEmail(v)
-                    setEmailHasError(v === "")
-                    if (
+                    setSingUpButtonIsEnable(
                       v !== ""
                       && password !== ""
                       && reEnteredPassword !== ""
-                    ) {
-                      setSingUpButtonIsEnable(true)
-                    }
+                    )
                   }}
-                  error={emailHasError}
-                  helperText={emailHasError ? "必須項目です" : ""}
-                  margin="dense"
-                  required
-                  fullWidth
                 />
-                <InputPasswordTextField label="パスワード"
+                <PasswordInput
                   value={password}
                   onChange={(e) => {
                     const v = e.target.value
                     setPassword(v)
-                    setPasswordHasError(v === "")
-                    if (
+                    setSingUpButtonIsEnable(
                       email !== ""
                       && v !== ""
                       && reEnteredPassword !== ""
-                    ) {
-                      setSingUpButtonIsEnable(true)
-                    }
+                    )
                   }}
-                  error={passwordHasError}
-                  helperText={passwordHasError ? "必須項目です" : ""}
-                  margin="dense"
-                  required
-                  fullWidth
                 />
                 <Typography variant="caption" color="text.secondary">
                   パスワード要件
@@ -89,13 +75,11 @@ const SignUp = () => {
                     const v = e.target.value
                     setReEnteredPassword(v)
                     setReEnteredPasswordHasError(v === "")
-                    if (
+                    setSingUpButtonIsEnable(
                       email !== ""
                       && password !== ""
                       && v !== ""
-                    ) {
-                      setSingUpButtonIsEnable(true)
-                    }
+                    )
                   }}
                   margin="normal"
                   error={reEnteredPasswordHasError}
@@ -106,21 +90,39 @@ const SignUp = () => {
                 <FormHelperText>*は必須項目です</FormHelperText>
               </CardContent>
               <CardActions>
-                <Button
+                <LoadingButton
                   variant="contained"
                   onClick={() => {
                     if (password !== reEnteredPassword) {
                       setReEnteredPassword("")
-                      setReEnteredPasswordHasError(true)
-                      setSingUpButtonIsEnable(false)
                       return
                     }
+                    setSignUpButtonIsLoadingNow(true)
+                    Auth.signUp({
+                      username: email,
+                      password: password,
+                      autoSignIn: { enabled: true },
+                    })
+                      .then(() => {
+                        router.push(
+                          {
+                            pathname: "confirm-email",
+                            query: { email: email },
+                          },
+                          "confirm-email",
+                        )
+                      })
+                      .catch((err) => {
+                        console.log(err);
+                        setSignUpButtonIsLoadingNow(false)
+                      })
                   }}
+                  loading={signUpButtonIsLoadingNow}
                   disabled={!signUpButtonIsEnable}
                   fullWidth
                 >
                   作成
-                </Button>
+                </LoadingButton>
               </CardActions>
             </Card>
           </Grid>
