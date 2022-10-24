@@ -7,12 +7,14 @@ import PostDialogPreviewImageCard from "./PostDialogPreviewImageCard"
 import PostDialogSelectImageButton from "./PostDialogSelectImageButton"
 
 type PostDialogPropsType = {
+  userId: string
   openFlag: boolean
   setOpenFlag: Dispatch<SetStateAction<boolean>>
   onPostFinish: () => void
 }
 
 const PostDialog = ({
+  userId,
   openFlag,
   setOpenFlag,
   onPostFinish
@@ -96,7 +98,7 @@ const PostDialog = ({
           onClick={async () => {
             setAddingUserPost(true)
             await addUserPost(
-              "1",
+              userId,
               image.slice(23),
               {
                 name: eatingPlaceName,

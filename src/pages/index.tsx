@@ -1,5 +1,7 @@
 import { Container, Grid, Link, ThemeProvider } from "@mui/material";
+import { Auth } from "aws-amplify";
 import NextLink from "next/link";
+import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import LoadingBar from "../components/LoadingBar";
 import MeshiteroAppBar from "../components/MeshiteroAppBar";
@@ -8,23 +10,42 @@ import PostPreview from "../components/PostPreview";
 import theme from "../theme";
 import fetchUserPostOutlinesData, { UserPostOutline } from "../utils/fetchUserPostOutlinesData";
 
-export default function Home() {
+const Home = () => {
+  const router = useRouter()
+
+  const [userId, setUserId] = useState("")
+
+  useEffect(() => {
+    if (userId !== "") {
+      fetchUserPosts()
+      return
+    }
+    Auth.currentUserInfo()
+      .then((user) => {
+        if (!user) {
+          router.push("sign-in")
+        }
+        const id = user.attributes.sub
+        setUserId(id)
+        fetchUserPosts(id)
+      })
+      .catch((err: Error) => {
+        console.log(err);
+      })
+  }, [])
+
   const [nowLoading, setNowLoading] = useState(false)
 
-  const [userPostOutlines, setUserPostOutlines] = useState<UserPostOutline[]>([])
+  const [userPostOutlines, setUserPostOutlines] = useState<UserPostOutline[]>()
 
-  const fetchUserPosts = () => {
+  const fetchUserPosts = (id: string = userId) => {
     setNowLoading(true)
-    fetchUserPostOutlinesData("1")
+    fetchUserPostOutlinesData(id)
       .then((outlines: UserPostOutline[]) => {
         setUserPostOutlines(outlines)
         setNowLoading(false)
       })
   }
-
-  useEffect(() => {
-    fetchUserPosts()
-  }, [])
 
   return (
     <ThemeProvider theme={theme}>
@@ -32,22 +53,28 @@ export default function Home() {
       <LoadingBar nowLoading={nowLoading} />
       <Container maxWidth="md">
         <Grid container spacing={4}>
-          {userPostOutlines?.map((outline: UserPostOutline) => (
-            <Grid item xs={6} sm={4} key={outline.postedTime}>
-              <NextLink
-                as={`${outline.postId}`}
-                href={{ pathname: `${outline.postId}`, query: { beforePath: "/" } }}
-                passHref
-              >
-                <Link>
-                  <PostPreview imageUrl={outline.smallImageUrl} />
-                </Link>
-              </NextLink>
-            </Grid>
-          ))}
+          {(() => {
+            if (userPostOutlines?.map) {
+              return userPostOutlines.map((outline: UserPostOutline) => (
+                <Grid item xs={6} sm={4} key={outline.postedTime}>
+                  <NextLink
+                    as={`${outline.postId}`}
+                    href={{ pathname: `${outline.postId}`, query: { beforePath: "/" } }}
+                    passHref
+                  >
+                    <Link>
+                      <PostPreview imageUrl={outline.smallImageUrl} />
+                    </Link>
+                  </NextLink>
+                </Grid>
+              ))
+            }
+          })()}
         </Grid>
       </Container>
-      <PostButton onPostFinish={fetchUserPosts} />
+      <PostButton userId={userId} onPostFinish={fetchUserPosts} />
     </ThemeProvider>
   )
 }
+
+export default Home
