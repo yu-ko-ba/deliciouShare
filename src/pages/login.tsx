@@ -36,7 +36,9 @@ const Login = () => {
                   required
                   fullWidth
                 />
-                <InputPasswordTextField label="パスワード" showHelperText />
+                <InputPasswordTextField label="パスワード">
+                  <FormHelperText>*は必須項目です</FormHelperText>
+                </InputPasswordTextField>
               </CardContent>
               <CardActions>
                 <Button variant="contained" fullWidth>ログイン</Button>

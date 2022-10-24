@@ -1,31 +1,35 @@
 import { Visibility, VisibilityOff } from "@mui/icons-material"
 import { FormControl, FormHelperText, IconButton, InputAdornment, InputLabel, OutlinedInput } from "@mui/material"
-import { useState } from "react"
+import React, { ReactElement, useState } from "react"
 
 type Props = {
   label: string
-  showHelperText?: boolean
+  value: string
+  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void
+  margin?: "none" | "dense" | "normal"
+  error?: boolean
+  helperText?: string
+  required?: boolean
+  fullWidth?: boolean
 }
 
-const InputPasswordTextField = ({ label, showHelperText }: Props) => {
-  const [password, setPassword] = useState("")
+const InputPasswordTextField = ({ label, value, onChange, margin, error, helperText, required, fullWidth }: Props) => {
   const [showPassword, setShowPassword] = useState(false)
 
   return (
     <FormControl
       variant="outlined"
-      margin="dense"
-      required
-      fullWidth
+      margin={margin ? margin : "none"}
+      error={error}
+      required={required}
+      fullWidth={fullWidth}
     >
       <InputLabel>{label}</InputLabel>
       <OutlinedInput
         label={label}
         type={showPassword ? "text" : "password"}
-        value={password}
-        onChange={(e) => {
-          setPassword(e.target.value)
-        }}
+        value={value}
+        onChange={onChange}
         endAdornment={
           <InputAdornment position="end">
             <IconButton
@@ -42,11 +46,7 @@ const InputPasswordTextField = ({ label, showHelperText }: Props) => {
           </InputAdornment>
         }
       />
-      {(() => {
-        if (showHelperText) {
-          return <FormHelperText>*は必須項目です</FormHelperText>
-        }
-      })()}
+      <FormHelperText>{helperText}</FormHelperText>
     </FormControl>
   )
 }
