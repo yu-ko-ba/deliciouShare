@@ -4,10 +4,11 @@ import { useState } from "react"
 import PostDialog from "./PostDialog"
 
 type PostButtonProps = {
+  userId: string
   onPostFinish: () => void
 }
 
-const PostButton = ({ onPostFinish }: PostButtonProps) => {
+const PostButton = ({ userId, onPostFinish }: PostButtonProps) => {
   const [postDialogOpenFlag, setPostDialogOpenFlag] = useState(false)
 
   return (
@@ -23,6 +24,7 @@ const PostButton = ({ onPostFinish }: PostButtonProps) => {
           </Fab>
         </Box>
         <PostDialog
+          userId={userId}
           openFlag={postDialogOpenFlag}
           setOpenFlag={setPostDialogOpenFlag}
           onPostFinish={onPostFinish}
