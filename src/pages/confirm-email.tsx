@@ -2,12 +2,18 @@ import { LoadingButton } from "@mui/lab"
 import { Card, CardActions, CardContent, CardHeader, Container, FormHelperText, TextField, ThemeProvider, Typography } from "@mui/material"
 import { Auth } from "aws-amplify"
 import { useRouter } from "next/router"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import MeshiteroAppBar from "../components/MeshiteroAppBar"
 import theme from "../theme"
 
 const ConfirmEmail = () => {
   const router = useRouter()
+
+  useEffect(() => {
+    if (!router.query.email) {
+      router.replace("/")
+    }
+  }, [])
 
   Auth.currentUserInfo()
     .then((user) => {
@@ -18,6 +24,7 @@ const ConfirmEmail = () => {
 
   const [verificationCode, setVerificationCode] = useState("")
   const [verificationCodeHasError, setVerificationCodeHasError] = useState(false)
+
   return (
     <ThemeProvider theme={theme}>
       <MeshiteroAppBar>
