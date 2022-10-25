@@ -14,7 +14,7 @@ const SignIn = () => {
   Auth.currentUserInfo()
     .then((user) => {
       if (user) {
-        router.push("/")
+        router.replace("/")
       }
     })
 
@@ -72,13 +72,20 @@ const SignIn = () => {
                       })
                       .catch((err: Error) => {
                         if (err.name === "UserNotConfirmedException") {
-                          router.push(
-                            {
-                              pathname: "confirm-email",
-                              query: { email: email },
-                            },
-                            "confirm-email",
-                          )
+                          Auth.resendSignUp(email)
+                            .then(() => {
+                              router.push(
+                                {
+                                  pathname: "confirm-email",
+                                  query: { email: email },
+                                },
+                                "confirm-email",
+                              )
+                            })
+                            .catch((err: Error) => {
+                              console.log(err)
+                              setSignInButtonIsLoadingNow(false)
+                            })
                         }
                         console.log(err)
                         setSignInButtonIsLoadingNow(false)

@@ -1,7 +1,6 @@
 import { Card, CardMedia, Container, Grid, ThemeProvider } from "@mui/material"
 import { Auth } from "aws-amplify"
 import { GetServerSidePropsContext } from "next"
-import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
 import AppbarBackButtonOrToRootLink from "../components/AppbarBackButtonOrToRootLink"
 import EatingPlaceInfo from "../components/EatingPlaceInfo"
