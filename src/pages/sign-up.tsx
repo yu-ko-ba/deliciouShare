@@ -22,7 +22,11 @@ const SignUp = () => {
 
   return (
     <ThemeProvider theme={theme}>
-      <MeshiteroAppBar />
+      <MeshiteroAppBar>
+        <Typography variant="h6">
+          deliciouShare
+        </Typography>
+      </MeshiteroAppBar>
       <Container maxWidth="xs">
         <Grid container spacing={4}>
           <Grid item xs={12}>
