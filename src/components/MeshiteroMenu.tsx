@@ -1,14 +1,19 @@
 import { MoreVert } from "@mui/icons-material"
-import { IconButton, Menu, MenuItem } from "@mui/material"
+import { Box, IconButton, Menu, MenuItem } from "@mui/material"
 import { useRouter } from "next/router"
 import { MouseEvent, useState } from "react"
 
-const MeshiteroMenu = () => {
+type Props = {
+  canBack?: boolean
+}
+
+const MeshiteroMenu = ({ canBack }: Props) => {
   const router = useRouter()
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
 
   return (
     <>
+      <Box sx={{ flexGrow: 1 }} />
       <IconButton
         color="inherit"
         onClick={(e: MouseEvent<HTMLElement>) => {
@@ -27,7 +32,7 @@ const MeshiteroMenu = () => {
         <MenuItem
           onClick={() => {
             router.push(
-              { pathname: "settings", query: { beforePath: router.asPath } },
+              { pathname: "settings", query: { canBack: canBack } },
               "settings",
             )
           }}

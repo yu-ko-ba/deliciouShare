@@ -1,5 +1,5 @@
 import { LoadingButton } from "@mui/lab"
-import { Card, CardActions, CardContent, CardHeader, Container, FormHelperText, TextField, ThemeProvider } from "@mui/material"
+import { Card, CardActions, CardContent, CardHeader, Container, FormHelperText, TextField, ThemeProvider, Typography } from "@mui/material"
 import { Auth } from "aws-amplify"
 import { useRouter } from "next/router"
 import { useState } from "react"
@@ -13,7 +13,11 @@ const ConfirmEmail = () => {
   const [verificationCodeHasError, setVerificationCodeHasError] = useState(false)
   return (
     <ThemeProvider theme={theme}>
-      <MeshiteroAppBar />
+      <MeshiteroAppBar>
+        <Typography variant="h6">
+          deliciouShare
+        </Typography>
+      </MeshiteroAppBar>
       <Container maxWidth="xs">
         <Card>
           <CardHeader title="メールアドレスを認証" />
