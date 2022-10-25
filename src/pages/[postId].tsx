@@ -1,4 +1,5 @@
 import { Card, CardMedia, Container, Grid, ThemeProvider } from "@mui/material"
+import { Auth } from "aws-amplify"
 import { GetServerSidePropsContext } from "next"
 import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
@@ -31,6 +32,8 @@ const Post = ({ postId }: PostProps) => {
   const [eatingPlaceWebsite, setEatingPlaceWebsite] = useState("")
   const [eatingPlaceId, setEatingPlaceId] = useState("")
 
+  const [userId, setUserId] = useState("")
+
   useEffect(() => {
     fetchUserPostDetailData(postId)
       .then((detail) => {
@@ -40,11 +43,23 @@ const Post = ({ postId }: PostProps) => {
         setEatingPlaceWebsite(detail.eatingPlace.website)
         setEatingPlaceId(detail.eatingPlace.id)
       })
+    Auth.currentUserInfo()
+      .then((user) => {
+        if (user) {
+          setUserId(user.attributes.sub)
+        }
+      })
+      .catch((err: Error) => {
+        console.log(err);
+      })
   }, [])
 
   return (
     <ThemeProvider theme={theme}>
-      <MeshiteroAppBar beforePath={router.query.beforePath as string} />
+      <MeshiteroAppBar
+        beforePath={router.query.beforePath as string}
+        userId={userId}
+      />
       <Container maxWidth="sm">
         <Grid container spacing={4}>
           <Grid item xs={12}>
