@@ -3,8 +3,10 @@ import { Auth } from "aws-amplify"
 import { GetServerSidePropsContext } from "next"
 import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
+import AppbarBackButtonOrToRootLink from "../components/AppbarBackButtonOrToRootLink"
 import EatingPlaceInfo from "../components/EatingPlaceInfo"
 import MeshiteroAppBar from "../components/MeshiteroAppBar"
+import MeshiteroMenu from "../components/MeshiteroMenu"
 import theme from "../theme"
 import apiUrls from "../utils/apiUrls"
 import environmentVariables from "../utils/environmentVariables"
@@ -24,15 +26,13 @@ export const getServerSideProps = (context: GetServerSidePropsContext) => {
 }
 
 const Post = ({ postId }: PostProps) => {
-  const router = useRouter()
-
   const [image, setImage] = useState("")
   const [eatingPlaceName, setEatingPlaceName] = useState("")
   const [eatingPlaceAddress, setEatingPlaceAddress] = useState("")
   const [eatingPlaceWebsite, setEatingPlaceWebsite] = useState("")
   const [eatingPlaceId, setEatingPlaceId] = useState("")
 
-  const [userId, setUserId] = useState("")
+  const [signedIn, setSignedIn] = useState(true)
 
   useEffect(() => {
     fetchUserPostDetailData(postId)
@@ -45,21 +45,24 @@ const Post = ({ postId }: PostProps) => {
       })
     Auth.currentUserInfo()
       .then((user) => {
-        if (user) {
-          setUserId(user.attributes.sub)
+        if (!user) {
+          setSignedIn(false)
         }
       })
       .catch((err: Error) => {
-        console.log(err);
+        console.log(err)
+        setSignedIn(false)
       })
   }, [])
 
   return (
     <ThemeProvider theme={theme}>
-      <MeshiteroAppBar
-        beforePath={router.query.beforePath as string}
-        userId={userId}
-      />
+      <MeshiteroAppBar>
+        <AppbarBackButtonOrToRootLink />
+        {signedIn && (
+          <MeshiteroMenu canBack />
+        )}
+      </MeshiteroAppBar>
       <Container maxWidth="sm">
         <Grid container spacing={4}>
           <Grid item xs={12}>

@@ -3,8 +3,10 @@ import { Auth } from "aws-amplify";
 import NextLink from "next/link";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
+import AppbarToRootLink from "../components/AppbarToRootLink";
 import LoadingBar from "../components/LoadingBar";
 import MeshiteroAppBar from "../components/MeshiteroAppBar";
+import MeshiteroMenu from "../components/MeshiteroMenu";
 import PostButton from "../components/PostButton";
 import PostPreview from "../components/PostPreview";
 import theme from "../theme";
@@ -49,7 +51,10 @@ const Home = () => {
 
   return (
     <ThemeProvider theme={theme}>
-      <MeshiteroAppBar userId="hoge" />
+      <MeshiteroAppBar>
+        <AppbarToRootLink />
+        <MeshiteroMenu canBack />
+      </MeshiteroAppBar>
       <LoadingBar nowLoading={nowLoading} />
       <Container maxWidth="md">
         <Grid container spacing={4}>
@@ -59,7 +64,10 @@ const Home = () => {
                 <Grid item xs={6} sm={4} key={outline.postedTime}>
                   <NextLink
                     as={`${outline.postId}`}
-                    href={{ pathname: `${outline.postId}`, query: { beforePath: "/" } }}
+                    href={{
+                      pathname: `${outline.postId}`,
+                      query: { canBack: true }
+                    }}
                     passHref
                   >
                     <Link>

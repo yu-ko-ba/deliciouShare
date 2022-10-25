@@ -3,6 +3,7 @@ import { Container, ThemeProvider } from "@mui/material"
 import { Auth } from "aws-amplify"
 import { useRouter } from "next/router"
 import { useState } from "react"
+import AppbarBackButtonOrToRootLink from "../components/AppbarBackButtonOrToRootLink"
 import MeshiteroAppBar from "../components/MeshiteroAppBar"
 import theme from "../theme"
 
@@ -12,9 +13,9 @@ const Settings = () => {
   const [signOutButtonIsLoadingNow, setSignOutButtonIsLoadingNow] = useState(false)
   return (
     <ThemeProvider theme={theme}>
-      <MeshiteroAppBar
-        beforePath={router.query.beforePath as string} 
-      />
+      <MeshiteroAppBar>
+        <AppbarBackButtonOrToRootLink />
+      </MeshiteroAppBar>
       <Container maxWidth="xs">
         <LoadingButton
           variant="outlined"
