@@ -25,7 +25,7 @@ const Home = () => {
     Auth.currentUserInfo()
       .then((user) => {
         if (!user) {
-          router.push("sign-in")
+          router.replace("sign-in")
         }
         const id = user.attributes.sub
         setUserId(id)

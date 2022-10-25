@@ -12,6 +12,13 @@ import theme from "../theme"
 const SignUp = () => {
   const router = useRouter()
 
+  Auth.currentUserInfo()
+    .then((user) => {
+      if (user) {
+        router.replace("/")
+      }
+    })
+
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [reEnteredPassword, setReEnteredPassword] = useState("")
@@ -116,8 +123,24 @@ const SignUp = () => {
                           "confirm-email",
                         )
                       })
-                      .catch((err) => {
-                        console.log(err);
+                      .catch((err: Error) => {
+                        if (err.name === "UsernameExistsException") {
+                          Auth.resendSignUp(email)
+                            .then(() => {
+                              router.push(
+                                {
+                                  pathname: "confirm-email",
+                                  query: { email: email },
+                                },
+                                "confirm-email",
+                              )
+                            })
+                            .catch((err: Error) => {
+                              console.log(err)
+                              setSignUpButtonIsLoadingNow(false)
+                            })
+                        }
+                        console.log(err)
                         setSignUpButtonIsLoadingNow(false)
                       })
                   }}
