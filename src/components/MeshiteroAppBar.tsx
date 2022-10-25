@@ -1,13 +1,15 @@
 import { ArrowBackIos } from "@mui/icons-material"
-import { AppBar, IconButton, Link, Slide, Toolbar, Typography, useScrollTrigger } from "@mui/material"
+import { AppBar, Box, IconButton, Link, Slide, Toolbar, Typography, useScrollTrigger } from "@mui/material"
 import NextLink from "next/link"
 import { useRouter } from "next/router"
+import MeshiteroMenu from "./MeshiteroMenu"
 
 type Props ={
   beforePath?: string
+  userId?: string
 }
 
-const MeshiteroAppBar = ({ beforePath }: Props) => {
+const MeshiteroAppBar = ({ beforePath, userId }: Props) => {
   const trigger = useScrollTrigger()
   const router = useRouter()
 
@@ -38,6 +40,12 @@ const MeshiteroAppBar = ({ beforePath }: Props) => {
                   </Link>
                 </NextLink>
               )
+            })()}
+            <Box sx={{ flexGrow: 1 }} />
+            {(() => {
+              if (userId) {
+                return <MeshiteroMenu />
+              }
             })()}
           </Toolbar>
         </AppBar>
