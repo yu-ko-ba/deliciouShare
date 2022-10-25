@@ -10,6 +10,13 @@ import theme from "../theme"
 const Settings = () => {
   const router = useRouter()
 
+  Auth.currentUserInfo()
+    .then((user) => {
+      if (!user) {
+        router.replace("/sign-in")
+      }
+    })
+
   const [signOutButtonIsLoadingNow, setSignOutButtonIsLoadingNow] = useState(false)
   return (
     <ThemeProvider theme={theme}>

@@ -9,6 +9,13 @@ import theme from "../theme"
 const ConfirmEmail = () => {
   const router = useRouter()
 
+  Auth.currentUserInfo()
+    .then((user) => {
+      if (user) {
+        router.replace("/")
+      }
+    })
+
   const [verificationCode, setVerificationCode] = useState("")
   const [verificationCodeHasError, setVerificationCodeHasError] = useState(false)
   return (
