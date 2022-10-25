@@ -12,7 +12,9 @@ const Settings = () => {
   const [signOutButtonIsLoadingNow, setSignOutButtonIsLoadingNow] = useState(false)
   return (
     <ThemeProvider theme={theme}>
-      <MeshiteroAppBar />
+      <MeshiteroAppBar
+        beforePath={router.query.beforePath as string} 
+      />
       <Container maxWidth="xs">
         <LoadingButton
           variant="outlined"

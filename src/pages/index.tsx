@@ -49,7 +49,7 @@ const Home = () => {
 
   return (
     <ThemeProvider theme={theme}>
-      <MeshiteroAppBar />
+      <MeshiteroAppBar userId="hoge" />
       <LoadingBar nowLoading={nowLoading} />
       <Container maxWidth="md">
         <Grid container spacing={4}>
