@@ -22,10 +22,15 @@ const Home = () => {
       fetchUserPosts()
       return
     }
+    // ユーザー情報を取得する
     Auth.currentUserInfo()
       .then((user) => {
+        // ログインされてない場合はログインページへリダイレクトする
         if (!user) {
-          router.replace("sign-in")
+          if (process.env.NODE_ENV !== "development") {
+            router.replace("sign-in")
+          }
+          return
         }
         const id = user.attributes.sub
         setUserId(id)

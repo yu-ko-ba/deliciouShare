@@ -10,14 +10,18 @@ import theme from "../theme"
 const Settings = () => {
   const router = useRouter()
 
+  // ログインされてない場合はログインページへリダイレクトする
   Auth.currentUserInfo()
     .then((user) => {
       if (!user) {
-        router.replace("/sign-in")
+        if (process.env.NODE_ENV !== "development") {
+          router.replace("/sign-in")
+        }
       }
     })
 
   const [signOutButtonIsLoadingNow, setSignOutButtonIsLoadingNow] = useState(false)
+
   return (
     <ThemeProvider theme={theme}>
       <MeshiteroAppBar>
