@@ -1,5 +1,5 @@
 import { LoadingButton } from "@mui/lab"
-import { Button, Card, CardActions, CardContent, CardHeader, Container, FormHelperText, Grid, ThemeProvider, Typography } from "@mui/material"
+import { Button, Card, CardActions, CardContent, CardHeader, Checkbox, Container, FormControl, FormHelperText, FormLabel, Grid, Link, Stack, ThemeProvider, Typography } from "@mui/material"
 import { Auth } from "aws-amplify"
 import { useRouter } from "next/router"
 import { useState } from "react"
@@ -27,6 +27,8 @@ const SignUp = () => {
   const [reEnteredPassword, setReEnteredPassword] = useState("")
   const [reEnteredPasswordHasError, setReEnteredPasswordHasError] = useState(false)
 
+  const [acceptTermsOfUse, setAcceptTermsOfUse] = useState(false)
+
   const [signUpButtonIsLoadingNow, setSignUpButtonIsLoadingNow] = useState(false);
   const [signUpButtonIsEnable, setSingUpButtonIsEnable] = useState(false)
 
@@ -52,6 +54,7 @@ const SignUp = () => {
                       v !== ""
                       && password !== ""
                       && reEnteredPassword !== ""
+                      && acceptTermsOfUse
                     )
                   }}
                 />
@@ -64,6 +67,7 @@ const SignUp = () => {
                       email !== ""
                       && v !== ""
                       && reEnteredPassword !== ""
+                      && acceptTermsOfUse
                     )
                   }}
                 />
@@ -93,6 +97,7 @@ const SignUp = () => {
                       email !== ""
                       && password !== ""
                       && v !== ""
+                      && acceptTermsOfUse
                     )
                   }}
                   margin="normal"
@@ -101,6 +106,35 @@ const SignUp = () => {
                   required
                   fullWidth
                 />
+                <FormControl
+                  error
+                  required
+                >
+                  <Stack direction="row" alignItems="center">
+                    <Checkbox
+                      value={acceptTermsOfUse}
+                      onChange={(e) => {
+                        const checked = e.target.checked
+                        setAcceptTermsOfUse(checked)
+                        setSingUpButtonIsEnable(
+                          email !== ""
+                          && password !== ""
+                          && reEnteredPassword !== ""
+                          && checked
+                        )
+                      }}
+                    />
+                    <FormLabel>
+                      <Link
+                        onClick={() => {
+                        }}
+                      >
+                        利用規約
+                      </Link>
+                      に同意する
+                    </FormLabel>
+                  </Stack>
+                </FormControl>
                 <FormHelperText>*は必須項目です</FormHelperText>
               </CardContent>
               <CardActions>
