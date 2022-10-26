@@ -11,10 +11,13 @@ import theme from "../theme"
 const SignIn = () => {
   const router = useRouter()
 
+  // ログイン済みの場合はルートへリダイレクトする
   Auth.currentUserInfo()
     .then((user) => {
       if (user) {
-        router.replace("/")
+        if (process.env.NODE_ENV !== "development") {
+          router.replace("/")
+        }
       }
     })
 
