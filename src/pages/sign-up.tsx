@@ -3,6 +3,7 @@ import { Button, Card, CardActions, CardContent, CardHeader, Checkbox, Container
 import { Auth } from "aws-amplify"
 import { useRouter } from "next/router"
 import { useState } from "react"
+import AcceptTermsOfUseDialog from "../components/AcceptTermsOfUseDialog"
 import EmailInput from "../components/EmailInput"
 import InputPasswordTextField from "../components/InputPasswordTextField"
 import MeshiteroAppBar from "../components/MeshiteroAppBar"
@@ -28,6 +29,18 @@ const SignUp = () => {
   const [reEnteredPasswordHasError, setReEnteredPasswordHasError] = useState(false)
 
   const [acceptTermsOfUse, setAcceptTermsOfUse] = useState(false)
+  const [acceptTermsOfUseHasError, setAcceptTermsOfUseHasError] = useState(false)
+  const setAcceptTermsOfUseAndHasError = (accept: boolean) => {
+    setAcceptTermsOfUse(accept)
+    setAcceptTermsOfUseHasError(!accept)
+    setSingUpButtonIsEnable(
+      email !== ""
+      && password !== ""
+      && reEnteredPassword !== ""
+      && accept
+    )
+  }
+  const [acceptTermsOfUseOpenFlag, setAcceptTermsOfUseOpenFlag] = useState(false)
 
   const [signUpButtonIsLoadingNow, setSignUpButtonIsLoadingNow] = useState(false);
   const [signUpButtonIsEnable, setSingUpButtonIsEnable] = useState(false)
@@ -107,26 +120,23 @@ const SignUp = () => {
                   fullWidth
                 />
                 <FormControl
-                  error
+                  error={acceptTermsOfUseHasError}
                   required
                 >
                   <Stack direction="row" alignItems="center">
                     <Checkbox
-                      value={acceptTermsOfUse}
+                      checked={acceptTermsOfUse}
                       onChange={(e) => {
                         const checked = e.target.checked
-                        setAcceptTermsOfUse(checked)
-                        setSingUpButtonIsEnable(
-                          email !== ""
-                          && password !== ""
-                          && reEnteredPassword !== ""
-                          && checked
-                        )
+                        setAcceptTermsOfUseAndHasError(checked)
                       }}
                     />
                     <FormLabel>
                       <Link
+                        component="button"
+                        variant="body1"
                         onClick={() => {
+                          setAcceptTermsOfUseOpenFlag(true)
                         }}
                       >
                         利用規約
@@ -207,6 +217,11 @@ const SignUp = () => {
             </Card>
           </Grid>
         </Grid>
+        <AcceptTermsOfUseDialog
+          openFlag={acceptTermsOfUseOpenFlag}
+          setOpenFlag={setAcceptTermsOfUseOpenFlag}
+          setAccept={setAcceptTermsOfUseAndHasError}
+        />
       </Container>
     </ThemeProvider>
   )
