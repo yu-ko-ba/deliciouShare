@@ -10,16 +10,22 @@ import theme from "../theme"
 const ConfirmEmail = () => {
   const router = useRouter()
 
+  // 認証するメールアドレスを受け取ってない場合にルートへリダイレクトする
   useEffect(() => {
     if (!router.query.email) {
-      router.replace("/")
+      if (process.env.NODE_ENV !== "development") {
+        router.replace("/")
+      }
     }
   }, [])
 
+  // ログイン済みの場合にルートへリダイレクトする
   Auth.currentUserInfo()
     .then((user) => {
       if (user) {
-        router.replace("/")
+        if (process.env.NODE_ENV !== "development") {
+          router.replace("/")
+        }
       }
     })
 
