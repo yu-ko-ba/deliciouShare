@@ -1,9 +1,10 @@
 import { LoadingButton } from "@mui/lab"
-import { Button, Card, CardActions, CardContent, CardHeader, Container, FormHelperText, Grid, TextField, ThemeProvider, Typography } from "@mui/material"
+import { Card, CardActions, CardContent, CardHeader, Container, FormHelperText, Grid, TextField, ThemeProvider, Typography } from "@mui/material"
 import { Auth } from "aws-amplify"
 import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
 import MeshiteroAppBar from "../components/MeshiteroAppBar"
+import SuccessSnackbar from "../components/SuccessSnackbar"
 import theme from "../theme"
 
 const ConfirmEmail = () => {
@@ -24,6 +25,10 @@ const ConfirmEmail = () => {
 
   const [verificationCode, setVerificationCode] = useState("")
   const [verificationCodeHasError, setVerificationCodeHasError] = useState(false)
+
+  const [reSendButtonIsLoading, setReSendButtonIsLoading] = useState(false)
+
+  const [successSnackbarOpenFlag, setSuccessSnackbarOpenFlag] = useState(false)
 
   return (
     <ThemeProvider theme={theme}>
@@ -83,13 +88,18 @@ const ConfirmEmail = () => {
                 </Typography>
               </CardContent>
               <CardActions>
-                <Button
+                <LoadingButton
                   variant="outlined"
+                  loading={reSendButtonIsLoading}
                   onClick={() => {
+                    setReSendButtonIsLoading(true)
                     Auth.resendSignUp(router.query.email as string)
                       .then(() => {
+                        setSuccessSnackbarOpenFlag(true)
+                        setReSendButtonIsLoading(false)
                       })
                       .catch((err: Error) => {
+                        setReSendButtonIsLoading(false)
                         if (process.env.NODE_ENV === "development") {
                           console.log(err)
                         }
@@ -98,12 +108,17 @@ const ConfirmEmail = () => {
                   fullWidth
                 >
                   認証コードを再送信
-                </Button>
+                </LoadingButton>
               </CardActions>
             </Card>
           </Grid>
         </Grid>
       </Container>
+      <SuccessSnackbar
+        message="送信しました"
+        openFlag={successSnackbarOpenFlag}
+        setOpenFlag={setSuccessSnackbarOpenFlag}
+      />
     </ThemeProvider>
   )
 }
