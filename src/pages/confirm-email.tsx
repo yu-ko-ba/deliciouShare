@@ -87,6 +87,13 @@ const ConfirmEmail = () => {
                   variant="outlined"
                   onClick={() => {
                     Auth.resendSignUp(router.query.email as string)
+                      .then(() => {
+                      })
+                      .catch((err: Error) => {
+                        if (process.env.NODE_ENV === "development") {
+                          console.log(err)
+                        }
+                      })
                   }}
                   fullWidth
                 >
