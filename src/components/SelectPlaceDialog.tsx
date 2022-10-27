@@ -1,5 +1,4 @@
 import { Dialog, DialogTitle, List, ListItem, ListItemText } from "@mui/material"
-import { Dispatch, SetStateAction } from "react"
 import { FetchEatingPlacesDataType } from "../utils/fetchEatingPlacesData"
 
 type SelectPlaceDialogPropsType = {
