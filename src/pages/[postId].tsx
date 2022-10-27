@@ -1,11 +1,11 @@
 import { Card, CardMedia, Container, Grid, Link, ThemeProvider } from "@mui/material"
 import { Auth } from "aws-amplify"
 import { GetServerSidePropsContext } from "next"
-import NextLink from "next/link"
 import { useEffect, useState } from "react"
 import AppbarBackButtonOrToRootLink from "../components/AppbarBackButtonOrToRootLink"
 import EatingPlaceInfo from "../components/EatingPlaceInfo"
 import MeshiteroAppBar from "../components/MeshiteroAppBar"
+import MeshiteroLink from "../components/MeshiteroLink"
 import MeshiteroMenu from "../components/MeshiteroMenu"
 import theme from "../theme"
 import apiUrls from "../utils/apiUrls"
@@ -108,11 +108,16 @@ const Post = ({ postId }: PostProps) => {
           <Grid item xs={12} />
         </Grid>
       </Container>
-        <NextLink href="/terms-of-use" passHref>
-          <Link variant="caption">
+        <MeshiteroLink
+          as="/terms-of-use"
+          href={{
+            pathname: "/terms-of-use",
+            query: { canBack: true },
+          }}
+          variant="caption"
+        >
             利用規約
-          </Link>
-        </NextLink>
+        </MeshiteroLink>
     </ThemeProvider>
   )
 }

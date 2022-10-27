@@ -1,15 +1,10 @@
-import { Link, Typography } from "@mui/material"
-import NextLink from "next/link"
+import MeshiteroLink from "./MeshiteroLink"
 
 const AppbarToRootLink = () => {
   return (
-    <NextLink href="/" passHref>
-      <Link color="inherit" underline="hover">
-        <Typography variant="h6">
+    <MeshiteroLink href="/" variant="h6" color="inherit" underline="hover">
           deliciouShare
-        </Typography>
-      </Link>
-    </NextLink>
+    </MeshiteroLink>
   )
 }
 

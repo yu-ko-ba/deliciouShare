@@ -1,5 +1,5 @@
-import { Card, CardContent, CardHeader, Link, Typography } from "@mui/material"
-import NextLink from "next/link"
+import { Card, CardContent, CardHeader, Typography } from "@mui/material"
+import MeshiteroLink from "./MeshiteroLink"
 
 type EatingPlaceInfoPropsType = {
   placeName: string
@@ -37,11 +37,9 @@ const EatingPlaceInfo = ({ placeName, placeAddress, websiteUrl }: EatingPlaceInf
             return (
               <>
                 <Typography>ホームページ</Typography>
-                <NextLink href={websiteUrl} passHref>
-                  <Link target="_blank" rel="noopener noreferrer">
+                <MeshiteroLink href={websiteUrl} target="_blank" rel="noopener noreferrer">
                     {websiteUrl}
-                  </Link>
-                </NextLink>
+                </MeshiteroLink>
               </>
             )
           }
