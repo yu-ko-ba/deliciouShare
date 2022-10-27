@@ -1,6 +1,7 @@
-import { Card, CardMedia, Container, Grid, ThemeProvider } from "@mui/material"
+import { Card, CardMedia, Container, Grid, Link, ThemeProvider } from "@mui/material"
 import { Auth } from "aws-amplify"
 import { GetServerSidePropsContext } from "next"
+import NextLink from "next/link"
 import { useEffect, useState } from "react"
 import AppbarBackButtonOrToRootLink from "../components/AppbarBackButtonOrToRootLink"
 import EatingPlaceInfo from "../components/EatingPlaceInfo"
@@ -104,8 +105,16 @@ const Post = ({ postId }: PostProps) => {
               )
             }
           })()}
+          <Grid item xs={12} />
         </Grid>
       </Container>
+        <footer>
+          <NextLink href="/terms-of-use" passHref>
+            <Link variant="caption">
+              利用規約
+            </Link>
+          </NextLink>
+        </footer>
     </ThemeProvider>
   )
 }
