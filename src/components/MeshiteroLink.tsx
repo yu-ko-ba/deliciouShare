@@ -1,8 +1,18 @@
-import { Link as MuiLink, LinkProps as MuiLinkProps } from "@mui/material"
-import NextLink, { LinkProps as NextLinkProps } from "next/link"
-import React from "react"
+import { Link as MuiLink, TypographyProps } from "@mui/material"
+import NextLink from "next/link"
+import React, { HTMLAttributeAnchorTarget } from "react"
+import { UrlObject } from "url"
 
-type Props = NextLinkProps & MuiLinkProps
+type Props = {
+  as?: string | UrlObject
+  href: string | UrlObject
+  target?: HTMLAttributeAnchorTarget | undefined
+  rel?: string | undefined
+  variant?: TypographyProps["variant"]
+  color?: TypographyProps["color"]
+  underline?: "none" | "hover" | "always"
+  children?: React.ReactNode
+}
 
 const MeshiteroLink = ({ as, href, target, rel, variant, color, underline, children }: Props) => {
   return (
