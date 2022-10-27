@@ -1,8 +1,9 @@
 import { LoadingButton } from "@mui/lab"
-import { Button, Card, CardActions, CardContent, CardHeader, Container, FormHelperText, Grid, ThemeProvider, Typography } from "@mui/material"
+import { Button, Card, CardActions, CardContent, CardHeader, Checkbox, Container, FormControl, FormHelperText, FormLabel, Grid, Link, Stack, ThemeProvider, Typography } from "@mui/material"
 import { Auth } from "aws-amplify"
 import { useRouter } from "next/router"
 import { useState } from "react"
+import AcceptTermsOfUseDialog from "../components/AcceptTermsOfUseDialog"
 import EmailInput from "../components/EmailInput"
 import InputPasswordTextField from "../components/InputPasswordTextField"
 import MeshiteroAppBar from "../components/MeshiteroAppBar"
@@ -26,6 +27,20 @@ const SignUp = () => {
   const [password, setPassword] = useState("")
   const [reEnteredPassword, setReEnteredPassword] = useState("")
   const [reEnteredPasswordHasError, setReEnteredPasswordHasError] = useState(false)
+
+  const [acceptTermsOfUse, setAcceptTermsOfUse] = useState(false)
+  const [acceptTermsOfUseHasError, setAcceptTermsOfUseHasError] = useState(false)
+  const setAcceptTermsOfUseAndHasError = (accept: boolean) => {
+    setAcceptTermsOfUse(accept)
+    setAcceptTermsOfUseHasError(!accept)
+    setSingUpButtonIsEnable(
+      email !== ""
+      && password !== ""
+      && reEnteredPassword !== ""
+      && accept
+    )
+  }
+  const [acceptTermsOfUseOpenFlag, setAcceptTermsOfUseOpenFlag] = useState(false)
 
   const [signUpButtonIsLoadingNow, setSignUpButtonIsLoadingNow] = useState(false);
   const [signUpButtonIsEnable, setSingUpButtonIsEnable] = useState(false)
@@ -52,6 +67,7 @@ const SignUp = () => {
                       v !== ""
                       && password !== ""
                       && reEnteredPassword !== ""
+                      && acceptTermsOfUse
                     )
                   }}
                 />
@@ -64,6 +80,7 @@ const SignUp = () => {
                       email !== ""
                       && v !== ""
                       && reEnteredPassword !== ""
+                      && acceptTermsOfUse
                     )
                   }}
                 />
@@ -93,6 +110,7 @@ const SignUp = () => {
                       email !== ""
                       && password !== ""
                       && v !== ""
+                      && acceptTermsOfUse
                     )
                   }}
                   margin="normal"
@@ -101,6 +119,32 @@ const SignUp = () => {
                   required
                   fullWidth
                 />
+                <FormControl
+                  error={acceptTermsOfUseHasError}
+                  required
+                >
+                  <Stack direction="row" alignItems="center">
+                    <Checkbox
+                      checked={acceptTermsOfUse}
+                      onChange={(e) => {
+                        const checked = e.target.checked
+                        setAcceptTermsOfUseAndHasError(checked)
+                      }}
+                    />
+                    <FormLabel>
+                      <Link
+                        component="button"
+                        variant="body1"
+                        onClick={() => {
+                          setAcceptTermsOfUseOpenFlag(true)
+                        }}
+                      >
+                        利用規約
+                      </Link>
+                      に同意する
+                    </FormLabel>
+                  </Stack>
+                </FormControl>
                 <FormHelperText>*は必須項目です</FormHelperText>
               </CardContent>
               <CardActions>
@@ -173,6 +217,11 @@ const SignUp = () => {
             </Card>
           </Grid>
         </Grid>
+        <AcceptTermsOfUseDialog
+          openFlag={acceptTermsOfUseOpenFlag}
+          setOpenFlag={setAcceptTermsOfUseOpenFlag}
+          setAccept={setAcceptTermsOfUseAndHasError}
+        />
       </Container>
     </ThemeProvider>
   )
