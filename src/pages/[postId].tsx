@@ -108,13 +108,11 @@ const Post = ({ postId }: PostProps) => {
           <Grid item xs={12} />
         </Grid>
       </Container>
-        <footer>
-          <NextLink href="/terms-of-use" passHref>
-            <Link variant="caption">
-              利用規約
-            </Link>
-          </NextLink>
-        </footer>
+        <NextLink href="/terms-of-use" passHref>
+          <Link variant="caption">
+            利用規約
+          </Link>
+        </NextLink>
     </ThemeProvider>
   )
 }
