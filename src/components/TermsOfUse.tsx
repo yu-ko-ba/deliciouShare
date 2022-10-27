@@ -1,5 +1,5 @@
-import { Link, Typography } from "@mui/material"
-import NextLink from "next/link"
+import { Typography } from "@mui/material"
+import MeshiteroLink from "./MeshiteroLink"
 
 const TermsOfUse = () => {
   return (
@@ -23,11 +23,9 @@ const TermsOfUse = () => {
       </Typography>
       <Typography gutterBottom>
         (変更予告などは
-        <NextLink href="#" passHref>
-          <Link>
+        <MeshiteroLink href="#" target="_blank" rel="noopener noreferrer">
             公式のTwitterアカウント
-          </Link>
-        </NextLink>
+        </MeshiteroLink>
         で行いますのでご確認ください。)
       </Typography>
       <br />

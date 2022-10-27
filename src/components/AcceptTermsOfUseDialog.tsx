@@ -1,4 +1,4 @@
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Typography } from "@mui/material"
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from "@mui/material"
 import { Dispatch, SetStateAction } from "react"
 import TermsOfUse from "./TermsOfUse"
 

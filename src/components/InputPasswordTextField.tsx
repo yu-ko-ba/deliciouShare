@@ -1,6 +1,6 @@
 import { Visibility, VisibilityOff } from "@mui/icons-material"
 import { FormControl, FormHelperText, IconButton, InputAdornment, InputLabel, OutlinedInput } from "@mui/material"
-import React, { ReactElement, useState } from "react"
+import React, { useState } from "react"
 
 type Props = {
   label: string

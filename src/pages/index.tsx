@@ -1,11 +1,11 @@
-import { Container, Grid, Link, ThemeProvider } from "@mui/material";
+import { Container, Grid, ThemeProvider } from "@mui/material";
 import { Auth } from "aws-amplify";
-import NextLink from "next/link";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import AppbarToRootLink from "../components/AppbarToRootLink";
 import LoadingBar from "../components/LoadingBar";
 import MeshiteroAppBar from "../components/MeshiteroAppBar";
+import MeshiteroLink from "../components/MeshiteroLink";
 import MeshiteroMenu from "../components/MeshiteroMenu";
 import PostButton from "../components/PostButton";
 import PostPreview from "../components/PostPreview";
@@ -67,18 +67,15 @@ const Home = () => {
             if (userPostOutlines?.map) {
               return userPostOutlines.map((outline: UserPostOutline) => (
                 <Grid item xs={6} sm={4} key={outline.postedTime}>
-                  <NextLink
+                  <MeshiteroLink
                     as={`${outline.postId}`}
                     href={{
                       pathname: `${outline.postId}`,
                       query: { canBack: true }
                     }}
-                    passHref
                   >
-                    <Link>
                       <PostPreview imageUrl={outline.smallImageUrl} />
-                    </Link>
-                  </NextLink>
+                  </MeshiteroLink>
                 </Grid>
               ))
             }
