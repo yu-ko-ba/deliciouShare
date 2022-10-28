@@ -10,6 +10,7 @@ const apiUrls = {
   putUserPostUrl: environmentVariables.putUserPostUrl,
   getUserPostOutlinesUrl: environmentVariables.getUserPostOutlinesUrl,
   getUserPostDetailUrl: environmentVariables.getUserPostDetailUrl,
+  deleteUserPostUrl: environmentVariables.deleteUserPostUrl,
 }
 
 export default apiUrls
