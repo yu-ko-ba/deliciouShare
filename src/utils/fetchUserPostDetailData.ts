@@ -4,6 +4,10 @@ import fetchUserPostDetail from "./fetchUserPostDetail"
 type UserPostDetail = {
   largeImageUrl: string
   eatingPlace: EatingPlace
+  contributor: {
+    userId: string
+  }
+  postedTime: string
 }
 
 const fetchUserPostDetailData = async (postId: string) => {
