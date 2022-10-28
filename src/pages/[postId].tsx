@@ -38,6 +38,8 @@ const Post = ({ postId }: PostProps) => {
 
   const [signedIn, setSignedIn] = useState(true)
 
+  const [currentUserId, setCurrentUserId] = useState("")
+
   useEffect(() => {
     fetchUserPostDetailData(postId)
       .then((detail) => {
@@ -53,7 +55,9 @@ const Post = ({ postId }: PostProps) => {
       .then((user) => {
         if (!user) {
           setSignedIn(false)
+          return
         }
+        setCurrentUserId(user.attributes.sub)
       })
       .catch((err: Error) => {
         console.log(err)
@@ -111,14 +115,18 @@ const Post = ({ postId }: PostProps) => {
               )
             }
           })()}
-          <Grid item xs={12} />
-          <Grid item xs={12}>
-            <ContributorOptionsAccordion
-              postId={postId}
-              userId={contributorUserId}
-              postedTime={postedTime}
-            />
-          </Grid>
+          {currentUserId === contributorUserId && (
+            <>
+              <Grid item xs={12} />
+              <Grid item xs={12}>
+                <ContributorOptionsAccordion
+                  postId={postId}
+                  userId={contributorUserId}
+                  postedTime={postedTime}
+                />
+              </Grid>
+            </>
+          )}
           <Grid item xs={12} />
         </Grid>
       </Container>
