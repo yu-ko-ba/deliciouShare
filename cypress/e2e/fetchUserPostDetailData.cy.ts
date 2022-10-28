@@ -8,5 +8,7 @@ describe('fetch user post detail data test', () => {
     expect(result.eatingPlace.address).to.equal("日本、〒052-0102 北海道有珠郡壮瞥町昭和新山")
     expect(result.eatingPlace.website).to.equal("https://usuzan.hokkaido.jp/ja/")
     expect(result.eatingPlace.id).to.equal("ChIJq4c3iYnjn18R6YgGjkkUZAU")
+    expect(result.contributor.userId).to.equal("1")
+    expect(result.postedTime).to.equal("")
   })
 })

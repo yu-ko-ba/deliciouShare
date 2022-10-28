@@ -1,8 +1,9 @@
-import { Card, CardMedia, Container, Grid, Link, ThemeProvider } from "@mui/material"
+import { Card, CardMedia, Container, Grid, ThemeProvider } from "@mui/material"
 import { Auth } from "aws-amplify"
 import { GetServerSidePropsContext } from "next"
 import { useEffect, useState } from "react"
 import AppbarBackButtonOrToRootLink from "../components/AppbarBackButtonOrToRootLink"
+import ContributorOptionsAccordion from "../components/ContributorOptionsAccordion"
 import EatingPlaceInfo from "../components/EatingPlaceInfo"
 import MeshiteroAppBar from "../components/MeshiteroAppBar"
 import MeshiteroLink from "../components/MeshiteroLink"
@@ -32,7 +33,12 @@ const Post = ({ postId }: PostProps) => {
   const [eatingPlaceWebsite, setEatingPlaceWebsite] = useState("")
   const [eatingPlaceId, setEatingPlaceId] = useState("")
 
+  const [contributorUserId, setContributorUserId] = useState("")
+  const [postedTime, setPostedTime] = useState("")
+
   const [signedIn, setSignedIn] = useState(true)
+
+  const [currentUserId, setCurrentUserId] = useState("")
 
   useEffect(() => {
     fetchUserPostDetailData(postId)
@@ -42,12 +48,16 @@ const Post = ({ postId }: PostProps) => {
         setEatingPlaceAddress(detail.eatingPlace.address)
         setEatingPlaceWebsite(detail.eatingPlace.website)
         setEatingPlaceId(detail.eatingPlace.id)
+        setContributorUserId(detail.contributor.userId)
+        setPostedTime(detail.postedTime)
       })
     Auth.currentUserInfo()
       .then((user) => {
         if (!user) {
           setSignedIn(false)
+          return
         }
+        setCurrentUserId(user.attributes.sub)
       })
       .catch((err: Error) => {
         console.log(err)
@@ -105,6 +115,18 @@ const Post = ({ postId }: PostProps) => {
               )
             }
           })()}
+          {currentUserId === contributorUserId && (
+            <>
+              <Grid item xs={12} />
+              <Grid item xs={12}>
+                <ContributorOptionsAccordion
+                  postId={postId}
+                  userId={contributorUserId}
+                  postedTime={postedTime}
+                />
+              </Grid>
+            </>
+          )}
           <Grid item xs={12} />
         </Grid>
       </Container>
