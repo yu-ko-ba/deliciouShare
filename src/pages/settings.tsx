@@ -1,12 +1,12 @@
 import { ExpandMore } from "@mui/icons-material"
 import { LoadingButton } from "@mui/lab"
-import { Accordion, AccordionActions, AccordionSummary, Card, CardActions, CardContent, CardHeader, Container, Grid, Stack, ThemeProvider, Typography } from "@mui/material"
+import { Accordion, AccordionActions, AccordionSummary, Card, CardContent, CardHeader, Container, Grid, Stack, ThemeProvider, Typography } from "@mui/material"
 import { Auth } from "aws-amplify"
 import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
 import AppbarBackButtonOrToRootLink from "../components/AppbarBackButtonOrToRootLink"
 import ChangeEmailCard from "../components/ChangeEmailCard"
-import InputPasswordTextField from "../components/InputPasswordTextField"
+import ChangePasswordCard from "../components/ChangePasswordCard"
 import MeshiteroAppBar from "../components/MeshiteroAppBar"
 import theme from "../theme"
 
@@ -44,34 +44,7 @@ const Settings = () => {
             <ChangeEmailCard user={user} />
           </Grid>
           <Grid item xs={12}>
-            <Card>
-              <CardHeader title="パスワードを変更する" />
-              <CardContent>
-                <InputPasswordTextField
-                  label="現在のパスワード"
-                  margin="dense"
-                  fullWidth
-                />
-                <InputPasswordTextField
-                  label="新しいパスワード"
-                  margin="dense"
-                  fullWidth
-                />
-                <InputPasswordTextField
-                  label="新しいパスワードを再入力"
-                  margin="dense"
-                  fullWidth
-                />
-              </CardContent>
-              <CardActions>
-                <LoadingButton
-                  variant="outlined"
-                  fullWidth
-                >
-                  変更
-                </LoadingButton>
-              </CardActions>
-            </Card>
+            <ChangePasswordCard user={user} />
           </Grid>
           <Grid item xs={12}>
             <Card>
