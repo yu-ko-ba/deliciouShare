@@ -37,7 +37,7 @@ const ContributorOptionsAccordion = ({ postId, userId, postedTime }: Props) => {
           <AccordionDetails>
             <LoadingButton
               color="error"
-              variant="outlined"
+              variant="contained"
               loading={deleteButtonIsLoading}
               onClick={() => {
                 setDeleteButtonIsLoading(true)
