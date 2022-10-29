@@ -3,9 +3,9 @@ import { FormControl, FormHelperText, IconButton, InputAdornment, InputLabel, Ou
 import React, { useState } from "react"
 
 type Props = {
-  label: string
-  value: string
-  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void
+  label?: string
+  value?: string
+  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void
   margin?: "none" | "dense" | "normal"
   error?: boolean
   helperText?: string
