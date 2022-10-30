@@ -1,13 +1,13 @@
-import { ExpandMore } from "@mui/icons-material"
-import { LoadingButton } from "@mui/lab"
-import { Accordion, AccordionActions, AccordionSummary, Card, CardContent, CardHeader, Container, Grid, Stack, ThemeProvider, Typography } from "@mui/material"
+import { Container, Grid, ThemeProvider } from "@mui/material"
 import { Auth } from "aws-amplify"
 import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
 import AppbarBackButtonOrToRootLink from "../components/AppbarBackButtonOrToRootLink"
 import ChangeEmailCard from "../components/ChangeEmailCard"
 import ChangePasswordCard from "../components/ChangePasswordCard"
+import DeleteUserCard from "../components/DeleteUserCard"
 import MeshiteroAppBar from "../components/MeshiteroAppBar"
+import SignOutCard from "../components/SignOutCard"
 import theme from "../theme"
 
 const Settings = () => {
@@ -31,8 +31,6 @@ const Settings = () => {
           })
   }, [])
 
-  const [signOutButtonIsLoadingNow, setSignOutButtonIsLoadingNow] = useState(false)
-
   return (
     <ThemeProvider theme={theme}>
       <MeshiteroAppBar>
@@ -47,53 +45,10 @@ const Settings = () => {
             <ChangePasswordCard user={user} />
           </Grid>
           <Grid item xs={12}>
-            <Card>
-              <CardHeader title="ログアウトする" />
-              <CardContent>
-                <Stack spacing={4}>
-                  <LoadingButton
-                    variant="outlined"
-                    loading={signOutButtonIsLoadingNow}
-                    color="error"
-                    onClick={() => {
-                      setSignOutButtonIsLoadingNow(true)
-                      Auth.signOut()
-                        .then(() => {
-                          router.push("sign-in")
-                        })
-                        .catch((err) => {
-                          console.log(err)
-                          setSignOutButtonIsLoadingNow(false)
-                            })
-                    }}
-                    fullWidth
-                  >
-                    ログアウト
-                  </LoadingButton>
-                  <Accordion>
-                    <AccordionSummary
-                      expandIcon={<ExpandMore />}
-                    >
-                      <Typography variant="subtitle2">
-                        全ての端末でログアウト
-                      </Typography>
-                    </AccordionSummary>
-                    <AccordionActions>
-                      <LoadingButton
-                        variant="contained"
-                        color="error"
-                        onClick={() => {
-                          Auth.signOut({ global: true })
-                        }}
-                        fullWidth
-                      >
-                        全ての端末でログアウト
-                      </LoadingButton>
-                    </AccordionActions>
-                  </Accordion>
-                </Stack>
-              </CardContent>
-            </Card>
+            <SignOutCard user={user} />
+          </Grid>
+          <Grid item xs={12}>
+            <DeleteUserCard user={user} />
           </Grid>
         </Grid>
       </Container>
