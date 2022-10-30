@@ -1,38 +1,90 @@
-import { Container, Grid, Link, ThemeProvider } from "@mui/material";
-import Image from "next/image";
-import NextLink from "next/link";
-import { useEffect, useState } from "react";
+import { Container, Grid, ThemeProvider } from "@mui/material";
+import { Auth } from "aws-amplify";
+import { useRouter } from "next/router";
+import React, { useEffect, useState } from "react";
+import AppbarToRootLink from "../components/AppbarToRootLink";
+import LoadingBar from "../components/LoadingBar";
+import MeshiteroAppBar from "../components/MeshiteroAppBar";
+import MeshiteroLink from "../components/MeshiteroLink";
+import MeshiteroMenu from "../components/MeshiteroMenu";
+import PostButton from "../components/PostButton";
 import PostPreview from "../components/PostPreview";
 import theme from "../theme";
-import apiUrls from "../utils/apiUrls";
-import fetchUserPosts from "../utils/fetchUserPosts";
-import fetchUserPostsData from "../utils/fetchUserPostsData";
+import fetchUserPostOutlinesData, { UserPostOutline } from "../utils/fetchUserPostOutlinesData";
 
-export default function Home() {
-  const [userPosts, setUserPosts] = useState([])
+const Home = () => {
+  const router = useRouter()
+
+  const [userId, setUserId] = useState("")
+
   useEffect(() => {
-    fetchUserPostsData("1")
-      .then((posts) => {
-        setUserPosts(posts)
+    if (userId !== "") {
+      fetchUserPosts()
+      return
+    }
+    // ユーザー情報を取得する
+    Auth.currentUserInfo()
+      .then((user) => {
+        // ログインされてない場合はログインページへリダイレクトする
+        if (!user) {
+          if (process.env.NODE_ENV !== "development") {
+            router.replace("sign-in")
+          }
+          return
+        }
+        const id = user.attributes.sub
+        setUserId(id)
+        fetchUserPosts(id)
+      })
+      .catch((err: Error) => {
+        console.log(err);
       })
   }, [])
+
+  const [nowLoading, setNowLoading] = useState(false)
+
+  const [userPostOutlines, setUserPostOutlines] = useState<UserPostOutline[]>()
+
+  const fetchUserPosts = (id: string = userId) => {
+    setNowLoading(true)
+    fetchUserPostOutlinesData(id)
+      .then((outlines: UserPostOutline[]) => {
+        setUserPostOutlines(outlines)
+        setNowLoading(false)
+      })
+  }
+
   return (
     <ThemeProvider theme={theme}>
-      <main>
-        <Container maxWidth="md">
-          <Grid container spacing={4}>
-            {userPosts.map((p) => (
-              <Grid item xs={6} sm={4} key={p.postedTime}>
-                <NextLink href={`${p.userId}/${p.postedTime}`} passHref>
-                  <Link>
-                    <PostPreview imageUrl={p.imageUrl} />
-                  </Link>
-                </NextLink>
-              </Grid>
-            ))}
-          </Grid>
-        </Container>
-      </main>
+      <MeshiteroAppBar>
+        <AppbarToRootLink />
+        <MeshiteroMenu canBack />
+      </MeshiteroAppBar>
+      <LoadingBar nowLoading={nowLoading} />
+      <Container maxWidth="md">
+        <Grid container spacing={4}>
+          {(() => {
+            if (userPostOutlines?.map) {
+              return userPostOutlines.map((outline: UserPostOutline) => (
+                <Grid item xs={6} sm={4} key={outline.postedTime}>
+                  <MeshiteroLink
+                    as={`${outline.postId}`}
+                    href={{
+                      pathname: `${outline.postId}`,
+                      query: { canBack: true }
+                    }}
+                  >
+                      <PostPreview imageUrl={outline.smallImageUrl} />
+                  </MeshiteroLink>
+                </Grid>
+              ))
+            }
+          })()}
+        </Grid>
+      </Container>
+      <PostButton userId={userId} onPostFinish={fetchUserPosts} />
     </ThemeProvider>
   )
 }
+
+export default Home

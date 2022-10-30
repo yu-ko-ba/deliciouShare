@@ -69,6 +69,15 @@ jobs:
           echo 'NEXT_PUBLIC_GET_USER_POSTS_URL=hoge' > .env.local
           echo 'NEXT_PUBLIC_GET_POST_URL=fuga' >> .env.local
           echo 'NEXT_PUBLIC_GOOGLE_CLOUD_API_KEY=piyo' >> .env.local
+          echo 'NEXT_PUBLIC_GET_EATING_PLACES_URL=foo' >> .env.local
+          echo 'NEXT_PUBLIC_FETCH_PLACE_DETAIL_URL=bar' >> .env.local
+          echo 'NEXT_PUBLIC_PUT_USER_POST_URL=baz' >> .env.local
+          echo 'NEXT_PUBLIC_GET_USER_POST_OUTLINES_URL=hogehoge' >> .env.local
+          echo 'NEXT_PUBLIC_GET_USER_POST_DETAIL_URL=fugafuga' >> .env.local
+          echo 'NEXT_PUBLIC_DELETE_USER_POST_URL=piyopiyo' >> .env.local
           cat .env.local
+      - name: Create src/aws-exports.js
+        run: |
+          echo 'export default {}' > src/aws-exports.js
       - name: Build with Next.js
         run: ${{ steps.detect-package-manager.outputs.runner }} next build
