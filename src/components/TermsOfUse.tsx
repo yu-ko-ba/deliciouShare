@@ -1,5 +1,5 @@
 import { Typography } from "@mui/material"
-import MeshiteroLink from "./MeshiteroLink"
+import DelicioushareLink from "./DelicioushareLink"
 
 const TermsOfUse = () => {
   return (
@@ -23,9 +23,9 @@ const TermsOfUse = () => {
       </Typography>
       <Typography gutterBottom>
         (変更予告などは
-        <MeshiteroLink href="#" target="_blank" rel="noopener noreferrer">
+        <DelicioushareLink href="#" target="_blank" rel="noopener noreferrer">
             公式のTwitterアカウント
-        </MeshiteroLink>
+        </DelicioushareLink>
         で行いますのでご確認ください。)
       </Typography>
       <br />

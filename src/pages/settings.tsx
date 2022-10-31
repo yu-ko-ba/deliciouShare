@@ -6,7 +6,7 @@ import AppbarBackButtonOrToRootLink from "../components/AppbarBackButtonOrToRoot
 import ChangeEmailCard from "../components/ChangeEmailCard"
 import ChangePasswordCard from "../components/ChangePasswordCard"
 import DeleteUserCard from "../components/DeleteUserCard"
-import MeshiteroAppBar from "../components/MeshiteroAppBar"
+import DelicioushareAppbar from "../components/DelicioushareAppbar"
 import SignOutCard from "../components/SignOutCard"
 import theme from "../theme"
 
@@ -33,9 +33,9 @@ const Settings = () => {
 
   return (
     <ThemeProvider theme={theme}>
-      <MeshiteroAppBar>
+      <DelicioushareAppbar>
         <AppbarBackButtonOrToRootLink />
-      </MeshiteroAppBar>
+      </DelicioushareAppbar>
       <Container maxWidth="sm">
         <Grid container spacing={4}>
           <Grid item xs={12}>

@@ -6,7 +6,7 @@ import { useState } from "react"
 import AcceptTermsOfUseDialog from "../components/AcceptTermsOfUseDialog"
 import EmailInput from "../components/EmailInput"
 import InputPasswordTextField from "../components/InputPasswordTextField"
-import MeshiteroAppBar from "../components/MeshiteroAppBar"
+import DelicioushareAppbar from "../components/DelicioushareAppbar"
 import PasswordInput from "../components/PasswordInput"
 import theme from "../theme"
 
@@ -47,11 +47,11 @@ const SignUp = () => {
 
   return (
     <ThemeProvider theme={theme}>
-      <MeshiteroAppBar>
+      <DelicioushareAppbar>
         <Typography variant="h6">
           deliciouShare
         </Typography>
-      </MeshiteroAppBar>
+      </DelicioushareAppbar>
       <Container maxWidth="xs">
         <Grid container spacing={4}>
           <Grid item xs={12}>
