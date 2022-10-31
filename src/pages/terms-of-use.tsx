@@ -1,15 +1,15 @@
 import { Container, ThemeProvider, Typography } from "@mui/material"
 import AppbarBackButtonOrToRootLink from "../components/AppbarBackButtonOrToRootLink"
-import MeshiteroAppBar from "../components/MeshiteroAppBar"
+import DelicioushareAppbar from "../components/DelicioushareAppbar"
 import TermsOfUse from "../components/TermsOfUse"
 import theme from "../theme"
 
 const TermsOfUsePage = () => {
   return (
     <ThemeProvider theme={theme}>
-      <MeshiteroAppBar>
+      <DelicioushareAppbar>
         <AppbarBackButtonOrToRootLink />
-      </MeshiteroAppBar>
+      </DelicioushareAppbar>
       <Container maxWidth="sm">
         <Typography variant="h5">利用規約</Typography>
         <br />

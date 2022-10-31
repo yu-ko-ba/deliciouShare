@@ -1,10 +1,10 @@
-import MeshiteroLink from "./MeshiteroLink"
+import DelicioushareLink from "./DelicioushareLink"
 
 const AppbarToRootLink = () => {
   return (
-    <MeshiteroLink href="/" variant="h6" color="inherit" underline="hover">
-          deliciouShare
-    </MeshiteroLink>
+    <DelicioushareLink href="/" variant="h6" color="inherit" underline="hover">
+          deliciouShare.app
+    </DelicioushareLink>
   )
 }
 

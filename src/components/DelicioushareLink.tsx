@@ -14,7 +14,7 @@ type Props = {
   children?: React.ReactNode
 }
 
-const MeshiteroLink = ({ as, href, target, rel, variant, color, underline, children }: Props) => {
+const DelicioushareLink = ({ as, href, target, rel, variant, color, underline, children }: Props) => {
   return (
     <NextLink as={as} href={href} passHref>
       <MuiLink target={target} rel={rel} variant={variant} color={color} underline={underline}>
@@ -23,4 +23,4 @@ const MeshiteroLink = ({ as, href, target, rel, variant, color, underline, child
     </NextLink>
   )
 }
- export default MeshiteroLink
+ export default DelicioushareLink
