@@ -4,9 +4,9 @@ import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import AppbarToRootLink from "../components/AppbarToRootLink";
 import LoadingBar from "../components/LoadingBar";
-import MeshiteroAppBar from "../components/MeshiteroAppBar";
-import MeshiteroLink from "../components/MeshiteroLink";
-import MeshiteroMenu from "../components/MeshiteroMenu";
+import DelicioushareAppbar from "../components/DelicioushareAppbar";
+import DelicioushareLink from "../components/DelicioushareLink";
+import DelicioushareMenu from "../components/DelicioushareMenu";
 import PostButton from "../components/PostButton";
 import PostPreview from "../components/PostPreview";
 import theme from "../theme";
@@ -56,10 +56,10 @@ const Home = () => {
 
   return (
     <ThemeProvider theme={theme}>
-      <MeshiteroAppBar>
+      <DelicioushareAppbar>
         <AppbarToRootLink />
-        <MeshiteroMenu canBack />
-      </MeshiteroAppBar>
+        <DelicioushareMenu canBack />
+      </DelicioushareAppbar>
       <LoadingBar nowLoading={nowLoading} />
       <Container maxWidth="md">
         <Grid container spacing={4}>
@@ -67,7 +67,7 @@ const Home = () => {
             if (userPostOutlines?.map) {
               return userPostOutlines.map((outline: UserPostOutline) => (
                 <Grid item xs={6} sm={4} key={outline.postedTime}>
-                  <MeshiteroLink
+                  <DelicioushareLink
                     as={`${outline.postId}`}
                     href={{
                       pathname: `${outline.postId}`,
@@ -75,7 +75,7 @@ const Home = () => {
                     }}
                   >
                       <PostPreview imageUrl={outline.smallImageUrl} />
-                  </MeshiteroLink>
+                  </DelicioushareLink>
                 </Grid>
               ))
             }

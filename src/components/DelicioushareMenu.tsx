@@ -7,7 +7,7 @@ type Props = {
   canBack?: boolean
 }
 
-const MeshiteroMenu = ({ canBack }: Props) => {
+const DelicioushareMenu = ({ canBack }: Props) => {
   const router = useRouter()
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
 
@@ -44,4 +44,4 @@ const MeshiteroMenu = ({ canBack }: Props) => {
   )
 }
 
-export default MeshiteroMenu
+export default DelicioushareMenu

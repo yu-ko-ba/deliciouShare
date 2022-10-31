@@ -3,7 +3,7 @@ import { Card, CardActions, CardContent, CardHeader, Container, FormHelperText, 
 import { Auth } from "aws-amplify"
 import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
-import MeshiteroAppBar from "../components/MeshiteroAppBar"
+import DelicioushareAppbar from "../components/DelicioushareAppbar"
 import SuccessSnackbar from "../components/SuccessSnackbar"
 import theme from "../theme"
 
@@ -38,11 +38,11 @@ const ConfirmEmail = () => {
 
   return (
     <ThemeProvider theme={theme}>
-      <MeshiteroAppBar>
+      <DelicioushareAppbar>
         <Typography variant="h6">
           deliciouShare
         </Typography>
-      </MeshiteroAppBar>
+      </DelicioushareAppbar>
       <Container maxWidth="xs">
         <Grid container spacing={4}>
           <Grid item xs={12}>

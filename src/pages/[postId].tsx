@@ -5,9 +5,9 @@ import { useEffect, useState } from "react"
 import AppbarBackButtonOrToRootLink from "../components/AppbarBackButtonOrToRootLink"
 import ContributorOptionsAccordion from "../components/ContributorOptionsAccordion"
 import EatingPlaceInfo from "../components/EatingPlaceInfo"
-import MeshiteroAppBar from "../components/MeshiteroAppBar"
-import MeshiteroLink from "../components/MeshiteroLink"
-import MeshiteroMenu from "../components/MeshiteroMenu"
+import DelicioushareAppbar from "../components/DelicioushareAppbar"
+import DelicioushareLink from "../components/DelicioushareLink"
+import DelicioushareMenu from "../components/DelicioushareMenu"
 import theme from "../theme"
 import apiUrls from "../utils/apiUrls"
 import environmentVariables from "../utils/environmentVariables"
@@ -67,12 +67,12 @@ const Post = ({ postId }: PostProps) => {
 
   return (
     <ThemeProvider theme={theme}>
-      <MeshiteroAppBar>
+      <DelicioushareAppbar>
         <AppbarBackButtonOrToRootLink />
         {signedIn && (
-          <MeshiteroMenu canBack />
+          <DelicioushareMenu canBack />
         )}
-      </MeshiteroAppBar>
+      </DelicioushareAppbar>
       <Container maxWidth="sm">
         <Grid container spacing={4}>
           <Grid item xs={12}>
@@ -130,7 +130,7 @@ const Post = ({ postId }: PostProps) => {
           <Grid item xs={12} />
         </Grid>
       </Container>
-        <MeshiteroLink
+        <DelicioushareLink
           as="/terms-of-use"
           href={{
             pathname: "/terms-of-use",
@@ -139,7 +139,7 @@ const Post = ({ postId }: PostProps) => {
           variant="caption"
         >
             利用規約
-        </MeshiteroLink>
+        </DelicioushareLink>
     </ThemeProvider>
   )
 }
