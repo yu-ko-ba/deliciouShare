@@ -4,7 +4,7 @@ import { Auth } from "aws-amplify"
 import { useRouter } from "next/router"
 import { useState } from "react"
 import EmailInput from "../components/EmailInput"
-import MeshiteroAppBar from "../components/MeshiteroAppBar"
+import DelicioushareAppbar from "../components/DelicioushareAppbar"
 import PasswordInput from "../components/PasswordInput"
 import theme from "../theme"
 
@@ -29,11 +29,11 @@ const SignIn = () => {
 
   return (
     <ThemeProvider theme={theme}>
-      <MeshiteroAppBar>
+      <DelicioushareAppbar>
         <Typography variant="h6">
           deliciouShare
         </Typography>
-      </MeshiteroAppBar>
+      </DelicioushareAppbar>
       <Container maxWidth="xs">
         <Grid container spacing={4}>
           <Grid item xs={12}>

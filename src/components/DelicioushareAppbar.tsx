@@ -5,7 +5,7 @@ type Props ={
   children: ReactNode
 }
 
-const MeshiteroAppBar = ({ children }: Props) => {
+const DelicioushareAppbar = ({ children }: Props) => {
   const trigger = useScrollTrigger()
 
   return (
@@ -22,4 +22,4 @@ const MeshiteroAppBar = ({ children }: Props) => {
   )
 }
 
-export default MeshiteroAppBar
+export default DelicioushareAppbar
