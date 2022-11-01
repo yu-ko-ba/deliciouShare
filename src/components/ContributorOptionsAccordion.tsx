@@ -1,9 +1,9 @@
 import { ExpandMore } from "@mui/icons-material"
-import { LoadingButton } from "@mui/lab"
-import { Accordion, AccordionDetails, AccordionSummary, Typography } from "@mui/material"
+import { Accordion, AccordionDetails, AccordionSummary, Button, Typography } from "@mui/material"
 import { useRouter } from "next/router"
-import { useState } from "react"
+import React, { useState } from "react"
 import removeUserPost from "../utils/removeUserPost"
+import ConfirmDeleteUserPostDialog from "./ConfirmDeleteDialog"
 
 type Props = {
   postId: string
@@ -15,6 +15,8 @@ const ContributorOptionsAccordion = ({ postId, userId, postedTime }: Props) => {
   const router = useRouter()
 
   const [deleteButtonIsLoading, setDeleteButtonIsLoading] = useState(false)
+
+  const [confirmDeleteDialogOpenFlag, setConfirmDeleteDialogOpenFlag] = useState(false)
 
   return (
     <Accordion>
@@ -35,30 +37,39 @@ const ContributorOptionsAccordion = ({ postId, userId, postedTime }: Props) => {
             </Typography>
           </AccordionSummary>
           <AccordionDetails>
-            <LoadingButton
+            <Button
               color="error"
               variant="contained"
-              loading={deleteButtonIsLoading}
               onClick={() => {
-                setDeleteButtonIsLoading(true)
-                removeUserPost(postId, userId, postedTime)
-                  .then(() => {
-                    router.push("/")
-                  })
-                  .catch((err) => {
-                    setDeleteButtonIsLoading(false)
-                    if (process.env.NODE_ENV === "development") {
-                      console.log(err)
-                    }
-                  })
+                setConfirmDeleteDialogOpenFlag(true)
               }}
               fullWidth
             >
               削除
-            </LoadingButton>
+            </Button>
           </AccordionDetails>
         </Accordion>
       </AccordionDetails>
+      <ConfirmDeleteUserPostDialog
+        openFlag={confirmDeleteDialogOpenFlag}
+        setOpenFlag={setConfirmDeleteDialogOpenFlag}
+        message="本当に削除しますか？"
+        onYesButtonClick={(onCatch: () => void) => {
+          removeUserPost(postId, userId, postedTime)
+            .then(() => {
+              router.push("/")
+            })
+            .catch((err: Error) => {
+              if (process.env.NODE_ENV === "development") {
+                console.log(err)
+              }
+              if (onCatch) {
+                onCatch()
+              }
+              setDeleteButtonIsLoading(false)
+            })
+        }}
+      />
     </Accordion>
   )
 }
