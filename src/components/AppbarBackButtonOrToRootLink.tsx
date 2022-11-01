@@ -1,24 +1,11 @@
-import { ArrowBackIos } from "@mui/icons-material"
-import { IconButton } from "@mui/material"
 import { useRouter } from "next/router"
+import React from "react"
+import AppbarBackButton from "./AppbarBackButton"
 import AppbarToRootLink from "./AppbarToRootLink"
 
 const AppbarBackButtonOrToRootLink = () => {
   const router = useRouter()
-  if (!router.query.canBack) {
-    return <AppbarToRootLink />
-  }
-
-  return (
-    <IconButton
-      color="inherit"
-      onClick={() => {
-        router.back()
-      }}
-    >
-      <ArrowBackIos />
-    </IconButton>
-  )
+  return router.query.canBack ? <AppbarBackButton /> : <AppbarToRootLink />
 }
 
 export default AppbarBackButtonOrToRootLink
