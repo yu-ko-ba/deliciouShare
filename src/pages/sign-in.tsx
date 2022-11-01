@@ -3,11 +3,12 @@ import { Button, Card, CardActions, CardContent, CardHeader, Container, FormHelp
 import { Auth } from "aws-amplify"
 import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
-import EmailInput from "../components/EmailInput"
 import DelicioushareAppbar from "../components/DelicioushareAppbar"
 import PasswordInput from "../components/PasswordInput"
 import theme from "../theme"
 import PageProps from "../utils/PageProps"
+import DelicioushareLink from "../components/DelicioushareLink"
+import RequiredInput from "../components/RequiredInput"
 
 const SignIn = ({ openFailureSnackbar }: PageProps) => {
   const router = useRouter()
@@ -43,7 +44,8 @@ const SignIn = ({ openFailureSnackbar }: PageProps) => {
             <Card>
               <CardHeader title="ログイン" />
               <CardContent>
-                <EmailInput
+                <RequiredInput
+                  label="メールアドレス"
                   value={email}
                   onChange={(e) => {
                     const v = e.target.value
@@ -53,8 +55,10 @@ const SignIn = ({ openFailureSnackbar }: PageProps) => {
                       && password !== ""
                     )
                   }}
+                  margin="dense"
                 />
                 <PasswordInput
+                  label="パスワード"
                   value={password}
                   onChange={(e) => {
                     const v = e.target.value
@@ -64,8 +68,20 @@ const SignIn = ({ openFailureSnackbar }: PageProps) => {
                       && v !== ""
                     )
                   }}
+                  margin="dense"
                 />
                 <FormHelperText>*は必須項目です</FormHelperText>
+                <br />
+                <DelicioushareLink
+                  href={{
+                    pathname: "/forgot-password",
+                    query: { canBack: true },
+                  }}
+                  as="/forgot-password"
+                  variant="subtitle2"
+                >
+                  パスワードを忘れた場合はこちら
+                </DelicioushareLink>
               </CardContent>
               <CardActions>
                 <LoadingButton
