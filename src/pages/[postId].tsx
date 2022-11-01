@@ -57,7 +57,6 @@ const Post = ({ postId, openFailureSnackbar }: PostProps & PageProps) => {
           console.log(err)
         }
         openFailureSnackbar("データの取得に失敗しました")
-        // setFailureSnackbarOpenFlag(true)
       })
     Auth.currentUserInfo()
       .then((user) => {
