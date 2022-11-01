@@ -2,7 +2,7 @@ import { LoadingButton } from "@mui/lab"
 import { Button, Card, CardActions, CardContent, CardHeader, Container, FormHelperText, Grid, ThemeProvider, Typography } from "@mui/material"
 import { Auth } from "aws-amplify"
 import { useRouter } from "next/router"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import EmailInput from "../components/EmailInput"
 import DelicioushareAppbar from "../components/DelicioushareAppbar"
 import PasswordInput from "../components/PasswordInput"
@@ -13,14 +13,16 @@ const SignIn = ({ openFailureSnackbar }: PageProps) => {
   const router = useRouter()
 
   // ログイン済みの場合はルートへリダイレクトする
-  Auth.currentUserInfo()
-    .then((user) => {
-      if (user) {
-        if (process.env.NODE_ENV !== "development") {
-          router.replace("/")
+  useEffect(() => {
+    Auth.currentUserInfo()
+      .then((user) => {
+        if (user) {
+          if (process.env.NODE_ENV !== "development") {
+            router.replace("/")
+          }
         }
-      }
-    })
+      })
+  }, [])
 
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")

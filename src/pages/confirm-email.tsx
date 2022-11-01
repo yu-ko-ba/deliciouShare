@@ -10,24 +10,25 @@ import PageProps from "../utils/PageProps"
 const ConfirmEmail = ({ openSuccessSnackbar, openFailureSnackbar }: PageProps) => {
   const router = useRouter()
 
-  // 認証するメールアドレスを受け取ってない場合にルートへリダイレクトする
   useEffect(() => {
+    // 認証するメールアドレスを受け取ってない場合にルートへリダイレクトする
     if (!router.query.email) {
       if (process.env.NODE_ENV !== "development") {
         router.replace("/")
+        return
       }
     }
+    // ログイン済みの場合にルートへリダイレクトする
+    Auth.currentUserInfo()
+      .then((user) => {
+        if (user) {
+          if (process.env.NODE_ENV !== "development") {
+            router.replace("/")
+          }
+        }
+      })
   }, [])
 
-  // ログイン済みの場合にルートへリダイレクトする
-  Auth.currentUserInfo()
-    .then((user) => {
-      if (user) {
-        if (process.env.NODE_ENV !== "development") {
-          router.replace("/")
-        }
-      }
-    })
 
   const [verificationCode, setVerificationCode] = useState("")
   const [verificationCodeHasError, setVerificationCodeHasError] = useState(false)
