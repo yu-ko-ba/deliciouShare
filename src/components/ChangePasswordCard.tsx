@@ -2,19 +2,17 @@ import { LoadingButton } from "@mui/lab"
 import { Card, CardActions, CardContent, CardHeader } from "@mui/material"
 import { Auth } from "aws-amplify"
 import { useState } from "react"
+import PageProps from "../utils/PageProps"
 import InputPasswordTextField from "./InputPasswordTextField"
-import SuccessSnackbar from "./SuccessSnackbar"
 
 type Props = {
   user: any
 }
 
-const ChangePasswordCard = ({ user }: Props) => {
+const ChangePasswordCard = ({ user, openSuccessSnackbar, openFailureSnackbar }: Props & PageProps) => {
   const [currentPassword, setCurrentPassword] = useState("")
   const [newPassword, setNewPassword] = useState("")
   const [reEnteredNewPassword, setReEnteredNewPassword] = useState("")
-
-  const [successSnackbarOpenFlag, setSuccessSnackbarOpenFlag] = useState(false)
 
   return (
     <Card>
@@ -54,7 +52,7 @@ const ChangePasswordCard = ({ user }: Props) => {
           onClick={() => {
             Auth.changePassword(user, currentPassword, newPassword)
               .then(() => {
-                setSuccessSnackbarOpenFlag(true)
+                openSuccessSnackbar("変更しました")
                 setCurrentPassword("")
                 setNewPassword("")
                 setReEnteredNewPassword("")
@@ -63,6 +61,7 @@ const ChangePasswordCard = ({ user }: Props) => {
                 if (process.env.NODE_ENV === "development") {
                   console.log(`Error: ${err}`)
                 }
+                openFailureSnackbar("パスワードの変更に失敗しました")
               })
           }}
           disabled={
@@ -76,11 +75,6 @@ const ChangePasswordCard = ({ user }: Props) => {
           変更
         </LoadingButton>
       </CardActions>
-      <SuccessSnackbar
-        message="変更しました"
-        openFlag={successSnackbarOpenFlag}
-        setOpenFlag={setSuccessSnackbarOpenFlag}
-      />
     </Card>
   )
 }

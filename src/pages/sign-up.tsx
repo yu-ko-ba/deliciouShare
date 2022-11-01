@@ -9,8 +9,9 @@ import InputPasswordTextField from "../components/InputPasswordTextField"
 import DelicioushareAppbar from "../components/DelicioushareAppbar"
 import PasswordInput from "../components/PasswordInput"
 import theme from "../theme"
+import PageProps from "../utils/PageProps"
 
-const SignUp = () => {
+const SignUp = ({ openFailureSnackbar }: PageProps) => {
   const router = useRouter()
 
   // ログイン済みの場合はルートへリダイレクトする
@@ -183,11 +184,17 @@ const SignUp = () => {
                               )
                             })
                             .catch((err: Error) => {
-                              console.log(err)
+                              if (process.env.NODE_ENV === "development") {
+                                console.log(err)
+                              }
+                              openFailureSnackbar("アカウントの作成に失敗しました")
                               setSignUpButtonIsLoadingNow(false)
                             })
                         }
-                        console.log(err)
+                        if (process.env.NODE_ENV === "development") {
+                          console.log(err)
+                        }
+                        openFailureSnackbar("アカウントの作成に失敗しました")
                         setSignUpButtonIsLoadingNow(false)
                       })
                   }}

@@ -7,8 +7,9 @@ import EmailInput from "../components/EmailInput"
 import DelicioushareAppbar from "../components/DelicioushareAppbar"
 import PasswordInput from "../components/PasswordInput"
 import theme from "../theme"
+import PageProps from "../utils/PageProps"
 
-const SignIn = () => {
+const SignIn = ({ openFailureSnackbar }: PageProps) => {
   const router = useRouter()
 
   // ログイン済みの場合はルートへリダイレクトする
@@ -86,11 +87,17 @@ const SignIn = () => {
                               )
                             })
                             .catch((err: Error) => {
-                              console.log(err)
+                              if (process.env.NODE_ENV === "development") {
+                                console.log(err)
+                              }
+                              openFailureSnackbar("ログインに失敗しました")
                               setSignInButtonIsLoadingNow(false)
                             })
                         }
-                        console.log(err)
+                        if (process.env.NODE_ENV === "development") {
+                          console.log(err)
+                        }
+                        openFailureSnackbar("ログインに失敗しました")
                         setSignInButtonIsLoadingNow(false)
                       })
                   }}

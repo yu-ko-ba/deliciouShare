@@ -4,10 +4,10 @@ import { Auth } from "aws-amplify"
 import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
 import DelicioushareAppbar from "../components/DelicioushareAppbar"
-import SuccessSnackbar from "../components/SuccessSnackbar"
 import theme from "../theme"
+import PageProps from "../utils/PageProps"
 
-const ConfirmEmail = () => {
+const ConfirmEmail = ({ openSuccessSnackbar, openFailureSnackbar }: PageProps) => {
   const router = useRouter()
 
   // 認証するメールアドレスを受け取ってない場合にルートへリダイレクトする
@@ -34,8 +34,6 @@ const ConfirmEmail = () => {
 
   const [reSendButtonIsLoading, setReSendButtonIsLoading] = useState(false)
 
-  const [successSnackbarOpenFlag, setSuccessSnackbarOpenFlag] = useState(false)
-
   return (
     <ThemeProvider theme={theme}>
       <DelicioushareAppbar>
@@ -54,7 +52,7 @@ const ConfirmEmail = () => {
                   onChange={(e) => {
                     const v = e.target.value
                     setVerificationCode(v)
-                    setVerificationCodeHasError(v === "")
+                    setVerificationCodeHasError(v.length !== 6)
                   }}
                   error={verificationCodeHasError}
                   helperText={verificationCodeHasError ? "必須項目です" : ""}
@@ -75,10 +73,13 @@ const ConfirmEmail = () => {
                         router.push("/")
                       })
                       .catch((err: Error) => {
-                        console.log(err);
+                        if (process.env.NODE_ENV === "development") {
+                          console.log(err)
+                        }
+                        openFailureSnackbar("認証に失敗しました")
                       })
                   }}
-                  disabled={verificationCode === ""}
+                  disabled={verificationCode.length !== 6}
                   fullWidth
                 >
                   認証
@@ -101,14 +102,15 @@ const ConfirmEmail = () => {
                     setReSendButtonIsLoading(true)
                     Auth.resendSignUp(router.query.email as string)
                       .then(() => {
-                        setSuccessSnackbarOpenFlag(true)
+                        openSuccessSnackbar("送信しました")
                         setReSendButtonIsLoading(false)
                       })
                       .catch((err: Error) => {
-                        setReSendButtonIsLoading(false)
                         if (process.env.NODE_ENV === "development") {
                           console.log(err)
                         }
+                        openFailureSnackbar("再送信に失敗しました")
+                        setReSendButtonIsLoading(false)
                       })
                   }}
                   fullWidth
@@ -120,11 +122,6 @@ const ConfirmEmail = () => {
           </Grid>
         </Grid>
       </Container>
-      <SuccessSnackbar
-        message="送信しました"
-        openFlag={successSnackbarOpenFlag}
-        setOpenFlag={setSuccessSnackbarOpenFlag}
-      />
     </ThemeProvider>
   )
 }
