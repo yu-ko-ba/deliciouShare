@@ -11,8 +11,9 @@ import PostButton from "../components/PostButton";
 import PostPreview from "../components/PostPreview";
 import theme from "../theme";
 import fetchUserPostOutlinesData, { UserPostOutline } from "../utils/fetchUserPostOutlinesData";
+import PageProps from "../utils/PageProps";
 
-const Home = () => {
+const Home = ({ openFailureSnackbar }: PageProps) => {
   const router = useRouter()
 
   const [userId, setUserId] = useState("")
@@ -51,6 +52,12 @@ const Home = () => {
       .then((outlines: UserPostOutline[]) => {
         setUserPostOutlines(outlines)
         setNowLoading(false)
+      })
+      .catch((err: Error) => {
+        if (process.env.NODE_ENV === "development") {
+          console.log(err)
+        }
+        openFailureSnackbar("データの取得に失敗しました")
       })
   }
 

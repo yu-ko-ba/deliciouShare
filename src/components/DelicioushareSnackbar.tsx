@@ -1,13 +1,14 @@
 import { Alert, Snackbar } from "@mui/material"
-import { Dispatch, SetStateAction } from "react"
+import React, { Dispatch, SetStateAction } from "react"
 
 type Props = {
   message: string
   openFlag: boolean
   setOpenFlag: Dispatch<SetStateAction<boolean>>
+  severity?: "success" | "info" | "warning" | "error"
 }
 
-const SuccessSnackbar = ({ message, openFlag, setOpenFlag }: Props) => {
+const DelicioushareSnackbar = ({ message, openFlag, setOpenFlag, severity }: Props) => {
   return (
     <Snackbar
       open={openFlag}
@@ -16,9 +17,9 @@ const SuccessSnackbar = ({ message, openFlag, setOpenFlag }: Props) => {
         setOpenFlag(false)
       }}
     >
-      <Alert>{message}</Alert>
+      <Alert severity={severity}>{message}</Alert>
     </Snackbar>
   )
 }
 
-export default SuccessSnackbar
+export default DelicioushareSnackbar

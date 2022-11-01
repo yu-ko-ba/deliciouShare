@@ -1,7 +1,7 @@
 import { Card, CardMedia, Container, Grid, ThemeProvider } from "@mui/material"
 import { Auth } from "aws-amplify"
 import { GetServerSidePropsContext } from "next"
-import { useEffect, useState } from "react"
+import React, { useEffect, useState } from "react"
 import AppbarBackButtonOrToRootLink from "../components/AppbarBackButtonOrToRootLink"
 import ContributorOptionsAccordion from "../components/ContributorOptionsAccordion"
 import EatingPlaceInfo from "../components/EatingPlaceInfo"
@@ -12,6 +12,7 @@ import theme from "../theme"
 import apiUrls from "../utils/apiUrls"
 import environmentVariables from "../utils/environmentVariables"
 import fetchUserPostDetailData from "../utils/fetchUserPostDetailData"
+import PageProps from "../utils/PageProps"
 
 type PostProps = {
   postId: string
@@ -26,7 +27,7 @@ export const getServerSideProps = (context: GetServerSidePropsContext) => {
   }
 }
 
-const Post = ({ postId }: PostProps) => {
+const Post = ({ postId, openFailureSnackbar }: PostProps & PageProps) => {
   const [image, setImage] = useState("")
   const [eatingPlaceName, setEatingPlaceName] = useState("")
   const [eatingPlaceAddress, setEatingPlaceAddress] = useState("")
@@ -51,6 +52,13 @@ const Post = ({ postId }: PostProps) => {
         setContributorUserId(detail.contributor.userId)
         setPostedTime(detail.postedTime)
       })
+      .catch((err: Error) => {
+        if (process.env.NODE_ENV === "development") {
+          console.log(err)
+        }
+        openFailureSnackbar("データの取得に失敗しました")
+        // setFailureSnackbarOpenFlag(true)
+      })
     Auth.currentUserInfo()
       .then((user) => {
         if (!user) {
@@ -60,7 +68,9 @@ const Post = ({ postId }: PostProps) => {
         setCurrentUserId(user.attributes.sub)
       })
       .catch((err: Error) => {
-        console.log(err)
+        if (process.env.NODE_ENV === "development") {
+          console.log(err)
+        }
         setSignedIn(false)
       })
   }, [])
