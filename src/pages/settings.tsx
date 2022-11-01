@@ -9,8 +9,9 @@ import DeleteUserCard from "../components/DeleteUserCard"
 import DelicioushareAppbar from "../components/DelicioushareAppbar"
 import SignOutCard from "../components/SignOutCard"
 import theme from "../theme"
+import PageProps from "../utils/PageProps"
 
-const Settings = () => {
+const Settings = ({ openSuccessSnackbar, openFailureSnackbar }: PageProps) => {
   const router = useRouter()
 
   const [user, setUser] = useState<any>()
@@ -39,10 +40,18 @@ const Settings = () => {
       <Container maxWidth="sm">
         <Grid container spacing={4}>
           <Grid item xs={12}>
-            <ChangeEmailCard user={user} />
+            <ChangeEmailCard
+              user={user}
+              openFailureSnackbar={openFailureSnackbar}
+              openSuccessSnackbar={openSuccessSnackbar}
+            />
           </Grid>
           <Grid item xs={12}>
-            <ChangePasswordCard user={user} />
+            <ChangePasswordCard
+              user={user}
+              openFailureSnackbar={openFailureSnackbar}
+              openSuccessSnackbar={openSuccessSnackbar}
+            />
           </Grid>
           <Grid item xs={12}>
             <SignOutCard user={user} />

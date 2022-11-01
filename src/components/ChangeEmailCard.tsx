@@ -2,19 +2,17 @@ import { LoadingButton } from "@mui/lab"
 import { Card, CardActions, CardContent, CardHeader, Stack, TextField } from "@mui/material"
 import { Auth } from "aws-amplify"
 import { useState } from "react"
-import SuccessSnackbar from "./SuccessSnackbar"
+import PageProps from "../utils/PageProps"
 import VerifyNewEmailCard from "./VerifyNewEmailCard"
 
 type Props = {
   user: any
 }
 
-const ChangeEmailCard = ({ user }: Props) => {
+const ChangeEmailCard = ({ user, openSuccessSnackbar, openFailureSnackbar }: Props & PageProps) => {
   const [newEmail, setNewEmail] = useState("")
   const [newEmailConfirmFieldIsVisible, setNewEmailConfirmFieldIsVisible] = useState(false)
   const [updateEmailButtonIsLoading, setUpdateEmailButtonIsLoading] = useState(false)
-
-  const [successSnackbarOpenFlag, setSuccessSnackbarOpenFlag] = useState(false)
 
   return (
     <Card>
@@ -33,7 +31,7 @@ const ChangeEmailCard = ({ user }: Props) => {
           {newEmailConfirmFieldIsVisible && (
             <VerifyNewEmailCard
               onSuccess={() => {
-                setSuccessSnackbarOpenFlag(true)
+                openSuccessSnackbar("変更しました")
                 setNewEmailConfirmFieldIsVisible(false)
                 setUpdateEmailButtonIsLoading(false)
                 setNewEmail("")
@@ -60,6 +58,7 @@ const ChangeEmailCard = ({ user }: Props) => {
                 if (process.env.NODE_ENV === "development") {
                   console.log(err)
                 }
+                openFailureSnackbar("メールアドレスの変更に失敗しました")
               })
           }}
           disabled={newEmail === "" || !user}
@@ -68,11 +67,6 @@ const ChangeEmailCard = ({ user }: Props) => {
           変更
         </LoadingButton>
       </CardActions>
-      <SuccessSnackbar
-        message="変更しました"
-        openFlag={successSnackbarOpenFlag}
-        setOpenFlag={setSuccessSnackbarOpenFlag}
-      />
     </Card>
   )
 }
