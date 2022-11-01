@@ -4,12 +4,12 @@ import { Auth } from "aws-amplify"
 import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
 import AcceptTermsOfUseDialog from "../components/AcceptTermsOfUseDialog"
-import EmailInput from "../components/EmailInput"
 import InputPasswordTextField from "../components/InputPasswordTextField"
 import DelicioushareAppbar from "../components/DelicioushareAppbar"
 import PasswordInput from "../components/PasswordInput"
 import theme from "../theme"
 import PageProps from "../utils/PageProps"
+import RequiredInput from "../components/RequiredInput"
 
 const SignUp = ({ openFailureSnackbar }: PageProps) => {
   const router = useRouter()
@@ -61,7 +61,8 @@ const SignUp = ({ openFailureSnackbar }: PageProps) => {
             <Card>
               <CardHeader title="アカウントを作成" />
               <CardContent>
-                <EmailInput
+                <RequiredInput
+                  label="メールアドレス"
                   value={email}
                   onChange={(e) => {
                     const v = e.target.value
@@ -73,8 +74,10 @@ const SignUp = ({ openFailureSnackbar }: PageProps) => {
                       && acceptTermsOfUse
                     )
                   }}
+                  margin="dense"
                 />
                 <PasswordInput
+                  label="パスワード"
                   value={password}
                   onChange={(e) => {
                     const v = e.target.value
@@ -86,6 +89,7 @@ const SignUp = ({ openFailureSnackbar }: PageProps) => {
                       && acceptTermsOfUse
                     )
                   }}
+                  margin="dense"
                 />
                 <Typography variant="caption" color="text.secondary">
                   パスワード要件

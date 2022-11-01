@@ -2,15 +2,17 @@ import { TextField } from "@mui/material"
 import { useState } from "react"
 
 type Props = {
+  label: string
   value: string
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void
+  margin?: "dense" | "normal" | "none"
 }
 
-const EmailInput = ({ value, onChange }: Props) => {
+const RequiredInput = ({ label, value, onChange, margin }: Props) => {
   const [error, setError] = useState(false)
   return (
     <TextField
-      label="メールアドレス"
+      label={label}
       value={value}
       onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
         onChange(e)
@@ -18,11 +20,11 @@ const EmailInput = ({ value, onChange }: Props) => {
       }}
       error={error}
       helperText={error ? "必須項目です" : ""}
-      margin="dense"
+      margin={margin}
       required
       fullWidth
     />
   )
 }
 
-export default EmailInput
+export default RequiredInput
