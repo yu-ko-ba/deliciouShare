@@ -1,11 +1,7 @@
 import { ExpandMore } from "@mui/icons-material"
-import { Accordion, AccordionDetails, AccordionSummary, Container, Stack, TextField, ThemeProvider, Typography } from "@mui/material"
-import axios, { Axios, AxiosResponse } from "axios"
+import { Accordion, AccordionDetails, AccordionSummary, Container, Stack, TextField, Typography } from "@mui/material"
+import axios, { AxiosResponse } from "axios"
 import React from "react"
-import AppbarBackButtonOrToRootLink from "../components/AppbarBackButtonOrToRootLink"
-import DelicioushareAppbar from "../components/DelicioushareAppbar"
-import DelicioushareMenu from "../components/DelicioushareMenu"
-import theme from "../theme"
 import licenseUrls from "../utils/licenseUrls"
 
 type Props = {
@@ -27,47 +23,41 @@ export const getStaticProps = async () => {
 
 const License = ({ licenses }: Props) => {
   return (
-    <ThemeProvider theme={theme}>
-      <Container maxWidth="sm">
-        <DelicioushareAppbar>
-          <AppbarBackButtonOrToRootLink />
-          <DelicioushareMenu />
-        </DelicioushareAppbar>
-        <Stack spacing={2}>
-          {
-            Object.keys(licenses)
-              .sort((nameA: string, nameB: string) => {
-                const a = nameA.toLowerCase()
-                const b = nameB.toLowerCase()
-                if (a < b) {
-                  return -1
-                }
-                if (a > b) {
-                  return 1
-                }
-                return 0
-              })
-              .map((ossName: string) => (
-                <Accordion key={ossName}>
-                  <AccordionSummary expandIcon={<ExpandMore />}>
-                    <Typography variant="h6">
-                      {ossName}
-                    </Typography>
-                  </AccordionSummary>
-                  <AccordionDetails>
-                    <TextField
-                      value={licenses[ossName]}
-                      multiline
-                      disabled
-                      fullWidth
-                    />
-                  </AccordionDetails>
-                </Accordion>
-              ))
-          }
-        </Stack>
-      </Container>
-    </ThemeProvider>
+    <Container maxWidth="sm">
+      <Stack spacing={2}>
+        {
+          Object.keys(licenses)
+            .sort((nameA: string, nameB: string) => {
+              const a = nameA.toLowerCase()
+              const b = nameB.toLowerCase()
+              if (a < b) {
+                return -1
+              }
+              if (a > b) {
+                return 1
+              }
+              return 0
+            })
+            .map((ossName: string) => (
+              <Accordion key={ossName}>
+                <AccordionSummary expandIcon={<ExpandMore />}>
+                  <Typography variant="h6">
+                    {ossName}
+                  </Typography>
+                </AccordionSummary>
+                <AccordionDetails>
+                  <TextField
+                    value={licenses[ossName]}
+                    multiline
+                    disabled
+                    fullWidth
+                  />
+                </AccordionDetails>
+              </Accordion>
+            ))
+        }
+      </Stack>
+    </Container>
   )
 }
 

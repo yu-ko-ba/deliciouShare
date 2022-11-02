@@ -3,10 +3,19 @@ import awsconfig from "../aws-exports";
 import type { AppProps } from 'next/app'
 import React, { useState } from 'react';
 import DelicioushareSnackbar from '../components/DelicioushareSnackbar';
+import { useRouter } from 'next/router';
+import { Box, IconButton, ThemeProvider, Typography } from '@mui/material';
+import theme from '../theme';
+import DelicioushareAppbar from '../components/DelicioushareAppbar';
+import AppbarBackButtonOrToRootLink from '../components/AppbarBackButtonOrToRootLink';
+import { Share } from '@mui/icons-material';
+import DelicioushareMenu from '../components/DelicioushareMenu';
 
 Amplify.configure(awsconfig)
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
+  const router = useRouter()
+
   const [successSnackbarMessage, setSuccessSnackbarMessage] = useState("")
   const [successSnackbarOpenFlag, setSuccessSnackbarOpenFlag] = useState(false)
   const [failureSnackbarMessage, setFailureSnackbarMessage] = useState("")
@@ -22,7 +31,26 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
   }
 
   return (
-    <>
+    <ThemeProvider theme={theme}>
+      <DelicioushareAppbar>
+        {(() => {
+          if (
+            router.pathname === "/sign-in"
+            || router.pathname === "/sign-up"
+            || router.pathname === "/forgot-password"
+          ) {
+            return <Typography variant="h6">deliciouShare.app</Typography>
+          }
+          return <AppbarBackButtonOrToRootLink />
+        })()}
+        <Box sx={{ flexGrow: 1 }} />
+        {router.pathname === "/[postId]" && (
+          <IconButton color="inherit">
+            <Share />
+          </IconButton>
+        )}
+        <DelicioushareMenu />
+      </DelicioushareAppbar>
       <Component
         openSuccessSnackbar={openSuccessSnackbar}
         openFailureSnackbar={openFailureSnackbar}
@@ -39,7 +67,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
         setOpenFlag={setFailureSnackbarOpenFlag}
         severity="error"
       />
-    </>
+    </ThemeProvider>
   )
 }
 

@@ -5,7 +5,7 @@ import AppbarToRootLink from "./AppbarToRootLink"
 
 const AppbarBackButtonOrToRootLink = () => {
   const router = useRouter()
-  return router.query.canBack ? <AppbarBackButton /> : <AppbarToRootLink />
+  return router.query.canBack !== undefined ? <AppbarBackButton /> : <AppbarToRootLink />
 }
 
 export default AppbarBackButtonOrToRootLink
