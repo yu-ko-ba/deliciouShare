@@ -33,11 +33,21 @@ const DelicioushareMenu = ({ canBack }: Props) => {
           onClick={() => {
             router.push(
               { pathname: "settings", query: { canBack: canBack } },
-              "settings",
+              "/settings",
             )
           }}
         >
           アカウント設定
+        </MenuItem>
+        <MenuItem
+          onClick={() => {
+            router.push(
+              { pathname: "/license", query: { canBack: canBack } },
+              "/license"
+            )
+          }}
+        >
+          ライセンス
         </MenuItem>
       </Menu>
     </>
