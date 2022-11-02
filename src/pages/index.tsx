@@ -1,15 +1,10 @@
-import { Container, Grid, ThemeProvider } from "@mui/material";
+import { Container, Grid } from "@mui/material";
 import { Auth } from "aws-amplify";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
-import AppbarToRootLink from "../components/AppbarToRootLink";
-import LoadingBar from "../components/LoadingBar";
-import DelicioushareAppbar from "../components/DelicioushareAppbar";
 import DelicioushareLink from "../components/DelicioushareLink";
-import DelicioushareMenu from "../components/DelicioushareMenu";
 import PostButton from "../components/PostButton";
 import PostPreview from "../components/PostPreview";
-import theme from "../theme";
 import fetchUserPostOutlinesData, { UserPostOutline } from "../utils/fetchUserPostOutlinesData";
 import PageProps from "../utils/PageProps";
 
@@ -62,35 +57,28 @@ const Home = ({ openFailureSnackbar }: PageProps) => {
   }
 
   return (
-    <ThemeProvider theme={theme}>
-      <DelicioushareAppbar>
-        <AppbarToRootLink />
-        <DelicioushareMenu canBack />
-      </DelicioushareAppbar>
-      <LoadingBar nowLoading={nowLoading} />
-      <Container maxWidth="md">
-        <Grid container spacing={4}>
-          {(() => {
-            if (userPostOutlines?.map) {
-              return userPostOutlines.map((outline: UserPostOutline) => (
-                <Grid item xs={6} sm={4} key={outline.postedTime}>
-                  <DelicioushareLink
-                    as={`${outline.postId}`}
-                    href={{
-                      pathname: `${outline.postId}`,
-                      query: { canBack: true }
-                    }}
-                  >
-                      <PostPreview imageUrl={outline.smallImageUrl} />
-                  </DelicioushareLink>
-                </Grid>
-              ))
-            }
-          })()}
-        </Grid>
-      </Container>
-      <PostButton userId={userId} onPostFinish={fetchUserPosts} />
-    </ThemeProvider>
+    <Container maxWidth="md">
+      <Grid container spacing={4}>
+        {(() => {
+          if (userPostOutlines?.map) {
+            return userPostOutlines.map((outline: UserPostOutline) => (
+              <Grid item xs={6} sm={4} key={outline.postedTime}>
+                <DelicioushareLink
+                  as={`${outline.postId}`}
+                  href={{
+                    pathname: `${outline.postId}`,
+                    query: { canBack: true }
+                  }}
+                >
+                    <PostPreview imageUrl={outline.smallImageUrl} />
+                </DelicioushareLink>
+              </Grid>
+            ))
+          }
+        })()}
+      </Grid>
+    <PostButton userId={userId} onPostFinish={fetchUserPosts} />
+    </Container>
   )
 }
 
