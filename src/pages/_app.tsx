@@ -10,6 +10,7 @@ import DelicioushareAppbar from '../components/DelicioushareAppbar';
 import AppbarBackButtonOrToRootLink from '../components/AppbarBackButtonOrToRootLink';
 import { Share } from '@mui/icons-material';
 import DelicioushareMenu from '../components/DelicioushareMenu';
+import ShareButton from '../components/ShareButton';
 
 Amplify.configure(awsconfig)
 
@@ -45,9 +46,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
         })()}
         <Box sx={{ flexGrow: 1 }} />
         {router.pathname === "/[postId]" && (
-          <IconButton color="inherit">
-            <Share />
-          </IconButton>
+          <ShareButton openFailureSnackbar={openFailureSnackbar} />
         )}
         <DelicioushareMenu />
       </DelicioushareAppbar>
