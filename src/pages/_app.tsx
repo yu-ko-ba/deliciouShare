@@ -38,7 +38,6 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
           if (
             router.pathname === "/sign-in"
             || router.pathname === "/sign-up"
-            || router.pathname === "/forgot-password"
           ) {
             return <Typography variant="h6">deliciouShare.app</Typography>
           }
