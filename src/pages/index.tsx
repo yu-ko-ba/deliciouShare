@@ -21,19 +21,18 @@ const Home = ({ openFailureSnackbar }: PageProps) => {
     // ユーザー情報を取得する
     Auth.currentUserInfo()
       .then((user) => {
-        // ログインされてない場合はログインページへリダイレクトする
-        if (!user) {
-          if (process.env.NODE_ENV !== "development") {
-            router.replace("sign-in")
-          }
-          return
-        }
         const id = user.attributes.sub
         setUserId(id)
         fetchUserPosts(id)
       })
       .catch((err: Error) => {
-        console.log(err);
+        if (process.env.NODE_ENV === "development") {
+          console.log(err)
+        }
+        // ログインされてない場合はログインページへリダイレクトする
+        if (process.env.NODE_ENV !== "development") {
+          router.replace("sign-in")
+        }
       })
   }, [])
 

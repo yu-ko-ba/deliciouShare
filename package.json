@@ -23,6 +23,7 @@
     "react-dom": "18.2.0"
   },
   "devDependencies": {
+    "@aws-amplify/auth": "^4.6.13",
     "@types/node": "^18.0.6",
     "@types/react": "18.0.15",
     "@types/react-dom": "18.0.6",
