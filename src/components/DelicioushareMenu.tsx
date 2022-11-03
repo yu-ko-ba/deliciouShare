@@ -1,27 +1,28 @@
+import { CognitoUser } from "@aws-amplify/auth"
 import { MoreVert } from "@mui/icons-material"
-import { Box, IconButton, Menu, MenuItem } from "@mui/material"
-import { Auth } from "aws-amplify"
+import { IconButton, Menu, MenuItem } from "@mui/material"
 import { useRouter } from "next/router"
 import { MouseEvent, useEffect, useState } from "react"
 
 type Props = {
+  user: CognitoUser
+  getCurrentUser: () => void
   canBack?: boolean
 }
 
-const DelicioushareMenu = ({ canBack }: Props) => {
+const DelicioushareMenu = ({ user, getCurrentUser, canBack }: Props) => {
   const router = useRouter()
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
 
   const [signedIn, setSignedIn] = useState(false)
   useEffect(() => {
-    Auth.currentAuthenticatedUser()
-      .then(() => {
-        setSignedIn(true)
-      })
-      .catch(() => {
-      })
-  }, [])
+    if (!user) {
+      getCurrentUser()
+      return
+    }
+    setSignedIn(true)
+  }, [user])
 
   return (
     <>
