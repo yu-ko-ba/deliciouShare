@@ -1,14 +1,14 @@
-import Amplify from 'aws-amplify'
+import Amplify, { Auth } from 'aws-amplify'
+import { CognitoUser } from "@aws-amplify/auth"
 import awsconfig from "../aws-exports";
 import type { AppProps } from 'next/app'
 import React, { useState } from 'react';
 import DelicioushareSnackbar from '../components/DelicioushareSnackbar';
 import { useRouter } from 'next/router';
-import { Box, IconButton, ThemeProvider, Typography } from '@mui/material';
+import { Box, ThemeProvider, Typography } from '@mui/material';
 import theme from '../theme';
 import DelicioushareAppbar from '../components/DelicioushareAppbar';
 import AppbarBackButtonOrToRootLink from '../components/AppbarBackButtonOrToRootLink';
-import { Share } from '@mui/icons-material';
 import DelicioushareMenu from '../components/DelicioushareMenu';
 import ShareButton from '../components/ShareButton';
 
@@ -16,6 +16,19 @@ Amplify.configure(awsconfig)
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
   const router = useRouter()
+
+  const [user, setUser] = useState<CognitoUser>()
+  const getCurrentUser = () => {
+    Auth.currentAuthenticatedUser()
+      .then((user: CognitoUser) => {
+        setUser(user)
+      })
+      .catch((err: Error) => {
+        if (process.env.NODE_ENV === "development") {
+          console.log(err)
+        }
+      })
+  }
 
   const [successSnackbarMessage, setSuccessSnackbarMessage] = useState("")
   const [successSnackbarOpenFlag, setSuccessSnackbarOpenFlag] = useState(false)
@@ -47,7 +60,10 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
         {router.pathname === "/[postId]" && (
           <ShareButton openFailureSnackbar={openFailureSnackbar} />
         )}
-        <DelicioushareMenu />
+        <DelicioushareMenu
+          user={user}
+          getCurrentUser={getCurrentUser}
+        />
       </DelicioushareAppbar>
       <Component
         openSuccessSnackbar={openSuccessSnackbar}
