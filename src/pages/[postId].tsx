@@ -1,17 +1,15 @@
-import { Card, CardMedia, Container, Grid, ThemeProvider } from "@mui/material"
+import { Card, CardMedia, Container, Grid } from "@mui/material"
 import { Auth } from "aws-amplify"
 import { GetServerSidePropsContext } from "next"
-import { useEffect, useState } from "react"
-import AppbarBackButtonOrToRootLink from "../components/AppbarBackButtonOrToRootLink"
+import React, { useEffect, useState } from "react"
 import ContributorOptionsAccordion from "../components/ContributorOptionsAccordion"
 import EatingPlaceInfo from "../components/EatingPlaceInfo"
-import MeshiteroAppBar from "../components/MeshiteroAppBar"
-import MeshiteroLink from "../components/MeshiteroLink"
-import MeshiteroMenu from "../components/MeshiteroMenu"
-import theme from "../theme"
+import DelicioushareLink from "../components/DelicioushareLink"
 import apiUrls from "../utils/apiUrls"
 import environmentVariables from "../utils/environmentVariables"
 import fetchUserPostDetailData from "../utils/fetchUserPostDetailData"
+import PageProps from "../utils/PageProps"
+import DelicioushareHead from "../components/DelicioushareHead"
 
 type PostProps = {
   postId: string
@@ -26,7 +24,7 @@ export const getServerSideProps = (context: GetServerSidePropsContext) => {
   }
 }
 
-const Post = ({ postId }: PostProps) => {
+const Post = ({ postId, openFailureSnackbar }: PostProps & PageProps) => {
   const [image, setImage] = useState("")
   const [eatingPlaceName, setEatingPlaceName] = useState("")
   const [eatingPlaceAddress, setEatingPlaceAddress] = useState("")
@@ -35,8 +33,6 @@ const Post = ({ postId }: PostProps) => {
 
   const [contributorUserId, setContributorUserId] = useState("")
   const [postedTime, setPostedTime] = useState("")
-
-  const [signedIn, setSignedIn] = useState(true)
 
   const [currentUserId, setCurrentUserId] = useState("")
 
@@ -51,96 +47,98 @@ const Post = ({ postId }: PostProps) => {
         setContributorUserId(detail.contributor.userId)
         setPostedTime(detail.postedTime)
       })
+      .catch((err: Error) => {
+        if (process.env.NODE_ENV === "development") {
+          console.log(err)
+        }
+        openFailureSnackbar("データの取得に失敗しました")
+      })
     Auth.currentUserInfo()
       .then((user) => {
-        if (!user) {
-          setSignedIn(false)
-          return
-        }
         setCurrentUserId(user.attributes.sub)
       })
       .catch((err: Error) => {
-        console.log(err)
-        setSignedIn(false)
+        if (process.env.NODE_ENV === "development") {
+          console.log(err)
+        }
       })
   }, [])
 
   return (
-    <ThemeProvider theme={theme}>
-      <MeshiteroAppBar>
-        <AppbarBackButtonOrToRootLink />
-        {signedIn && (
-          <MeshiteroMenu canBack />
-        )}
-      </MeshiteroAppBar>
-      <Container maxWidth="sm">
-        <Grid container spacing={4}>
-          <Grid item xs={12}>
-            <Card>
-              <CardMedia
-                component="img"
-                image={image}
-              />
-            </Card>
-          </Grid>
-          {(() => {
-            if (
-              eatingPlaceName !== ""
-              || eatingPlaceAddress !== ""
-              || eatingPlaceWebsite !== ""
-            ) {
-              return (
-                <Grid item xs={12}>
-                  <EatingPlaceInfo
-                    placeName={eatingPlaceName}
-                    placeAddress={eatingPlaceAddress}
-                    websiteUrl={eatingPlaceWebsite}
-                  />
-                </Grid>
-              )
-            }
-          })()}
-          {(() => {
-            if (eatingPlaceId !== "") {
-              return (
-                <Grid item xs={12}>
-                  <Card>
-                    <CardMedia
-                      component="iframe"
-                      src={`${apiUrls.getMapsEmbedUrl}?key=${environmentVariables.googleCloudApiKey}&q=place_id:${eatingPlaceId}`}
-                      height={400}
-                    />
-                  </Card>
-                </Grid>
-              )
-            }
-          })()}
-          {currentUserId === contributorUserId && (
-            <>
-              <Grid item xs={12} />
+    <Container maxWidth="sm">
+      <DelicioushareHead
+        title={eatingPlaceName !== "" ? `in ${eatingPlaceName}` : null}
+        description="見るだけならアカウント不要！ deliciouShare.app おいしい！をシェアしよう"
+        imageUrl={image}
+        ogType="article"
+        twitterCardType="summary_large_image"
+      />
+      <Grid container spacing={4}>
+        <Grid item xs={12}>
+          <Card>
+            <CardMedia
+              component="img"
+              image={image}
+            />
+          </Card>
+        </Grid>
+        {(() => {
+          if (
+            eatingPlaceName !== ""
+            || eatingPlaceAddress !== ""
+            || eatingPlaceWebsite !== ""
+          ) {
+            return (
               <Grid item xs={12}>
-                <ContributorOptionsAccordion
-                  postId={postId}
-                  userId={contributorUserId}
-                  postedTime={postedTime}
+                <EatingPlaceInfo
+                  placeName={eatingPlaceName}
+                  placeAddress={eatingPlaceAddress}
+                  websiteUrl={eatingPlaceWebsite}
                 />
               </Grid>
-            </>
-          )}
-          <Grid item xs={12} />
-        </Grid>
-      </Container>
-        <MeshiteroLink
-          as="/terms-of-use"
-          href={{
-            pathname: "/terms-of-use",
-            query: { canBack: true },
-          }}
-          variant="caption"
-        >
-            利用規約
-        </MeshiteroLink>
-    </ThemeProvider>
+            )
+          }
+        })()}
+        {(() => {
+          if (eatingPlaceId !== "") {
+            return (
+              <Grid item xs={12}>
+                <Card>
+                  <CardMedia
+                    component="iframe"
+                    src={`${apiUrls.getMapsEmbedUrl}?key=${environmentVariables.googleCloudApiKey}&q=place_id:${eatingPlaceId}`}
+                    height={400}
+                  />
+                </Card>
+              </Grid>
+            )
+          }
+        })()}
+        {currentUserId === contributorUserId && (
+          <>
+            <Grid item xs={12} />
+            <Grid item xs={12}>
+              <ContributorOptionsAccordion
+                postId={postId}
+                userId={contributorUserId}
+                postedTime={postedTime}
+              />
+            </Grid>
+          </>
+        )}
+        <Grid item xs={12} />
+      </Grid>
+      <DelicioushareLink
+        as="/terms-of-use"
+        href={{
+          pathname: "/terms-of-use",
+          query: { canBack: true },
+        }}
+        variant="caption"
+      >
+          利用規約
+      </DelicioushareLink>
+    </Container>
   )
 }
 

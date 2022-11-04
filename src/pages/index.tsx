@@ -1,18 +1,15 @@
-import { Container, Grid, ThemeProvider } from "@mui/material";
+import { Container, Grid } from "@mui/material";
 import { Auth } from "aws-amplify";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
-import AppbarToRootLink from "../components/AppbarToRootLink";
-import LoadingBar from "../components/LoadingBar";
-import MeshiteroAppBar from "../components/MeshiteroAppBar";
-import MeshiteroLink from "../components/MeshiteroLink";
-import MeshiteroMenu from "../components/MeshiteroMenu";
+import DelicioushareHead from "../components/DelicioushareHead";
+import DelicioushareLink from "../components/DelicioushareLink";
 import PostButton from "../components/PostButton";
 import PostPreview from "../components/PostPreview";
-import theme from "../theme";
 import fetchUserPostOutlinesData, { UserPostOutline } from "../utils/fetchUserPostOutlinesData";
+import PageProps from "../utils/PageProps";
 
-const Home = () => {
+const Home = ({ openFailureSnackbar }: PageProps) => {
   const router = useRouter()
 
   const [userId, setUserId] = useState("")
@@ -25,19 +22,18 @@ const Home = () => {
     // ユーザー情報を取得する
     Auth.currentUserInfo()
       .then((user) => {
-        // ログインされてない場合はログインページへリダイレクトする
-        if (!user) {
-          if (process.env.NODE_ENV !== "development") {
-            router.replace("sign-in")
-          }
-          return
-        }
         const id = user.attributes.sub
         setUserId(id)
         fetchUserPosts(id)
       })
       .catch((err: Error) => {
-        console.log(err);
+        if (process.env.NODE_ENV === "development") {
+          console.log(err)
+        }
+        // ログインされてない場合はログインページへリダイレクトする
+        if (process.env.NODE_ENV !== "development") {
+          router.replace("sign-in")
+        }
       })
   }, [])
 
@@ -52,38 +48,38 @@ const Home = () => {
         setUserPostOutlines(outlines)
         setNowLoading(false)
       })
+      .catch((err: Error) => {
+        if (process.env.NODE_ENV === "development") {
+          console.log(err)
+        }
+        openFailureSnackbar("データの取得に失敗しました")
+      })
   }
 
   return (
-    <ThemeProvider theme={theme}>
-      <MeshiteroAppBar>
-        <AppbarToRootLink />
-        <MeshiteroMenu canBack />
-      </MeshiteroAppBar>
-      <LoadingBar nowLoading={nowLoading} />
-      <Container maxWidth="md">
-        <Grid container spacing={4}>
-          {(() => {
-            if (userPostOutlines?.map) {
-              return userPostOutlines.map((outline: UserPostOutline) => (
-                <Grid item xs={6} sm={4} key={outline.postedTime}>
-                  <MeshiteroLink
-                    as={`${outline.postId}`}
-                    href={{
-                      pathname: `${outline.postId}`,
-                      query: { canBack: true }
-                    }}
-                  >
-                      <PostPreview imageUrl={outline.smallImageUrl} />
-                  </MeshiteroLink>
-                </Grid>
-              ))
-            }
-          })()}
-        </Grid>
-      </Container>
-      <PostButton userId={userId} onPostFinish={fetchUserPosts} />
-    </ThemeProvider>
+    <Container maxWidth="md">
+      <DelicioushareHead twitterCardType="app" />
+      <Grid container spacing={4}>
+        {(() => {
+          if (userPostOutlines?.map) {
+            return userPostOutlines.map((outline: UserPostOutline) => (
+              <Grid item xs={6} sm={4} key={outline.postedTime}>
+                <DelicioushareLink
+                  as={`${outline.postId}`}
+                  href={{
+                    pathname: `${outline.postId}`,
+                    query: { canBack: true }
+                  }}
+                >
+                    <PostPreview imageUrl={outline.smallImageUrl} />
+                </DelicioushareLink>
+              </Grid>
+            ))
+          }
+        })()}
+      </Grid>
+    <PostButton userId={userId} onPostFinish={fetchUserPosts} />
+    </Container>
   )
 }
 

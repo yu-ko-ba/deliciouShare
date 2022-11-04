@@ -1,16 +1,15 @@
-import { Container, Grid, ThemeProvider } from "@mui/material"
+import { Container, Grid } from "@mui/material"
 import { Auth } from "aws-amplify"
 import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
-import AppbarBackButtonOrToRootLink from "../components/AppbarBackButtonOrToRootLink"
 import ChangeEmailCard from "../components/ChangeEmailCard"
 import ChangePasswordCard from "../components/ChangePasswordCard"
 import DeleteUserCard from "../components/DeleteUserCard"
-import MeshiteroAppBar from "../components/MeshiteroAppBar"
+import DelicioushareHead from "../components/DelicioushareHead"
 import SignOutCard from "../components/SignOutCard"
-import theme from "../theme"
+import PageProps from "../utils/PageProps"
 
-const Settings = () => {
+const Settings = ({ openSuccessSnackbar, openFailureSnackbar }: PageProps) => {
   const router = useRouter()
 
   const [user, setUser] = useState<any>()
@@ -32,27 +31,31 @@ const Settings = () => {
   }, [])
 
   return (
-    <ThemeProvider theme={theme}>
-      <MeshiteroAppBar>
-        <AppbarBackButtonOrToRootLink />
-      </MeshiteroAppBar>
-      <Container maxWidth="sm">
-        <Grid container spacing={4}>
-          <Grid item xs={12}>
-            <ChangeEmailCard user={user} />
-          </Grid>
-          <Grid item xs={12}>
-            <ChangePasswordCard user={user} />
-          </Grid>
-          <Grid item xs={12}>
-            <SignOutCard user={user} />
-          </Grid>
-          <Grid item xs={12}>
-            <DeleteUserCard user={user} />
-          </Grid>
+    <Container maxWidth="sm">
+      <DelicioushareHead title="アカウント設定" />
+      <Grid container spacing={4}>
+        <Grid item xs={12}>
+          <ChangeEmailCard
+            user={user}
+            openFailureSnackbar={openFailureSnackbar}
+            openSuccessSnackbar={openSuccessSnackbar}
+          />
         </Grid>
-      </Container>
-    </ThemeProvider>
+        <Grid item xs={12}>
+          <ChangePasswordCard
+            user={user}
+            openFailureSnackbar={openFailureSnackbar}
+            openSuccessSnackbar={openSuccessSnackbar}
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <SignOutCard user={user} />
+        </Grid>
+        <Grid item xs={12}>
+          <DeleteUserCard user={user} />
+        </Grid>
+      </Grid>
+    </Container>
   )
 }
 
