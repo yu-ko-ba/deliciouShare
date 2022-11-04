@@ -3,6 +3,7 @@ import { Card, CardActions, CardContent, CardHeader, Container, FormHelperText, 
 import { Auth } from "aws-amplify"
 import { useRouter } from "next/router"
 import React, { useEffect, useState } from "react"
+import DelicioushareHead from "../components/DelicioushareHead"
 import PageProps from "../utils/PageProps"
 
 const ConfirmEmail = ({ openSuccessSnackbar, openFailureSnackbar }: PageProps) => {
@@ -35,6 +36,7 @@ const ConfirmEmail = ({ openSuccessSnackbar, openFailureSnackbar }: PageProps) =
 
   return (
     <Container maxWidth="xs">
+      <DelicioushareHead title="メールアドレスの認証" />
       <Grid container spacing={4}>
         <Grid item xs={12}>
           <Card>

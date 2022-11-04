@@ -2,7 +2,7 @@ import { Head, Html, Main, NextScript } from "next/document"
 
 const Document = () => {
   return (
-    <Html lang="ja">
+    <Html lang="ja" prefix="og: https://ogp.me/ns#">
       <Head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="true" />

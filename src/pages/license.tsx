@@ -2,6 +2,7 @@ import { ExpandMore } from "@mui/icons-material"
 import { Accordion, AccordionDetails, AccordionSummary, Container, Stack, TextField, Typography } from "@mui/material"
 import axios, { AxiosResponse } from "axios"
 import React from "react"
+import DelicioushareHead from "../components/DelicioushareHead"
 import licenseUrls from "../utils/licenseUrls"
 
 type Props = {
@@ -24,6 +25,7 @@ export const getStaticProps = async () => {
 const License = ({ licenses }: Props) => {
   return (
     <Container maxWidth="sm">
+      <DelicioushareHead title="ライセンス" />
       <Stack spacing={2}>
         {
           Object.keys(licenses)
