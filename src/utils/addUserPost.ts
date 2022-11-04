@@ -1,5 +1,4 @@
 import axios, { AxiosResponse } from "axios"
-import { Dispatch, SetStateAction } from "react"
 import apiUrls from "./apiUrls"
 import EatingPlace from "./EatingPlace"
 
