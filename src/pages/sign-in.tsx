@@ -7,6 +7,7 @@ import PasswordInput from "../components/PasswordInput"
 import PageProps from "../utils/PageProps"
 import DelicioushareLink from "../components/DelicioushareLink"
 import RequiredInput from "../components/RequiredInput"
+import DelicioushareHead from "../components/DelicioushareHead"
 
 const SignIn = ({ openFailureSnackbar }: PageProps) => {
   const router = useRouter()
@@ -31,6 +32,7 @@ const SignIn = ({ openFailureSnackbar }: PageProps) => {
 
   return (
     <Container maxWidth="xs">
+      <DelicioushareHead title="ログイン" />
       <Grid container spacing={4}>
         <Grid item xs={12}>
           <Card>

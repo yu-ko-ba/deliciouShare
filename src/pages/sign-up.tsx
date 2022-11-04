@@ -8,6 +8,7 @@ import InputPasswordTextField from "../components/InputPasswordTextField"
 import PasswordInput from "../components/PasswordInput"
 import PageProps from "../utils/PageProps"
 import RequiredInput from "../components/RequiredInput"
+import DelicioushareHead from "../components/DelicioushareHead"
 
 const SignUp = ({ openFailureSnackbar }: PageProps) => {
   const router = useRouter()
@@ -48,6 +49,7 @@ const SignUp = ({ openFailureSnackbar }: PageProps) => {
 
   return (
     <Container maxWidth="xs">
+      <DelicioushareHead title="アカウント作成" />
       <Grid container spacing={4}>
         <Grid item xs={12}>
           <Card>

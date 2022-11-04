@@ -9,6 +9,7 @@ import apiUrls from "../utils/apiUrls"
 import environmentVariables from "../utils/environmentVariables"
 import fetchUserPostDetailData from "../utils/fetchUserPostDetailData"
 import PageProps from "../utils/PageProps"
+import DelicioushareHead from "../components/DelicioushareHead"
 
 type PostProps = {
   postId: string
@@ -65,6 +66,13 @@ const Post = ({ postId, openFailureSnackbar }: PostProps & PageProps) => {
 
   return (
     <Container maxWidth="sm">
+      <DelicioushareHead
+        title={eatingPlaceName !== "" ? `in ${eatingPlaceName}` : null}
+        description="見るだけならアカウント不要！ deliciouShare.app おいしい！をシェアしよう"
+        imageUrl={image}
+        ogType="article"
+        twitterCardType="summary_large_image"
+      />
       <Grid container spacing={4}>
         <Grid item xs={12}>
           <Card>
