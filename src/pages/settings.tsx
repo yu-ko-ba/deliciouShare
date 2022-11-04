@@ -5,6 +5,7 @@ import { useEffect, useState } from "react"
 import ChangeEmailCard from "../components/ChangeEmailCard"
 import ChangePasswordCard from "../components/ChangePasswordCard"
 import DeleteUserCard from "../components/DeleteUserCard"
+import DelicioushareHead from "../components/DelicioushareHead"
 import SignOutCard from "../components/SignOutCard"
 import PageProps from "../utils/PageProps"
 
@@ -31,6 +32,7 @@ const Settings = ({ openSuccessSnackbar, openFailureSnackbar }: PageProps) => {
 
   return (
     <Container maxWidth="sm">
+      <DelicioushareHead title="アカウント設定" />
       <Grid container spacing={4}>
         <Grid item xs={12}>
           <ChangeEmailCard

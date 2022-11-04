@@ -2,6 +2,7 @@ import { LoadingButton } from "@mui/lab"
 import { Card, CardActions, CardContent, CardHeader, Container, Grid } from "@mui/material"
 import { Auth } from "aws-amplify"
 import React, { useState } from "react"
+import DelicioushareHead from "../components/DelicioushareHead"
 import RequiredInput from "../components/RequiredInput"
 import SetNewPasswordDialog from "../components/SetNewPasswordDialog"
 import PageProps from "../utils/PageProps"
@@ -14,6 +15,7 @@ const ForgotPassword = ({openFailureSnackbar, openSuccessSnackbar}: PageProps) =
 
   return (
     <Container maxWidth="sm">
+      <DelicioushareHead title="パスワードを再設定" />
       <Grid container spacing={4}>
         <Grid item xs={12}>
           <Card>
