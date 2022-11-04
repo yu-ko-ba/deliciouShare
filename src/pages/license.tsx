@@ -9,7 +9,7 @@ type Props = {
   licenses: { [license: string]: string }
 }
 
-export const getStaticProps = async () => {
+export const getServerSideProps = async () => {
   // ライセンスの内容をurlから取得する
   const licenses: {[license: string]: string} = {}
   const promises = Object.keys(licenseUrls).map((ossName: string) => {
