@@ -2,6 +2,7 @@ import { Container, Grid } from "@mui/material";
 import { Auth } from "aws-amplify";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
+import DelicioushareHead from "../components/DelicioushareHead";
 import DelicioushareLink from "../components/DelicioushareLink";
 import PostButton from "../components/PostButton";
 import PostPreview from "../components/PostPreview";
@@ -57,6 +58,7 @@ const Home = ({ openFailureSnackbar }: PageProps) => {
 
   return (
     <Container maxWidth="md">
+      <DelicioushareHead twitterCardType="app" />
       <Grid container spacing={4}>
         {(() => {
           if (userPostOutlines?.map) {
