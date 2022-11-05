@@ -13,7 +13,7 @@ type Props = {
 const DelicioushareHead = ({
   title = "deliciouShare.app",
   description = "おいしい！をシェアしよう",
-  imageUrl = "",
+  imageUrl = "https://raw.githubusercontent.com/tacg0909/deliciouShare/develop/images/icon_transparent.png",
   ogType = "website",
   twitterCardType,
 }: Props) => {
@@ -27,11 +27,12 @@ const DelicioushareHead = ({
       <meta property="og:description" content={description} />
       <meta property="og:image" content={imageUrl} />
       <meta property="og:type" content={ogType} />
-      <meta property="og:url" content={router.pathname} />
+      <meta property="og:url" content={`https://delicioushare.app${router.asPath}`} />
       {twitterCardType && (
         <>
           <meta name="twitter:card" content={twitterCardType} />
           <meta name="twitter:creator" content="@deliciouShare" />
+          <meta name="twitter:text:title" content={title} />
         </>
       )}
     </Head>
