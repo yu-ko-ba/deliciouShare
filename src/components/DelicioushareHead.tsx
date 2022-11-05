@@ -27,11 +27,12 @@ const DelicioushareHead = ({
       <meta property="og:description" content={description} />
       <meta property="og:image" content={imageUrl} />
       <meta property="og:type" content={ogType} />
-      <meta property="og:url" content={router.pathname} />
+      <meta property="og:url" content={`https://delicioushare.app${router.asPath}`} />
       {twitterCardType && (
         <>
           <meta name="twitter:card" content={twitterCardType} />
           <meta name="twitter:creator" content="@deliciouShare" />
+          <meta name="twitter:text:title" content={title} />
         </>
       )}
     </Head>
