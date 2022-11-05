@@ -17,6 +17,8 @@ const DelicioushareHead = ({
   ogType = "website",
   twitterCardType,
 }: Props) => {
+  const router = useRouter()
+
   return (
     <Head>
       <meta name="theme-color" content="#bbdefb" />
@@ -25,7 +27,7 @@ const DelicioushareHead = ({
       <meta property="og:description" content={description} />
       <meta property="og:image" content={imageUrl} />
       <meta property="og:type" content={ogType} />
-      <meta property="og:url" content={document.URL} />
+      <meta property="og:url" content={`https://delicioushare.app${router.asPath}`} />
       {twitterCardType && (
         <>
           <meta name="twitter:card" content={twitterCardType} />
