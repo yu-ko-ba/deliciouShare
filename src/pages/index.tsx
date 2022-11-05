@@ -58,7 +58,11 @@ const Home = ({ openFailureSnackbar }: PageProps) => {
 
   return (
     <Container maxWidth="md">
-      <DelicioushareHead twitterCardType="app" />
+      <DelicioushareHead
+        title="deliciouShare.app"
+        ogType="website"
+        twitterCardType="summary"
+      />
       <Grid container spacing={4}>
         {(() => {
           if (userPostOutlines?.map) {
