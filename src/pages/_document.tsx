@@ -1,9 +1,10 @@
 import { Head, Html, Main, NextScript } from "next/document"
+import React from "react"
 
 const Document = () => {
   return (
-    <Html lang="ja" prefix="og: https://ogp.me/ns#">
-      <Head>
+    <Html lang="ja">
+      <Head prefix="og: https://ogp.me/ns# website: https://ogp.me/ns/website# article: https://ogp.me/ns/article#">
         <link rel="manifest" href="manifest.json" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="true" />
