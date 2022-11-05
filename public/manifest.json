@@ -6,6 +6,7 @@
     "theme_color": "#1565c0",
     "background_color": "#ffffff",
     "start_url": "index.html",
+    "id": "/index.html",
     "icons": [
         {
             "src": "icons/regular/icon_x48.webp",
