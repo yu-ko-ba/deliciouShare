@@ -4,4 +4,10 @@ const config = {
   }
 }
 
-module.exports = config
+const withPwa = require("next-pwa")({
+  dest: "public",
+})
+
+module.exports = withPwa({
+  config
+})
