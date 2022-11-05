@@ -3,7 +3,7 @@ import { useRouter } from "next/router"
 import React from "react"
 
 type Props = {
-  title?: string
+  title: string
   description?: string
   imageUrl?: string
   ogType?: "website" | "article"
@@ -11,12 +11,13 @@ type Props = {
 }
 
 const DelicioushareHead = ({
-  title = "deliciouShare.app",
+  title,
   description = "おいしい！をシェアしよう",
   imageUrl = "https://raw.githubusercontent.com/tacg0909/deliciouShare/develop/images/icon_transparent.png",
-  ogType = "website",
+  ogType = "article",
   twitterCardType,
 }: Props) => {
+
   const router = useRouter()
 
   return (
@@ -30,9 +31,11 @@ const DelicioushareHead = ({
       <meta property="og:url" content={`https://delicioushare.app${router.asPath}`} />
       {twitterCardType && (
         <>
+          <meta name="twitter:title" content={title} />
+          <meta name="twitter:description" content={description} />
+          <meta name="twitter:image" content={imageUrl} />
           <meta name="twitter:card" content={twitterCardType} />
           <meta name="twitter:creator" content="@deliciouShare" />
-          <meta name="twitter:text:title" content={title} />
         </>
       )}
     </Head>

@@ -67,10 +67,9 @@ const Post = ({ postId, openFailureSnackbar }: PostProps & PageProps) => {
   return (
     <Container maxWidth="sm">
       <DelicioushareHead
-        title={eatingPlaceName !== "" ? `in ${eatingPlaceName}` : null}
-        description="見るだけならアカウント不要！ deliciouShare.app おいしい！をシェアしよう"
+        title={eatingPlaceName !== "" ? `in ${eatingPlaceName}` : "deliciouShare.app"}
+        description="見るだけならアカウント不要！ deliciouShare.app - おいしい！をシェアしよう -"
         imageUrl={image}
-        ogType="article"
         twitterCardType="summary_large_image"
       />
       <Grid container spacing={4}>
