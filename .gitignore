@@ -36,6 +36,10 @@ cypress.env.json
 *.tsbuildinfo
 next-env.d.ts
 
+# next-pwa
+public/*.js
+public/*.map
+
 #amplify-do-not-edit-begin
 amplify/\#current-cloud-backend
 amplify/.config/local-*
