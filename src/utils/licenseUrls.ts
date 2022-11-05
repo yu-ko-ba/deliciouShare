@@ -7,6 +7,8 @@ const licenseUrls = {
 
   "Material UI": "https://github.com/mui/material-ui/raw/master/LICENSE",
 
+  "next-pwa": "https://github.com/shadowwalker/next-pwa/raw/master/LICENSE",
+
   "Next.js": "https://github.com/vercel/next.js/raw/canary/license.md",
 
   "React": "https://github.com/facebook/react/raw/main/LICENSE",
