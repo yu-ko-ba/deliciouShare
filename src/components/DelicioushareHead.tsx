@@ -13,7 +13,7 @@ type Props = {
 const DelicioushareHead = ({
   title = "deliciouShare.app",
   description = "おいしい！をシェアしよう",
-  imageUrl = "",
+  imageUrl = "https://raw.githubusercontent.com/tacg0909/deliciouShare/develop/images/icon_transparent.png",
   ogType = "website",
   twitterCardType,
 }: Props) => {
