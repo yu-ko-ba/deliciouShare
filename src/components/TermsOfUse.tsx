@@ -23,7 +23,7 @@ const TermsOfUse = () => {
       </Typography>
       <Typography gutterBottom>
         (変更予告などは
-        <DelicioushareLink href="#" target="_blank" rel="noopener noreferrer">
+        <DelicioushareLink href="https://twitter.com/deliciouShare" target="_blank" rel="noopener noreferrer">
             公式のTwitterアカウント
         </DelicioushareLink>
         で行いますのでご確認ください。)
