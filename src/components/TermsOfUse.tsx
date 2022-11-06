@@ -4,6 +4,13 @@ import DelicioushareLink from "./DelicioushareLink"
 const TermsOfUse = () => {
   return (
     <>
+      <Typography>
+        ・deliciouShare.appは現在ベータ版です。
+      </Typography>
+      <Typography gutterBottom>
+        完成版へはアカウントや投稿を引き継げません、ご了承ください。
+      </Typography>
+      <br />
       <Typography gutterBottom>
         ・deliciouShare(以下、当Webサービス)の利用は全て、利用者の責任で行うものとします。
       </Typography>
