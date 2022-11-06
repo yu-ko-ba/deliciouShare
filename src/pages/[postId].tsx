@@ -10,49 +10,34 @@ import environmentVariables from "../utils/environmentVariables"
 import fetchUserPostDetailData from "../utils/fetchUserPostDetailData"
 import PageProps from "../utils/PageProps"
 import DelicioushareHead from "../components/DelicioushareHead"
+import EatingPlace from "../utils/EatingPlace"
 
 type PostProps = {
   postId: string
+  imageUrl: string
+  eatingPlace: EatingPlace
+  contributorUserId: string
+  postedTime: string
 }
 
-export const getServerSideProps = (context: GetServerSidePropsContext) => {
-  const { postId } = context.query
+export const getServerSideProps = async (context: GetServerSidePropsContext) => {
+  const postId = context.query.postId as string
+  const detail = await fetchUserPostDetailData(postId)
   return {
     props: {
-      postId: postId
+      postId: postId,
+      imageUrl: detail.largeImageUrl,
+      eatingPlace: detail.eatingPlace,
+      contributorUserId: detail.contributor.userId,
+      postedTime: detail.postedTime,
     }
   }
 }
 
-const Post = ({ postId, openFailureSnackbar }: PostProps & PageProps) => {
-  const [image, setImage] = useState("")
-  const [eatingPlaceName, setEatingPlaceName] = useState("")
-  const [eatingPlaceAddress, setEatingPlaceAddress] = useState("")
-  const [eatingPlaceWebsite, setEatingPlaceWebsite] = useState("")
-  const [eatingPlaceId, setEatingPlaceId] = useState("")
-
-  const [contributorUserId, setContributorUserId] = useState("")
-  const [postedTime, setPostedTime] = useState("")
-
+const Post = ({ postId, imageUrl, eatingPlace, contributorUserId, postedTime }: PostProps & PageProps) => {
   const [currentUserId, setCurrentUserId] = useState("")
 
   useEffect(() => {
-    fetchUserPostDetailData(postId)
-      .then((detail) => {
-        setImage(detail.largeImageUrl)
-        setEatingPlaceName(detail.eatingPlace.name)
-        setEatingPlaceAddress(detail.eatingPlace.address)
-        setEatingPlaceWebsite(detail.eatingPlace.website)
-        setEatingPlaceId(detail.eatingPlace.id)
-        setContributorUserId(detail.contributor.userId)
-        setPostedTime(detail.postedTime)
-      })
-      .catch((err: Error) => {
-        if (process.env.NODE_ENV === "development") {
-          console.log(err)
-        }
-        openFailureSnackbar("データの取得に失敗しました")
-      })
     Auth.currentUserInfo()
       .then((user) => {
         setCurrentUserId(user.attributes.sub)
@@ -67,9 +52,9 @@ const Post = ({ postId, openFailureSnackbar }: PostProps & PageProps) => {
   return (
     <Container maxWidth="sm">
       <DelicioushareHead
-        title={eatingPlaceName !== "" ? `in ${eatingPlaceName}` : "deliciouShare.app"}
+        title={eatingPlace.name !== "" ? `in ${eatingPlace.name}` : "deliciouShare.app"}
         description="見るだけならアカウント不要！ deliciouShare.app - おいしい！をシェアしよう -"
-        imageUrl={image}
+        imageUrl={imageUrl}
         twitterCardType="summary_large_image"
       />
       <Grid container spacing={4}>
@@ -77,35 +62,35 @@ const Post = ({ postId, openFailureSnackbar }: PostProps & PageProps) => {
           <Card>
             <CardMedia
               component="img"
-              image={image}
+              image={imageUrl}
             />
           </Card>
         </Grid>
         {(() => {
           if (
-            eatingPlaceName !== ""
-            || eatingPlaceAddress !== ""
-            || eatingPlaceWebsite !== ""
+            eatingPlace.name !== ""
+            || eatingPlace.address !== ""
+            || eatingPlace.website !== ""
           ) {
             return (
               <Grid item xs={12}>
                 <EatingPlaceInfo
-                  placeName={eatingPlaceName}
-                  placeAddress={eatingPlaceAddress}
-                  websiteUrl={eatingPlaceWebsite}
+                  placeName={eatingPlace.name}
+                  placeAddress={eatingPlace.address}
+                  websiteUrl={eatingPlace.website}
                 />
               </Grid>
             )
           }
         })()}
         {(() => {
-          if (eatingPlaceId !== "") {
+          if (eatingPlace.id !== "") {
             return (
               <Grid item xs={12}>
                 <Card>
                   <CardMedia
                     component="iframe"
-                    src={`${apiUrls.getMapsEmbedUrl}?key=${environmentVariables.googleCloudApiKey}&q=place_id:${eatingPlaceId}`}
+                    src={`${apiUrls.getMapsEmbedUrl}?key=${environmentVariables.googleCloudApiKey}&q=place_id:${eatingPlace.id}`}
                     height={400}
                   />
                 </Card>
