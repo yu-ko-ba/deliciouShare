@@ -40,6 +40,9 @@ next-env.d.ts
 public/*.js
 public/*.map
 
+# amplify
+amplify
+
 #amplify-do-not-edit-begin
 amplify/\#current-cloud-backend
 amplify/.config/local-*
