@@ -32,6 +32,8 @@ const ConfirmEmail = ({ openSuccessSnackbar, openFailureSnackbar }: PageProps) =
   const [verificationCode, setVerificationCode] = useState("")
   const [verificationCodeHasError, setVerificationCodeHasError] = useState(false)
 
+  const [verifyButtonIsLoading, setVerifyButtonIsLoading] = useState(false)
+
   const [reSendButtonIsLoading, setReSendButtonIsLoading] = useState(false)
 
   return (
@@ -59,19 +61,26 @@ const ConfirmEmail = ({ openSuccessSnackbar, openFailureSnackbar }: PageProps) =
             <CardActions>
               <LoadingButton
                 variant="contained"
-                onClick={() => {
-                  Auth.confirmSignUp(
+                loading={verifyButtonIsLoading}
+                onClick={async () => {
+                  setVerifyButtonIsLoading(true)
+                  await Auth.confirmSignUp(
                     router.query.email as string,
                     verificationCode,
                   )
-                    .then(() => {
-                      router.push("/")
-                    })
                     .catch((err: Error) => {
                       if (process.env.NODE_ENV === "development") {
                         console.log(err)
                       }
                       openFailureSnackbar("認証に失敗しました")
+                      setVerifyButtonIsLoading(false)
+                    })
+                  Auth.signIn(
+                    router.query.email as string,
+                    router.query.password as string,
+                  )
+                    .then(() => {
+                      router.push("/")
                     })
                 }}
                 disabled={verificationCode.length !== 6}

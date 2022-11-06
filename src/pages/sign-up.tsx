@@ -166,7 +166,10 @@ const SignUp = ({ openFailureSnackbar }: PageProps) => {
                       router.push(
                         {
                           pathname: "confirm-email",
-                          query: { email: email },
+                          query: {
+                            email: email,
+                            password: password,
+                          },
                         },
                         "confirm-email",
                       )
