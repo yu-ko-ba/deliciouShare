@@ -1,27 +1,8 @@
-# Next.js + Cypress
+# deliciouShare.app
 
-This example shows how to configure Cypress to work with Next.js.
+![demo](https://user-images.githubusercontent.com/97862228/200209042-674a7074-f31c-4700-9c88-d001ee154c94.gif)
 
-## Deploy your own
-
-Deploy the example using [Vercel](https://vercel.com?utm_source=github&utm_medium=readme&utm_campaign=next-example) or preview live with [StackBlitz](https://stackblitz.com/github/vercel/next.js/tree/canary/examples/with-cypress)
-
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/git/external?repository-url=https://github.com/vercel/next.js/tree/canary/examples/with-cypress&project-name=with-cypress&repository-name=with-cypress)
-
-## How to use
-
-Execute [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app) with [npm](https://docs.npmjs.com/cli/init), [Yarn](https://yarnpkg.com/lang/en/docs/cli/create/), or [pnpm](https://pnpm.io) to bootstrap the example:
-
-```bash
-npx create-next-app --example with-cypress with-cypress-app
-```
-
-```bash
-yarn create next-app --example with-cypress with-cypress-app
-```
-
-```bash
-pnpm create next-app --example with-cypress with-cypress-app
-```
-
-Deploy it to the cloud with [Vercel](https://vercel.com/new?utm_source=github&utm_medium=readme&utm_campaign=next-example) ([Documentation](https://nextjs.org/docs/deployment)).
+deliciouShare.appは「おいしい！」の情報共有を効率化することを目的に作られたWebサービスです。 <br />
+<br />
+レストランやカフェなどの情報を入力し写真をアップロードすることで、<br />
+「おいしい料理やスイーツの写真」と「どこで食べられるのか」をリンク１つでシェアすることができるようになります！
