@@ -6,3 +6,14 @@ deliciouShare.appは「おいしい！」の情報共有を効率化すること
 <br />
 レストランやカフェなどの情報を入力し写真をアップロードすることで、<br />
 「おいしい料理やスイーツの写真」と「どこで食べられるのか」をリンク１つでシェアすることができるようになります！
+
+<br />
+
+---
+### バックエンド
+
+* https://github.com/tacg0909/get-eating-places-by-geotagged-image
+* https://github.com/tacg0909/delicioushareapp-get-user-post-detail
+* https://github.com/tacg0909/delicioushareapp-get-user-post-outlines
+* https://github.com/tacg0909/delicioushareapp-put-post
+* https://github.com/tacg0909/delicioushareapp-delete-user-post
