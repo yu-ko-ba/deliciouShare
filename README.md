@@ -9,6 +9,9 @@ deliciouShare.appは「おいしい！」の情報共有を効率化すること
 
 <br />
 
+### サンプルページ
+https://openbeta.delicioushare.app/644d7b20-b375-406e-b4fc-4693a4042ec8
+
 ---
 ### バックエンド
 
