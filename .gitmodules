@@ -1,0 +1,15 @@
+[submodule "get-eating-places-by-geotagged-image"]
+	path = get-eating-places-by-geotagged-image
+	url = git@github.com:yu-ko-ba/get-eating-places-by-geotagged-image.git
+[submodule "delicioushareapp-get-user-post-detail"]
+	path = delicioushareapp-get-user-post-detail
+	url = git@github.com:yu-ko-ba/delicioushareapp-get-user-post-detail.git
+[submodule "delicioushareapp-get-user-post-outlines"]
+	path = delicioushareapp-get-user-post-outlines
+	url = git@github.com:yu-ko-ba/delicioushareapp-get-user-post-outlines.git
+[submodule "delicioushareapp-put-post"]
+	path = delicioushareapp-put-post
+	url = git@github.com:yu-ko-ba/delicioushareapp-put-post.git
+[submodule "delicioushareapp-delete-user-post"]
+	path = delicioushareapp-delete-user-post
+	url = git@github.com:yu-ko-ba/delicioushareapp-delete-user-post.git
